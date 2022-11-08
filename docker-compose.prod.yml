@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  nginx:
+    container_name: SE1-Shop-nginx
+    build: ./nginx
+    ports:
+      - 8080:80

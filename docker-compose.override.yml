@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  api:
+    build:
+      context: ./server
+      dockerfile: ./server/Dockerfile.dev
+    volumes:
+      - ./server:/usr/app/
+  client:
+    build:
+      context: ./client
+      dockerfile: ./client/Dockerfile.dev
+    volumes:
+      - ./client:/usr/app/
