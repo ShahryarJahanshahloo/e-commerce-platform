@@ -5,6 +5,7 @@ services:
     depends_on:
       - db
     tty: true
+    restart: unless-stopped
     build:
       context: ./server
       dockerfile: ./server/Dockerfile
@@ -15,6 +16,7 @@ services:
   client:
     container_name: SE1-Shop-client
     tty: true
+    restart: unless-stopped
     build:
       context: ./client
       dockerfile: ./client/Dockerfile
@@ -24,7 +26,8 @@ services:
       - '3000:3000'
   db:
     container_name: SE1-Shop-db
-    image: mongo:4.2.8
+    image: mongo:6.0
+    restart: unless-stopped
     ports:
       - 27017:27017
     volumes:
@@ -33,4 +36,3 @@ services:
 volumes:
   mongodb:
   mongodb_config:
-#TODO: add restarts, change mongodb image, test!!
