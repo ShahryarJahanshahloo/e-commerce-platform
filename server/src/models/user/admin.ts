@@ -1,8 +1,16 @@
-import { Schema } from 'mongoose'
+import { Schema, Model } from 'mongoose'
 
-import User from './user'
-import { discriminatorKey } from './user'
+import User, { discriminatorKey, IUser, IUserMethods } from './user'
 
-const Admin = User.discriminator('Admin', new Schema({}, { discriminatorKey }))
+interface IAdmin {}
+interface IAdminMethods extends IUserMethods {}
+interface AdminModel extends Model<IAdmin, {}, IAdminMethods> {}
+
+const AdminSchema = new Schema<IAdmin, AdminModel, IAdminMethods>(
+  {},
+  { discriminatorKey }
+)
+
+const Admin = User.discriminator('Admin', AdminSchema)
 
 export default Admin
