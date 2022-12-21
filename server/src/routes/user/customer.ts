@@ -5,7 +5,7 @@ import { TypedRequestBody } from '../../TypedRequestBody'
 const router: Router = express.Router()
 
 router.post(
-  '/customer',
+  '/',
   async (
     req: TypedRequestBody<{
       name: string
@@ -19,11 +19,11 @@ router.post(
     try {
       const customer = new Customer(req.body)
       await customer.save()
-      customer.generateAccessToken()
-      res.send(customer)
+      await customer.generateAccessToken()
+      res.status(201).send(customer)
     } catch (error) {
       console.log(error)
-      res.status(400).send()
+      res.status(400).send({ message: 'invalid request' })
     }
   }
 )

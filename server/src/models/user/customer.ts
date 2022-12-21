@@ -1,6 +1,11 @@
 import { Schema, Model } from 'mongoose'
 
-import User, { discriminatorKey, IUser, IUserMethods } from './user'
+import User, {
+  discriminatorKey,
+  IUser,
+  IUserMethods,
+  CUSTOMER_ROLE,
+} from './user'
 
 interface ICustomer extends IUser {
   balance: number
@@ -19,5 +24,6 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
   { discriminatorKey }
 )
 
-const Customer = User.discriminator('Customer', CustomerSchema)
+const Customer = User.discriminator(CUSTOMER_ROLE, CustomerSchema)
+
 export default Customer

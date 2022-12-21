@@ -1,6 +1,11 @@
 import { Schema, Model } from 'mongoose'
 
-import User, { discriminatorKey, IUser, IUserMethods } from './user'
+import User, {
+  discriminatorKey,
+  IUser,
+  IUserMethods,
+  SELLER_ROLE,
+} from './user'
 
 interface ISeller extends IUser {
   shopSlug: string
@@ -18,6 +23,6 @@ const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
   { discriminatorKey }
 )
 
-const Seller = User.discriminator('Seller', SellerSchema)
+const Seller = User.discriminator(SELLER_ROLE, SellerSchema)
 
 export default Seller

@@ -1,11 +1,18 @@
-import { Schema, model, Model } from 'mongoose'
+import { Schema, model, Model, HydratedDocument } from 'mongoose'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
+export const ADMIN_ROLE = 'Admin'
+export const CUSTOMER_ROLE = 'Customer'
+export const SELLER_ROLE = 'Seller'
+const Roles = [ADMIN_ROLE, SELLER_ROLE, CUSTOMER_ROLE] as const
+export type Role = typeof Roles[number]
+
 const discriminatorKey = 'role'
 
 interface IUser {
+  role: Role
   name: string
   lastName: string
   email: string
@@ -14,9 +21,14 @@ interface IUser {
   tokens: []
 }
 interface IUserMethods {
-  generateAccessToken(): string
+  generateAccessToken(): Promise<string>
 }
-interface UserModel extends Model<IUser, {}, IUserMethods> {}
+interface UserModel extends Model<IUser, {}, IUserMethods> {
+  findByCredentials(
+    email: string,
+    password: string
+  ): Promise<HydratedDocument<IUser, IUserMethods>>
+}
 
 const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
@@ -56,6 +68,12 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
   },
   {
     discriminatorKey,
+    toJSON: {
+      transform: function (doc, ret) {
+        delete ret.tokens
+        delete ret.password
+      },
+    },
   }
 )
 
@@ -79,6 +97,20 @@ UserSchema.method(
     this.tokens = this.tokens.concat({ token })
     await this.save()
     return token
+  }
+)
+
+UserSchema.static(
+  'findByCredentials',
+  async function findByCredentials(
+    email,
+    password
+  ): Promise<HydratedDocument<IUser, IUserMethods>> {
+    const user = await this.findOne({ email })
+    if (!user) throw new Error('no user found with the provided email')
+    const isMatch = await bcrypt.compare(password, user.password)
+    if (!isMatch) throw new Error('wrong password')
+    return user
   }
 )
 
