@@ -2,13 +2,14 @@ import express, { Router, Request, Response } from 'express'
 import Admin from '../../models/user/admin'
 import { TypedRequestBody } from '../../TypedRequestBody'
 import auth from '../../middlewares/auth'
+import { userRoles } from '../../models/user/user'
 
 const router: Router = express.Router()
 
 //needs admin auth
 router.post(
   '/',
-  auth(['Admin']),
+  auth([userRoles.Admin]),
   async (
     req: TypedRequestBody<{
       name: string

@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 
-import User, { Role } from '../models/user/user'
+import User, { userRoles } from '../models/user/user'
 
 interface JWTPayload {
   _id: string
 }
 
-const auth = (roles?: [Role] | undefined) => {
+const auth = (roles?: userRoles[] | undefined) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authHeader = req.headers['authorization']

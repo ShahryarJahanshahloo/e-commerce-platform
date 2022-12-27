@@ -1,0 +1,43 @@
+import { Schema, model, Model } from 'mongoose'
+import Category, { categoryTypes } from '../category/category'
+
+interface IFeature {
+  label: string
+  category: Schema.Types.ObjectId
+  values: [Schema.Types.ObjectId]
+}
+interface IFeatureMethods {}
+interface FeatureModel extends Model<IFeature, {}, IFeatureMethods> {}
+const FeatureSchema = new Schema<IFeature, FeatureModel, IFeatureMethods>(
+  {
+    label: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 255,
+    },
+    category: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Category',
+    },
+  },
+  {}
+)
+
+FeatureSchema.virtual('values', {
+  ref: 'FeatureValue',
+  localField: '_id',
+  foreignField: 'feature',
+})
+
+FeatureSchema.pre('save', async function (next) {
+  const category = await Category.findById(this.category)
+  if (category === null) throw new Error('category not found')
+  if (category.type !== categoryTypes.Leaf)
+    throw new Error('category is not leaf')
+  next()
+})
+
+const Feature = model<IFeature, FeatureModel>('Feature', FeatureSchema)
+export default Feature

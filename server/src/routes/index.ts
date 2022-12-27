@@ -4,12 +4,16 @@ import userRouter from './user/user'
 import customerRouter from './user/customer'
 import adminRouter from './user/admin'
 import sellerRouter from './user/seller'
+import categoryRouter from './category/category'
+import featureRouter from './feature/feature'
+import featureValueRouter from './feature/featureValue'
+import productRouter from './product/product'
 
 import auth from '../middlewares/auth'
 
 const router: Router = express.Router()
 
-router.get('/ping', auth(['Customer']), (req, res) => {
+router.get('/ping', (req, res) => {
   res.send('pong')
 })
 
@@ -17,5 +21,9 @@ router.use('/user', userRouter)
 router.use('/customer', customerRouter)
 router.use('/admin', adminRouter)
 router.use('/seller', sellerRouter)
+router.use('/category', categoryRouter)
+router.use('/feature', featureRouter)
+router.use('/featureValue', featureValueRouter)
+router.use('/product', productRouter)
 
 export default router

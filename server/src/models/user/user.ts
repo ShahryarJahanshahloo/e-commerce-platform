@@ -3,16 +3,16 @@ import validator from 'validator'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-export const ADMIN_ROLE = 'Admin'
-export const CUSTOMER_ROLE = 'Customer'
-export const SELLER_ROLE = 'Seller'
-const Roles = [ADMIN_ROLE, SELLER_ROLE, CUSTOMER_ROLE] as const
-export type Role = typeof Roles[number]
-
 const discriminatorKey = 'role'
 
+export enum userRoles {
+  Admin = 'Admin',
+  Customer = 'Customer',
+  Seller = 'Seller',
+}
+
 interface IUser {
-  role: Role
+  role: userRoles
   name: string
   lastName: string
   email: string
