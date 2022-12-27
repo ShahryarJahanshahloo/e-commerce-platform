@@ -18,7 +18,7 @@ interface IUser {
   email: string
   phoneNumber: number
   password: string
-  tokens: []
+  tokens: { token: string }[]
 }
 interface IUserMethods {
   generateAccessToken(): Promise<string>

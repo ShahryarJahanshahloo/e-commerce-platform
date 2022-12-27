@@ -7,7 +7,7 @@ interface IProduct {
   category: Schema.Types.ObjectId
   isActive: boolean
   views: number
-  featureValues: [Schema.Types.ObjectId]
+  featureValues: Schema.Types.ObjectId[]
 }
 interface IProductMethods {}
 interface ProductModel extends Model<IProduct, {}, IProductMethods> {}

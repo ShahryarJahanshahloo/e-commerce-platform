@@ -3,7 +3,7 @@ import { Schema, model, Model } from 'mongoose'
 interface IFeatureValue {
   value: string
   feature: Schema.Types.ObjectId
-  products: [Schema.Types.ObjectId]
+  products: Schema.Types.ObjectId[]
 }
 interface IFeatureValueMethods {}
 interface FeatureValueModel

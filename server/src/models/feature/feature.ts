@@ -4,7 +4,7 @@ import Category, { categoryTypes } from '../category/category'
 interface IFeature {
   label: string
   category: Schema.Types.ObjectId
-  values: [Schema.Types.ObjectId]
+  values: Schema.Types.ObjectId[]
 }
 interface IFeatureMethods {}
 interface FeatureModel extends Model<IFeature, {}, IFeatureMethods> {}

@@ -6,7 +6,9 @@ import Category, {
   categoryTypes,
 } from './category'
 
-interface IMiddleCategory extends ICategory {}
+interface IMiddleCategory extends ICategory {
+  children: Schema.Types.ObjectId[]
+}
 interface IMiddleCategoryMethods extends ICategoryMethods {}
 interface MiddleCategoryModel
   extends Model<IMiddleCategory, {}, IMiddleCategoryMethods> {}

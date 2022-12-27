@@ -7,8 +7,8 @@ import Category, {
 } from './category'
 
 interface ILeafCategory extends ICategory {
-  products: [Schema.Types.ObjectId]
-  features: [Schema.Types.ObjectId]
+  products: Schema.Types.ObjectId[]
+  features: Schema.Types.ObjectId[]
 }
 interface ILeafCategoryMethods extends ICategoryMethods {}
 interface LeafCategoryModel
