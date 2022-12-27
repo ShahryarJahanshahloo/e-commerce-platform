@@ -2,7 +2,7 @@ import { Schema, Model } from 'mongoose'
 
 import User, { discriminatorKey, IUser, IUserMethods, userRoles } from './user'
 
-interface ISeller extends IUser {
+export interface ISeller extends IUser {
   shopSlug?: string
   description?: string
   account: number

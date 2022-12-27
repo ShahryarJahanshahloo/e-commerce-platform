@@ -2,7 +2,7 @@ import { Schema, Model } from 'mongoose'
 
 import User, { discriminatorKey, IUser, IUserMethods, userRoles } from './user'
 
-interface IAdmin extends IUser {}
+export interface IAdmin extends IUser {}
 interface IAdminMethods extends IUserMethods {}
 interface AdminModel extends Model<IAdmin, {}, IAdminMethods> {}
 

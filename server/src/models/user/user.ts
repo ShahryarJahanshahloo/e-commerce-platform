@@ -14,7 +14,7 @@ export enum userRoles {
 interface IUser {
   role: userRoles
   name: string
-  lastName: string
+  lastName?: string
   email: string
   phoneNumber?: number
   password: string
@@ -38,7 +38,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
       trim: true,
       maxlength: 255,
     },
-    lastName: { type: String, required: true, maxlength: 255 },
+    lastName: { type: String, required: false, maxlength: 255 },
     email: {
       type: String,
       required: true,

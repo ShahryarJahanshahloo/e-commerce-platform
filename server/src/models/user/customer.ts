@@ -2,7 +2,7 @@ import { Schema, Model } from 'mongoose'
 
 import User, { discriminatorKey, IUser, IUserMethods, userRoles } from './user'
 
-interface ICustomer extends IUser {
+export interface ICustomer extends IUser {
   balance: number
   address?: {
     description: string
