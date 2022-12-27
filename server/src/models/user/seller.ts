@@ -24,6 +24,12 @@ const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
       type: String,
       required: false,
     },
+    description: {
+      type: String,
+      required: false,
+      maxlength: 1023,
+      trim: true,
+    },
     account: {
       type: Number,
       required: true,
@@ -34,12 +40,6 @@ const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
       type: Number,
       default: 0,
       required: true,
-    },
-    description: {
-      type: String,
-      required: false,
-      maxlength: 1023,
-      trim: true,
     },
     address: {
       type: {

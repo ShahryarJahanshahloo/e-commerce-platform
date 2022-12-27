@@ -3,7 +3,7 @@ import Category, { categoryTypes } from '../category/category'
 
 interface IProduct {
   name: string
-  description: string
+  description?: string
   category: Schema.Types.ObjectId
   isActive: boolean
   views: number

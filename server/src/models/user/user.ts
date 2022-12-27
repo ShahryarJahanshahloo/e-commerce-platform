@@ -16,7 +16,7 @@ interface IUser {
   name: string
   lastName: string
   email: string
-  phoneNumber: number
+  phoneNumber?: number
   password: string
   tokens: { token: string }[]
 }

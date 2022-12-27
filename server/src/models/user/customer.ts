@@ -19,8 +19,8 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
   {
     balance: {
       type: Number,
-      default: 0,
       required: true,
+      default: 0,
     },
     address: {
       type: {

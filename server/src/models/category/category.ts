@@ -12,7 +12,6 @@ interface ICategory {
   type: categoryTypes
   name: string
   parent?: Schema.Types.ObjectId
-  children: Schema.Types.ObjectId[]
   isActive: boolean
 }
 interface ICategoryMethods {}
