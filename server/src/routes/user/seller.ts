@@ -6,7 +6,6 @@ const router: Router = express.Router()
 
 router.post('/', async (req: TypedRequestBody<ISeller>, res: Response) => {
   try {
-    if (req.body.score) req.body.score = 0
     const seller = new Seller(req.body)
     await seller.save()
     await seller.generateAccessToken()

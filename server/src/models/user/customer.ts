@@ -20,7 +20,6 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
     balance: {
       type: Number,
       required: true,
-      default: 0,
     },
     address: {
       type: {
@@ -48,6 +47,10 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
   },
   { discriminatorKey }
 )
+
+CustomerSchema.pre('save', function () {
+  if (this.isNew) this.balance = 0
+})
 
 const Customer = User.discriminator(userRoles.Customer, CustomerSchema)
 

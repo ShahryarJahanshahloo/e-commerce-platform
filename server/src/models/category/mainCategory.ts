@@ -6,7 +6,7 @@ import Category, {
   categoryTypes,
 } from './category'
 
-interface IMainCategory extends ICategory {
+export interface IMainCategory extends ICategory {
   children: Schema.Types.ObjectId[]
 }
 interface IMainCategoryMethods extends ICategoryMethods {}

@@ -6,7 +6,6 @@ const router: Router = express.Router()
 
 router.post('/', async (req: TypedRequestBody<ICustomer>, res: Response) => {
   try {
-    if (req.body.balance) req.body.balance = 0
     const customer = new Customer(req.body)
     await customer.save()
     await customer.generateAccessToken()

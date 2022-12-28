@@ -11,7 +11,6 @@ export enum categoryTypes {
 interface ICategory {
   type: categoryTypes
   name: string
-  parent?: Schema.Types.ObjectId
   isActive: boolean
 }
 interface ICategoryMethods {}
@@ -25,28 +24,16 @@ const CategorySchema = new Schema<ICategory, CategoryModel, ICategoryMethods>(
       trim: true,
       maxlength: 255,
     },
-    parent: {
-      type: Schema.Types.ObjectId,
-      ref: 'Category',
-      required: false,
-    },
     isActive: {
       type: Boolean,
       required: true,
-      default: true,
     },
   },
   { discriminatorKey }
 )
 
-CategorySchema.pre('save', async function (next) {
-  if (this.parent !== undefined) {
-    const parent = await Category.findById(this.parent)
-    if (parent === null) throw new Error('parent category not found')
-    if (parent.type === categoryTypes.Leaf)
-      throw new Error('parent category is leaf')
-  }
-  next()
+CategorySchema.pre('save', function () {
+  if (this.isNew) this.isActive = false
 })
 
 const Category = model<ICategory, CategoryModel>('Category', CategorySchema)

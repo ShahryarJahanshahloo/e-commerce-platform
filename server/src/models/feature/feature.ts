@@ -1,7 +1,7 @@
 import { Schema, model, Model } from 'mongoose'
 import Category, { categoryTypes } from '../category/category'
 
-interface IFeature {
+export interface IFeature {
   label: string
   category: Schema.Types.ObjectId
   values: Schema.Types.ObjectId[]

@@ -38,7 +38,6 @@ const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
     },
     score: {
       type: Number,
-      default: 0,
       required: true,
     },
     address: {
@@ -67,6 +66,10 @@ const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
   },
   { discriminatorKey }
 )
+
+SellerSchema.pre('save', function () {
+  if (this.isNew) this.score = 0
+})
 
 const Seller = User.discriminator(userRoles.Seller, SellerSchema)
 
