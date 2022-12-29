@@ -1,26 +1,129 @@
 import express, { Router, Request, Response } from 'express'
+import {
+  TypedRequestBody,
+  TypedRequestBodyWithParams,
+} from '../../TypedRequestBody'
+import Product, { IProduct } from '../../models/product/product'
+import auth from '../../middlewares/auth'
+import { userRoles } from '../../models/user/user'
+import { updateByValidKeys } from '../../utils/common'
 
 const router: Router = express.Router()
 
-router.post('/', async (req: Request, res: Response) => {})
+router.post(
+  '/',
+  auth([userRoles.Seller, userRoles.Admin]),
+  async (req: TypedRequestBody<IProduct>, res: Response) => {
+    try {
+      const product = new Product(req.body)
+      await product.save()
+      res.status(201).send()
+    } catch (error) {
+      res.status(400).send(error)
+    }
+  }
+)
 
-router.get('/:id', async (req: Request, res: Response) => {})
+router.get('/:id', async (req: Request, res: Response) => {
+  try {
+    const product = await Product.findById(req.params.id)
+    if (product === null) return res.status(400).send()
+    res.send(product)
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
 
-router.patch('/:id', async (req: Request, res: Response) => {})
+router.patch(
+  '/:id',
+  auth([userRoles.Admin]),
+  async (
+    req: TypedRequestBodyWithParams<IProduct, { id: string }>,
+    res: Response
+  ) => {
+    try {
+      const product = await Product.findById(req.params.id)
+      if (product === null) return res.status(400).send()
+      await updateByValidKeys(product, req.body, ['name', 'description'])
+      res.send(product)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+)
 
-router.delete('/:id', async (req: Request, res: Response) => {})
+router.patch(
+  '/:id/approve',
+  auth([userRoles.Admin]),
+  async (req: Request, res: Response) => {
+    try {
+      const product = await Product.findById(req.params.id)
+      if (product === null) return res.status(400).send()
+      product.isApproved = true
+      await product.save()
+      res.send(product)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+)
 
-router.post('/:id/features', async (req: Request, res: Response) => {})
+router.patch(
+  '/:id/disapprove',
+  auth([userRoles.Admin]),
+  async (req: Request, res: Response) => {
+    try {
+      const product = await Product.findById(req.params.id)
+      if (product === null) return res.status(400).send()
+      product.isApproved = false
+      await product.save()
+      res.send(product)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+)
 
-router.delete('/:id/features', async (req: Request, res: Response) => {})
+router.patch(
+  '/:id/activate',
+  auth([userRoles.Admin]),
+  async (req: Request, res: Response) => {
+    try {
+      const product = await Product.findById(req.params.id)
+      if (product === null) return res.status(400).send()
+      product.isActive = true
+      await product.save()
+      res.send(product)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+)
 
-//admin
-router.patch('/:id/activate', async (req: Request, res: Response) => {})
+router.patch(
+  '/:id/deactivate',
+  auth([userRoles.Admin]),
+  async (req: Request, res: Response) => {
+    try {
+      const product = await Product.findById(req.params.id)
+      if (product === null) return res.status(400).send()
+      product.isActive = false
+      await product.save()
+      res.send(product)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+)
 
-//admin
-router.patch('/:id/deactivate', async (req: Request, res: Response) => {})
-
-router.get('/category/:id', async (req: Request, res: Response) => {})
+router.get('/category/:id', async (req: Request, res: Response) => {
+  try {
+    const products = await Product.find({ category: req.params.id })
+    res.send(products)
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
 
 router.get('/search', async (req: Request, res: Response) => {})
 

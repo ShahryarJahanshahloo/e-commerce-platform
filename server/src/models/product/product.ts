@@ -1,10 +1,11 @@
 import { Schema, model, Model } from 'mongoose'
 import Category, { categoryTypes } from '../category/category'
 
-interface IProduct {
+export interface IProduct {
   name: string
   description?: string
   category: Schema.Types.ObjectId
+  isApproved: boolean
   isActive: boolean
   views: number
   featureValues: Schema.Types.ObjectId[]
@@ -31,15 +32,17 @@ const ProductSchema = new Schema<IProduct, ProductModel, IProductMethods>(
       required: true,
       ref: 'Category',
     },
+    isApproved: {
+      type: Boolean,
+      required: true,
+    },
     isActive: {
       type: Boolean,
       required: true,
-      default: true,
     },
     views: {
       type: Number,
       required: true,
-      default: 0,
     },
     featureValues: [
       {
@@ -54,6 +57,12 @@ const ProductSchema = new Schema<IProduct, ProductModel, IProductMethods>(
 )
 
 ProductSchema.pre('save', async function (next) {
+  if (this.isNew) {
+    this.views = 0
+    this.isActive = false
+    this.isApproved = false
+  }
+
   const category = await Category.findById(this.category)
   if (category === null) throw new Error('category not found')
   if (category.type !== categoryTypes.Leaf)
