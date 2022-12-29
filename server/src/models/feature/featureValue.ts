@@ -1,6 +1,6 @@
 import { Schema, model, Model } from 'mongoose'
 
-interface IFeatureValue {
+export interface IFeatureValue {
   value: string
   feature: Schema.Types.ObjectId
   products: Schema.Types.ObjectId[]
