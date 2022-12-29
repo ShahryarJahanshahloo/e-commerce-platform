@@ -8,8 +8,7 @@ import categoryRouter from './category/category'
 import featureRouter from './feature/feature'
 import featureValueRouter from './feature/featureValue'
 import productRouter from './product/product'
-
-import auth from '../middlewares/auth'
+import storageItemRouter from './storageItem/storageItem'
 
 const router: Router = express.Router()
 
@@ -25,5 +24,6 @@ router.use('/category', categoryRouter)
 router.use('/feature', featureRouter)
 router.use('/featureValue', featureValueRouter)
 router.use('/product', productRouter)
+router.use('/storageItem', storageItemRouter)
 
 export default router

@@ -1,8 +1,7 @@
 import { Schema, model, Model } from 'mongoose'
 import Seller from '../user/seller'
-import { userRoles } from '../user/user'
 
-interface IStorageItem {
+export interface IStorageItem {
   product: Schema.Types.ObjectId
   seller: Schema.Types.ObjectId
   quantity: number
