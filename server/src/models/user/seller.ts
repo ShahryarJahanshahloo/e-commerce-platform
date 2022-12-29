@@ -6,7 +6,11 @@ export interface ISeller extends IUser {
   shopSlug?: string
   description?: string
   account: number
-  score: number
+  ratings: {
+    customer: Schema.Types.ObjectId
+    value: number
+  }[]
+  rate: number
   address: {
     description: string
     coordinates?: {
@@ -36,8 +40,23 @@ const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
       maxlength: 16,
       minlength: 16,
     },
-    score: {
-      type: Number,
+    ratings: {
+      type: [
+        {
+          customer: {
+            type: Schema.Types.ObjectId,
+            ref: 'Customer',
+          },
+          value: {
+            type: Number,
+            min: 0,
+            max: 5,
+            set: function (value: number) {
+              return Math.floor(value)
+            },
+          },
+        },
+      ],
       required: true,
     },
     address: {
@@ -67,8 +86,16 @@ const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
   { discriminatorKey }
 )
 
+SellerSchema.virtual('rate').get(function (this) {
+  let total = 0
+  this.ratings.forEach(rating => {
+    total += rating.value
+  })
+  return total / this.ratings.length
+})
+
 SellerSchema.pre('save', function () {
-  if (this.isNew) this.score = 0
+  if (this.isNew) this.ratings = []
 })
 
 const Seller = User.discriminator(userRoles.Seller, SellerSchema)
