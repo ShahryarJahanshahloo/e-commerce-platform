@@ -1,5 +1,5 @@
 import { Schema, model, Model } from 'mongoose'
-import Category, { categoryTypes } from '../category/category'
+import LeafCategory from '../category/leafCategory'
 
 export interface IProduct {
   name: string
@@ -43,6 +43,9 @@ const ProductSchema = new Schema<IProduct, ProductModel, IProductMethods>(
     views: {
       type: Number,
       required: true,
+      set: function (value: number) {
+        return Math.trunc(value)
+      },
     },
     featureValues: [
       {
@@ -63,10 +66,8 @@ ProductSchema.pre('save', async function (next) {
     this.isApproved = false
   }
 
-  const category = await Category.findById(this.category)
+  const category = await LeafCategory.findById(this.category)
   if (category === null) throw new Error('category not found')
-  if (category.type !== categoryTypes.Leaf)
-    throw new Error('category is not leaf')
   next()
 })
 

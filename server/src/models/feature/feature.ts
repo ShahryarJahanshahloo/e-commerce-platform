@@ -1,5 +1,5 @@
 import { Schema, model, Model } from 'mongoose'
-import Category, { categoryTypes } from '../category/category'
+import LeafCategory from '../category/leafCategory'
 
 export interface IFeature {
   label: string
@@ -32,10 +32,8 @@ FeatureSchema.virtual('values', {
 })
 
 FeatureSchema.pre('save', async function (next) {
-  const category = await Category.findById(this.category)
+  const category = await LeafCategory.findById(this.category)
   if (category === null) throw new Error('category not found')
-  if (category.type !== categoryTypes.Leaf)
-    throw new Error('category is not leaf')
   next()
 })
 

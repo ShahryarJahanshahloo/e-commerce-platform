@@ -20,6 +20,9 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
     balance: {
       type: Number,
       required: true,
+      set: function (value: number) {
+        return Math.trunc(value)
+      },
     },
     address: {
       type: {
