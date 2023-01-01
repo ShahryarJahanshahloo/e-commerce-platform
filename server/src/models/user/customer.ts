@@ -11,6 +11,10 @@ export interface ICustomer extends IUser {
       lon: number
     }
   }
+  cart: {
+    storageItem: Schema.Types.ObjectId
+    quantity: number
+  }[]
 }
 interface ICustomerMethods extends IUserMethods {}
 interface CustomerModel extends Model<ICustomer, {}, ICustomerMethods> {}
@@ -46,6 +50,24 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
         },
       },
       required: false,
+    },
+    cart: {
+      type: [
+        {
+          storageItem: {
+            type: Schema.Types.ObjectId,
+            ref: 'StorageItem',
+            required: true,
+          },
+          quantity: {
+            type: Number,
+            required: true,
+            set: function (value: number) {
+              return Math.trunc(value)
+            },
+          },
+        },
+      ],
     },
   },
   { discriminatorKey }
