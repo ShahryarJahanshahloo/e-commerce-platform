@@ -77,6 +77,7 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
           },
         },
       ],
+      maxlength: 20,
     },
   },
   { discriminatorKey }
