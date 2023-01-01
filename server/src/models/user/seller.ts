@@ -97,8 +97,9 @@ SellerSchema.virtual('rate').get(function (this) {
   return total / this.ratings.length
 })
 
-SellerSchema.pre('save', function () {
+SellerSchema.pre('save', function (next) {
   if (this.isNew) this.ratings = []
+  next()
 })
 
 const Seller = User.discriminator(userRoles.Seller, SellerSchema)

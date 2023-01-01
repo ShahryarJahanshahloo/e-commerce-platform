@@ -73,8 +73,9 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
   { discriminatorKey }
 )
 
-CustomerSchema.pre('save', function () {
+CustomerSchema.pre('save', function (next) {
   if (this.isNew) this.balance = 0
+  next()
 })
 
 const Customer = User.discriminator(userRoles.Customer, CustomerSchema)
