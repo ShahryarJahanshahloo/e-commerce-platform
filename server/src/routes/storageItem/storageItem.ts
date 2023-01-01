@@ -10,8 +10,6 @@ import StorageItem, { IStorageItem } from '../../models/storageItem/storageItem'
 
 const router: Router = express.Router()
 
-//ezafe kardane avalin bar, taghire mojoodi o gheymat
-
 router.post(
   '/',
   auth([userRoles.Seller]),
