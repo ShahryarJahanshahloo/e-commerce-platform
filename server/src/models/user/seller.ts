@@ -17,6 +17,7 @@ export interface ISeller extends IUser {
       lat: number
       lon: number
     }
+    zipCode: number
   }
 }
 interface ISellerMethods extends IUserMethods {}
@@ -81,6 +82,14 @@ const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
             },
           },
           required: false,
+        },
+        zipCode: {
+          type: Number,
+          minlength: 10,
+          maxlength: 10,
+          set: function (value: number) {
+            return Math.trunc(value)
+          },
         },
       },
       required: true,

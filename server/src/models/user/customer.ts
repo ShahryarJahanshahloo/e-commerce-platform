@@ -10,6 +10,7 @@ export interface ICustomer extends IUser {
       lat: number
       lon: number
     }
+    zipCode: number
   }
   cart: {
     storageItem: Schema.Types.ObjectId
@@ -47,6 +48,14 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
             },
           },
           required: false,
+        },
+        zipCode: {
+          type: Number,
+          minlength: 10,
+          maxlength: 10,
+          set: function (value: number) {
+            return Math.trunc(value)
+          },
         },
       },
       required: false,
