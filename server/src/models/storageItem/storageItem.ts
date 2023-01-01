@@ -6,6 +6,7 @@ export interface IStorageItem {
   seller: Schema.Types.ObjectId
   quantity: number
   price: number
+  sold: number
 }
 interface IStorageItemMethods {}
 interface StorageItemModel
@@ -43,11 +44,19 @@ const StorageItemSchema = new Schema<
         return Math.trunc(value)
       },
     },
+    sold: {
+      type: Number,
+      required: true,
+    },
   },
   {}
 )
 
 StorageItemSchema.pre('save', async function (next) {
+  if (this.isNew) {
+    this.sold = 0
+  }
+
   const seller = await Seller.findById(this.seller)
   if (seller === null) throw new Error('seller not found')
   next()

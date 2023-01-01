@@ -13,6 +13,7 @@ export interface IProduct {
     customer: Schema.Types.ObjectId
     value: number
   }[]
+  sold: number
 }
 interface IProductMethods {}
 interface ProductModel extends Model<IProduct, {}, IProductMethods> {}
@@ -76,6 +77,10 @@ const ProductSchema = new Schema<IProduct, ProductModel, IProductMethods>(
       ],
       required: true,
     },
+    sold: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -96,6 +101,7 @@ ProductSchema.pre('save', async function (next) {
     this.isActive = false
     this.isApproved = false
     this.ratings = []
+    this.sold = 0
   }
 
   const category = await LeafCategory.findById(this.category)
