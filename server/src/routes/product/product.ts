@@ -127,4 +127,56 @@ router.get('/category/:id', async (req: Request, res: Response) => {
 
 router.get('/search', async (req: Request, res: Response) => {})
 
+router.put(
+  '/:id/rate',
+  auth([userRoles.Customer]),
+  async (
+    req: TypedRequestBodyWithParams<
+      {
+        value: number
+      },
+      { id: string }
+    >,
+    res: Response
+  ) => {
+    try {
+      const product = await Product.findById(req.params.id)
+      if (product === null) return res.status(400).send()
+      for (const rating of product.ratings) {
+        if (rating.customer == req.user.id) {
+          rating.value = req.body.value
+          await product.save()
+          return res.send()
+        }
+      }
+      product.ratings.push({
+        customer: req.user.id,
+        value: req.body.value,
+      })
+      await product.save()
+      res.send()
+    } catch (error) {
+      res.status(400).send(error)
+    }
+  }
+)
+
+router.delete(
+  '/:id/rate',
+  auth([userRoles.Customer]),
+  async (req: Request, res: Response) => {
+    try {
+      const product = await Product.findById(req.params.id)
+      if (product === null) return res.status(400).send()
+      product.ratings.filter(rating => {
+        return rating.customer != req.user.id
+      })
+      await product.save()
+      res.send()
+    } catch (error) {
+      res.status(400).send(error)
+    }
+  }
+)
+
 export default router
