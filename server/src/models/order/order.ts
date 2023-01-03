@@ -109,6 +109,8 @@ const OrderSchema = new Schema<IOrder, OrderModel, IOrderMethods>(
 
 OrderSchema.pre('save', async function (next) {
   if (this.isNew) {
+    this.state = orderStates.Pending
+
     const customer = await Customer.findById(this.customer)
     if (customer === null) throw new Error('customer not found')
 
