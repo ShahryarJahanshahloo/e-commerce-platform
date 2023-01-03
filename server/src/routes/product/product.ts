@@ -154,7 +154,7 @@ router.put(
         value: req.body.value,
       })
       await product.save()
-      res.send()
+      res.status(201).send()
     } catch (error) {
       res.status(400).send(error)
     }

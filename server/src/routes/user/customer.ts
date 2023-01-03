@@ -29,21 +29,25 @@ router.put(
     }>,
     res: Response
   ) => {
-    const customer = await Customer.findById(req.user.id)
-    if (customer === null) return res.status(400).send()
-    for (const cartItem of customer.cart) {
-      if (cartItem.storageItem === req.body.storageItem) {
-        cartItem.quantity = req.body.quantity
-        await customer.save()
-        return res.send()
+    try {
+      const customer = await Customer.findById(req.user.id)
+      if (customer === null) return res.status(400).send()
+      for (const cartItem of customer.cart) {
+        if (cartItem.storageItem === req.body.storageItem) {
+          cartItem.quantity = req.body.quantity
+          await customer.save()
+          return res.send()
+        }
       }
+      customer.cart.push({
+        storageItem: req.body.storageItem,
+        quantity: req.body.quantity,
+      })
+      await customer.save()
+      res.status(201).send(customer.cart)
+    } catch (error) {
+      res.status(500).send(error)
     }
-    customer.cart.push({
-      storageItem: req.body.storageItem,
-      quantity: req.body.quantity,
-    })
-    await customer.save()
-    res.send(customer.cart)
   }
 )
 

@@ -1,12 +1,19 @@
 import { Schema, model, Model } from 'mongoose'
 import Customer from '../user/customer'
 
-interface IComment {
+export enum voteValues {
+  upvote = 1,
+  downvote = -1,
+}
+
+export interface IComment {
   product: Schema.Types.ObjectId
   customer: Schema.Types.ObjectId
   text: string
-  upVotes: number
-  downVotes: number
+  votes: {
+    user: Schema.Types.ObjectId
+    value: voteValues
+  }[]
 }
 interface ICommentMethods {}
 interface CommentModel extends Model<IComment, {}, ICommentMethods> {}
@@ -29,19 +36,21 @@ const CommentSchema = new Schema<IComment, CommentModel, ICommentMethods>(
       maxlength: 511,
       minlength: 3,
     },
-    upVotes: {
-      type: Number,
-      required: true,
-      set: function (value: number) {
-        return Math.trunc(value)
-      },
-    },
-    downVotes: {
-      type: Number,
-      required: true,
-      set: function (value: number) {
-        return Math.trunc(value)
-      },
+    votes: {
+      type: [
+        {
+          user: {
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: 'User',
+          },
+          value: {
+            type: Number,
+            required: true,
+            enum: voteValues,
+          },
+        },
+      ],
     },
   },
   {}
@@ -49,8 +58,7 @@ const CommentSchema = new Schema<IComment, CommentModel, ICommentMethods>(
 
 CommentSchema.pre('save', async function (next) {
   if (this.isNew) {
-    this.upVotes = 0
-    this.downVotes = 0
+    this.votes = []
   }
 
   const customer = await Customer.findById(this.customer)

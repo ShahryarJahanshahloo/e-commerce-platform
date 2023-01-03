@@ -47,7 +47,7 @@ router.put(
         value: req.body.value,
       })
       await seller.save()
-      res.send()
+      res.status(201).send()
     } catch (error) {
       res.status(400).send(error)
     }
