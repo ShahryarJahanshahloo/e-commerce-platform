@@ -1,7 +1,6 @@
 import express, { Router, Request, Response } from 'express'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user'
-import mongoose from 'mongoose'
 import {
   TypedRequestBody,
   TypedRequestBodyWithParams,

@@ -69,6 +69,7 @@ const OrderSchema = new Schema<IOrder, OrderModel, IOrderMethods>(
     },
     state: {
       type: String,
+      required: true,
       enum: orderStates,
     },
     address: {
