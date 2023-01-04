@@ -14,6 +14,7 @@ import productRouter from './product/product'
 import storageItemRouter from './storageItem/storageItem'
 import commentRouter from './comment/comment'
 import orderRouter from './order/order'
+import shipmentRouter from './shipment/shipment'
 
 const router: Router = express.Router()
 
@@ -35,5 +36,6 @@ router.use('/product', productRouter)
 router.use('/storageItem', storageItemRouter)
 router.use('/comment', commentRouter)
 router.use('/order', orderRouter)
+router.use('/shipment', shipmentRouter)
 
 export default router

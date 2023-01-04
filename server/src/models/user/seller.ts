@@ -5,6 +5,7 @@ import User, { discriminatorKey, IUser, IUserMethods, userRoles } from './user'
 export interface ISeller extends IUser {
   shopSlug?: string
   description?: string
+  balance: number
   account: number
   ratings: {
     customer: Schema.Types.ObjectId
@@ -28,6 +29,13 @@ const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
     shopSlug: {
       type: String,
       required: false,
+    },
+    balance: {
+      type: Number,
+      required: true,
+      set: function (value: number) {
+        return Math.trunc(value)
+      },
     },
     description: {
       type: String,
@@ -107,7 +115,10 @@ SellerSchema.virtual('rate').get(function (this) {
 })
 
 SellerSchema.pre('save', function (next) {
-  if (this.isNew) this.ratings = []
+  if (this.isNew) {
+    this.balance = 0
+    this.ratings = []
+  }
   next()
 })
 

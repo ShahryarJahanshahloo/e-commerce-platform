@@ -5,12 +5,12 @@ import {
   TypedRequestBody,
   TypedRequestBodyWithParams,
 } from '../../TypedRequestBody'
-import { updateByValidKeys } from '../../utils/common'
 import Order, { IOrder, orderStates } from '../../models/order/order'
+import axios from 'axios'
+import Seller from '../../models/user/seller'
+import Shipment, { shipmentStates } from '../../models/shipment/shipment'
 
 const router: Router = express.Router()
-
-//change state to paid or shipped
 
 router.post(
   '/',
@@ -25,6 +25,46 @@ router.post(
     }
   }
 )
+
+router.get('/callback', async (req: Request, res: Response) => {
+  try {
+    const checkoutResult = await axios.post(
+      'https://gateway.zibal.ir/v1/verify',
+      {
+        merchant: 'zibal',
+        trackId: req.query.trackId,
+      }
+    )
+    if (checkoutResult.data.status != 1) return res.status(400).send()
+
+    const order = await Order.findById(checkoutResult.data.orderId)
+    if (order === null) return res.status(400).send()
+    order.state = orderStates.Paid
+    //needs transaction
+    await order.save()
+    order.items.forEach(async item => {
+      const seller = await Seller.findById(item.seller)
+      if (seller === null) throw new Error()
+      seller.balance += item.price * item.quantity
+      await seller.save()
+    })
+    const sellers = new Set()
+    order.items.forEach(item => {
+      sellers.add(item.seller)
+    })
+    sellers.forEach(async seller => {
+      const shipment = new Shipment({
+        order: order.id,
+        seller: seller,
+        state: shipmentStates.Pending,
+      })
+      await shipment.save()
+    })
+    res.send()
+  } catch (error) {
+    res.send(error)
+  }
+})
 
 router.get('/:id', async (req: Request, res: Response) => {
   try {
@@ -78,6 +118,28 @@ router.patch(
       order.state = orderStates.Canceled
       await order.save()
       res.send(order)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+)
+
+//  'https://gateway.zibal.ir/start/{{trackId}}'
+router.post(
+  '/:orderId/checkout',
+  auth([userRoles.Customer]),
+  async (req: Request, res: Response) => {
+    try {
+      const order = await Order.findById(req.params.orderId)
+      if (order === null) return res.status(400).send()
+      if (order.state !== orderStates.Pending) return res.status(400).send()
+      const result = await axios.post('https://gateway.zibal.ir/v1/request', {
+        merchant: 'zibal',
+        amount: order.total,
+        callbackUrl: 'http://localhost:3001/order/callback',
+        orderId: order.id,
+      })
+      res.send(result.data)
     } catch (error) {
       res.status(500).send(error)
     }

@@ -1,14 +1,14 @@
 import { Schema, model, Model } from 'mongoose'
 import Seller from '../user/seller'
 
-enum shipmentStates {
+export enum shipmentStates {
   Pending = 'Pending',
   Sent = 'Sent',
   Delivered = 'Delivered',
   Canceled = 'Canceled',
 }
 
-interface IShipment {
+export interface IShipment {
   order: Schema.Types.ObjectId
   seller: Schema.Types.ObjectId
   state: shipmentStates

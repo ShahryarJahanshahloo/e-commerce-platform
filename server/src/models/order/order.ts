@@ -6,7 +6,6 @@ export enum orderStates {
   Pending = 'Pending',
   Canceled = 'Canceled',
   Paid = 'Paid',
-  Shipped = 'Shipped',
 }
 
 export interface IOrder {
@@ -26,6 +25,7 @@ export interface IOrder {
     }
     zipCode: number
   }
+  total: number
 }
 interface IOrderMethods {}
 interface OrderModel extends Model<IOrder, {}, IOrderMethods> {}
@@ -55,6 +55,7 @@ const OrderSchema = new Schema<IOrder, OrderModel, IOrderMethods>(
           quantity: {
             type: Number,
             required: true,
+            min: 1,
             set: function (value: number) {
               return Math.trunc(value)
             },
@@ -106,6 +107,14 @@ const OrderSchema = new Schema<IOrder, OrderModel, IOrderMethods>(
   },
   { timestamps: true }
 )
+
+OrderSchema.virtual('total').get(function (this) {
+  let total = 0
+  this.items.forEach(item => {
+    total += item.price * item.quantity
+  })
+  return total
+})
 
 OrderSchema.pre('save', async function (next) {
   if (this.isNew) {
