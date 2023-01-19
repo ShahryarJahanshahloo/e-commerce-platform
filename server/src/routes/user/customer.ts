@@ -1,9 +1,13 @@
 import express, { Router, Request, Response } from 'express'
 import Customer, { ICustomer } from '../../models/user/customer'
-import { TypedRequestBody } from '../../TypedRequestBody'
+import {
+  TypedRequestBody,
+  TypedRequestBodyWithParams,
+} from '../../TypedRequestBody'
 import { userRoles } from '../../models/user/user'
 import auth from '../../middlewares/auth'
 import { Schema } from 'mongoose'
+import { updateByValidKeys } from '../../utils/common'
 
 const router: Router = express.Router()
 
@@ -68,6 +72,29 @@ router.delete(
       })
       await customer.save()
       res.send(customer.cart)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+)
+
+router.patch(
+  '/:customerId',
+  auth([userRoles.Customer]),
+  async (
+    req: TypedRequestBodyWithParams<ICustomer, { customerId: string }>,
+    res: Response
+  ) => {
+    try {
+      const customer = await Customer.findById(req.params.customerId)
+      if (customer === null) return res.status(400).send()
+      await updateByValidKeys(customer, req.body, [
+        'name',
+        'lastName',
+        'phoneNumber',
+        'address',
+      ])
+      res.send(customer)
     } catch (error) {
       res.status(500).send(error)
     }

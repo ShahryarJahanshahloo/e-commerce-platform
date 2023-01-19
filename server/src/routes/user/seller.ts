@@ -6,6 +6,7 @@ import {
 } from '../../TypedRequestBody'
 import { userRoles } from '../../models/user/user'
 import auth from '../../middlewares/auth'
+import { updateByValidKeys } from '../../utils/common'
 
 const router: Router = express.Router()
 
@@ -68,6 +69,31 @@ router.delete(
       res.send()
     } catch (error) {
       res.status(400).send(error)
+    }
+  }
+)
+
+router.patch(
+  '/:sellerId',
+  auth([userRoles.Seller]),
+  async (
+    req: TypedRequestBodyWithParams<ISeller, { sellerId: string }>,
+    res: Response
+  ) => {
+    try {
+      const seller = await Seller.findById(req.params.sellerId)
+      if (seller === null) return res.status(400).send()
+      await updateByValidKeys(seller, req.body, [
+        'name',
+        'lastName',
+        'phoneNumber',
+        'shopSlug',
+        'description',
+        'address',
+      ])
+      res.send(seller)
+    } catch (error) {
+      res.status(500).send(error)
     }
   }
 )
