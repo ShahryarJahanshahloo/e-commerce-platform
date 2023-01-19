@@ -24,9 +24,9 @@ router.post(
   }
 )
 
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:productId', async (req: Request, res: Response) => {
   try {
-    const product = await Product.findById(req.params.id)
+    const product = await Product.findById(req.params.productId)
     if (product === null) return res.status(400).send()
     res.send(product)
   } catch (error) {
@@ -35,14 +35,14 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 router.patch(
-  '/:id',
+  '/:productId',
   auth([userRoles.Admin]),
   async (
-    req: TypedRequestBodyWithParams<IProduct, { id: string }>,
+    req: TypedRequestBodyWithParams<IProduct, { productId: string }>,
     res: Response
   ) => {
     try {
-      const product = await Product.findById(req.params.id)
+      const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
       await updateByValidKeys(product, req.body, ['name', 'description'])
       res.send(product)
@@ -53,11 +53,11 @@ router.patch(
 )
 
 router.patch(
-  '/:id/approve',
+  '/:productId/approve',
   auth([userRoles.Admin]),
   async (req: Request, res: Response) => {
     try {
-      const product = await Product.findById(req.params.id)
+      const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
       product.isApproved = true
       await product.save()
@@ -69,11 +69,11 @@ router.patch(
 )
 
 router.patch(
-  '/:id/disapprove',
+  '/:productId/disapprove',
   auth([userRoles.Admin]),
   async (req: Request, res: Response) => {
     try {
-      const product = await Product.findById(req.params.id)
+      const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
       product.isApproved = false
       await product.save()
@@ -85,11 +85,11 @@ router.patch(
 )
 
 router.patch(
-  '/:id/activate',
+  '/:productId/activate',
   auth([userRoles.Admin]),
   async (req: Request, res: Response) => {
     try {
-      const product = await Product.findById(req.params.id)
+      const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
       product.isActive = true
       await product.save()
@@ -101,11 +101,11 @@ router.patch(
 )
 
 router.patch(
-  '/:id/deactivate',
+  '/:productId/deactivate',
   auth([userRoles.Admin]),
   async (req: Request, res: Response) => {
     try {
-      const product = await Product.findById(req.params.id)
+      const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
       product.isActive = false
       await product.save()
@@ -116,9 +116,9 @@ router.patch(
   }
 )
 
-router.get('/category/:id', async (req: Request, res: Response) => {
+router.get('/category/:categoryId', async (req: Request, res: Response) => {
   try {
-    const products = await Product.find({ category: req.params.id })
+    const products = await Product.find({ category: req.params.categoryId })
     res.send(products)
   } catch (error) {
     res.status(500).send(error)
@@ -128,7 +128,7 @@ router.get('/category/:id', async (req: Request, res: Response) => {
 router.get('/search', async (req: Request, res: Response) => {})
 
 router.put(
-  '/:id/rate',
+  '/:productId/rate',
   auth([userRoles.Customer]),
   async (
     req: TypedRequestBodyWithParams<
@@ -162,7 +162,7 @@ router.put(
 )
 
 router.delete(
-  '/:id/rate',
+  '/:productId/rate',
   auth([userRoles.Customer]),
   async (req: Request, res: Response) => {
     try {

@@ -32,14 +32,14 @@ router.get('/', async (req: Request, res: Response) => {
 })
 
 router.patch(
-  '/:id',
+  '/:categoryId',
   auth([userRoles.Admin]),
   async (
-    req: TypedRequestBodyWithParams<IMainCategory, { id: string }>,
+    req: TypedRequestBodyWithParams<IMainCategory, { categoryId: string }>,
     res: Response
   ) => {
     try {
-      const category = await MainCategory.findById(req.params.id)
+      const category = await MainCategory.findById(req.params.categoryId)
       if (category === null) return res.status(400).send()
       await updateByValidKeys(category, req.body, ['name'])
       res.send(category)

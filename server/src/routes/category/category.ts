@@ -14,9 +14,9 @@ router.use('/leaf', leafCategoryRouter)
 router.use('/main', mainCategoryRouter)
 router.use('/middle', middleCategoryRouter)
 
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:categoryId', async (req: Request, res: Response) => {
   try {
-    const id = req.params.id
+    const id = req.params.categoryId
     const category = await Category.findById(id)
     if (category === null) return res.status(400).send()
     res.send(category)
@@ -26,13 +26,13 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 router.patch(
-  '/:id/activate',
+  '/:categoryId/activate',
   auth([userRoles.Admin]),
   async (req: Request, res: Response) => {
     const session = await mongoose.connection.startSession()
     try {
       session.startTransaction()
-      const category = await Category.findById(req.params.id)
+      const category = await Category.findById(req.params.categoryId)
       if (category === null) return res.status(400).send()
       await toggleActivity(category, true)
       await session.commitTransaction()
@@ -45,13 +45,13 @@ router.patch(
 )
 
 router.patch(
-  '/:id/deactivate',
+  '/:categoryId/deactivate',
   auth([userRoles.Admin]),
   async (req: Request, res: Response) => {
     const session = await mongoose.connection.startSession()
     try {
       session.startTransaction()
-      const category = await Category.findById(req.params.id)
+      const category = await Category.findById(req.params.categoryId)
       if (category === null) return res.status(400).send()
       await toggleActivity(category, false)
       await session.commitTransaction()

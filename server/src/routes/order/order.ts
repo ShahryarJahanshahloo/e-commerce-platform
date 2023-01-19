@@ -66,9 +66,9 @@ router.get('/callback', async (req: Request, res: Response) => {
   }
 })
 
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:orderId', async (req: Request, res: Response) => {
   try {
-    const order = await Order.findById(req.params.id)
+    const order = await Order.findById(req.params.orderId)
     if (order === null) return res.status(400).send()
     res.send(order)
   } catch (error) {
@@ -77,11 +77,11 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 router.get(
-  '/customer/:id',
+  '/customer/:orderId',
   auth([userRoles.Admin]),
   async (req: Request, res: Response) => {
     try {
-      const orders = await Order.find({ customer: req.params.id })
+      const orders = await Order.find({ customer: req.params.orderId })
       res.send(orders)
     } catch (error) {
       res.status(500).send(error)
@@ -103,15 +103,15 @@ router.get(
 )
 
 router.patch(
-  '/:id/cancel',
+  '/:orderId/cancel',
   auth([userRoles.Customer]),
   async (
-    req: TypedRequestBodyWithParams<IOrder, { id: string }>,
+    req: TypedRequestBodyWithParams<IOrder, { orderId: string }>,
     res: Response
   ) => {
     try {
       const order = await Order.findOne({
-        _id: req.params.id,
+        _id: req.params.orderId,
         customer: req.user.id,
       })
       if (order === null) return res.status(400).send()

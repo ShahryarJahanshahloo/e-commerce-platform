@@ -27,14 +27,14 @@ router.post(
 )
 
 router.patch(
-  '/:id',
+  '/:categoryId',
   auth([userRoles.Admin]),
   async (
-    req: TypedRequestBodyWithParams<IMiddleCategory, { id: string }>,
+    req: TypedRequestBodyWithParams<IMiddleCategory, { categoryId: string }>,
     res: Response
   ) => {
     try {
-      const category = await MiddleCategory.findById(req.params.id)
+      const category = await MiddleCategory.findById(req.params.categoryId)
       if (category === null) return res.status(400).send()
       await updateByValidKeys(category, req.body, ['name', 'parent'])
       res.send(category)

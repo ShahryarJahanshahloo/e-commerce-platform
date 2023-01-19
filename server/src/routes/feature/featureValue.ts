@@ -24,9 +24,9 @@ router.post(
   }
 )
 
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:featureValueId', async (req: Request, res: Response) => {
   try {
-    const featureValue = await FeatureValue.findById(req.params.id)
+    const featureValue = await FeatureValue.findById(req.params.featureValueId)
     if (featureValue === null) return res.status(400).send()
     res.send(featureValue)
   } catch (error) {
@@ -35,14 +35,16 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 router.patch(
-  '/:id',
+  '/:featureValueId',
   auth([userRoles.Admin]),
   async (
-    req: TypedRequestBodyWithParams<IFeatureValue, { id: string }>,
+    req: TypedRequestBodyWithParams<IFeatureValue, { featureValueId: string }>,
     res: Response
   ) => {
     try {
-      const featureValue = await FeatureValue.findById(req.params.id)
+      const featureValue = await FeatureValue.findById(
+        req.params.featureValueId
+      )
       if (featureValue === null) return res.status(400).send()
       await updateByValidKeys(featureValue, req.body, ['value'])
       res.send(featureValue)

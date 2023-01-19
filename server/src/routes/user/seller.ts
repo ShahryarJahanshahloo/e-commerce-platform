@@ -21,19 +21,19 @@ router.post('/', async (req: TypedRequestBody<ISeller>, res: Response) => {
 })
 
 router.put(
-  '/:id/rate',
+  '/:sellerId/rate',
   auth([userRoles.Customer]),
   async (
     req: TypedRequestBodyWithParams<
       {
         value: number
       },
-      { id: string }
+      { sellerId: string }
     >,
     res: Response
   ) => {
     try {
-      const seller = await Seller.findById(req.params.id)
+      const seller = await Seller.findById(req.params.sellerId)
       if (seller === null) return res.status(400).send()
       for (const rating of seller.ratings) {
         if (rating.customer == req.user.id) {
@@ -55,11 +55,11 @@ router.put(
 )
 
 router.delete(
-  '/:id/rate',
+  '/:sellerId/rate',
   auth([userRoles.Customer]),
   async (req: Request, res: Response) => {
     try {
-      const seller = await Seller.findById(req.params.id)
+      const seller = await Seller.findById(req.params.sellerId)
       if (seller === null) return res.status(400).send()
       seller.ratings.filter(rating => {
         return rating.customer != req.user.id

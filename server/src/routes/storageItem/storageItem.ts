@@ -26,14 +26,14 @@ router.post(
 )
 
 router.patch(
-  '/:id',
+  '/:storageItemID',
   auth([userRoles.Seller]),
   async (
-    req: TypedRequestBodyWithParams<IStorageItem, { id: string }>,
+    req: TypedRequestBodyWithParams<IStorageItem, { storageItemID: string }>,
     res: Response
   ) => {
     try {
-      const storageItem = await StorageItem.findById(req.params.id)
+      const storageItem = await StorageItem.findById(req.params.storageItemID)
       if (storageItem === null) return res.status(400).send()
       await updateByValidKeys(storageItem, req.body, ['price', 'quantity'])
       res.send(storageItem)

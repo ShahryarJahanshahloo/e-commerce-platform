@@ -24,9 +24,9 @@ router.post(
   }
 )
 
-router.get('/product/:id', async (req: Request, res: Response) => {
+router.get('/product/:productId', async (req: Request, res: Response) => {
   try {
-    const comments = await Comment.find({ product: req.params.id })
+    const comments = await Comment.find({ product: req.params.productId })
     res.send(comments)
   } catch (error) {
     res.status(500).send(error)
@@ -34,14 +34,14 @@ router.get('/product/:id', async (req: Request, res: Response) => {
 })
 
 router.patch(
-  '/:id',
+  '/:commentId',
   auth([userRoles.Customer]),
   async (
-    req: TypedRequestBodyWithParams<IComment, { id: string }>,
+    req: TypedRequestBodyWithParams<IComment, { commentId: string }>,
     res: Response
   ) => {
     try {
-      const comment = await Comment.findById(req.params.id)
+      const comment = await Comment.findById(req.params.commentId)
       if (comment === null) return res.status(400).send()
       if (comment.customer !== req.user.id) return res.status(401).send()
       await updateByValidKeys(comment, req.body, ['text'])
@@ -53,14 +53,17 @@ router.patch(
 )
 
 router.put(
-  '/:id/vote',
+  '/:commentId/vote',
   auth(),
   async (
-    req: TypedRequestBodyWithParams<{ value: voteValues }, { id: string }>,
+    req: TypedRequestBodyWithParams<
+      { value: voteValues },
+      { commentId: string }
+    >,
     res: Response
   ) => {
     try {
-      const comment = await Comment.findById(req.params.id)
+      const comment = await Comment.findById(req.params.commentId)
       if (comment === null) return res.status(400).send()
       for (const vote of comment.votes) {
         if (vote.user == req.user.id) {

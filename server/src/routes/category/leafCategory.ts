@@ -24,9 +24,9 @@ router.post(
   }
 )
 
-router.get('/:id/features', async (req: Request, res: Response) => {
+router.get('/:categoryId/features', async (req: Request, res: Response) => {
   try {
-    const category = await LeafCategory.findById(req.params.id)
+    const category = await LeafCategory.findById(req.params.categoryId)
     if (category === null) return res.status(400).send()
     res.send(category.features)
   } catch (error) {
@@ -35,14 +35,14 @@ router.get('/:id/features', async (req: Request, res: Response) => {
 })
 
 router.patch(
-  '/:id',
+  '/:categoryId',
   auth([userRoles.Admin]),
   async (
-    req: TypedRequestBodyWithParams<ILeafCategory, { id: string }>,
+    req: TypedRequestBodyWithParams<ILeafCategory, { categoryId: string }>,
     res: Response
   ) => {
     try {
-      const category = await LeafCategory.findById(req.params.id)
+      const category = await LeafCategory.findById(req.params.categoryId)
       if (category === null) return res.status(400).send()
       await updateByValidKeys(category, req.body, ['name', 'parent'])
       res.send(category)
