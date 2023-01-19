@@ -16,7 +16,12 @@ export interface IProduct {
   sold: number
 }
 interface IProductMethods {}
-interface ProductModel extends Model<IProduct, {}, IProductMethods> {}
+interface ProductModel extends Model<IProduct, {}, IProductMethods> {
+  getCategoryProducts(
+    categoryId: string,
+    options: getCategoryProductsOptions
+  ): []
+}
 
 const ProductSchema = new Schema<IProduct, ProductModel, IProductMethods>(
   {
@@ -86,6 +91,32 @@ const ProductSchema = new Schema<IProduct, ProductModel, IProductMethods>(
     timestamps: true,
   }
 )
+
+export type getCategoryProductsOptions = {
+  limit: number
+  offset: number
+  availableOnly: boolean
+  minPrice: number
+  maxPrice: number
+  sortedBy: 'time' | 'view' | 'price_asc' | 'price_desc' | 'sold'
+  features: string[]
+}
+
+ProductSchema.static(
+  'getCategoryProducts',
+  async function (categoryId: string, options: getCategoryProductsOptions) {
+    return this.find({ isActive: true, isApproved: true }, null, {
+      limit: options.limit,
+      skip: options.offset,
+    }).populate(['featureValues', 'storageItems'])
+  }
+)
+
+ProductSchema.virtual('storageItems', {
+  ref: 'Product',
+  localField: '_id',
+  foreignField: 'product',
+})
 
 ProductSchema.virtual('rate').get(function (this) {
   let total = 0

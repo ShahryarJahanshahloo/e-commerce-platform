@@ -9,3 +9,9 @@ export interface TypedRequestBodyWithParams<BodyType, ParamsType>
   body: BodyType
   params: ParamsType
 }
+
+export interface TypedRequest<BT, PT, QT> extends Express.Request {
+  body: BT
+  params: PT
+  query: QT
+}

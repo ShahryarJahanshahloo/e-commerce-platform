@@ -1,9 +1,13 @@
 import express, { Router, Request, Response } from 'express'
 import {
+  TypedRequest,
   TypedRequestBody,
   TypedRequestBodyWithParams,
 } from '../../TypedRequestBody'
-import Product, { IProduct } from '../../models/product/product'
+import Product, {
+  IProduct,
+  getCategoryProductsOptions,
+} from '../../models/product/product'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user'
 import { updateByValidKeys } from '../../utils/common'
@@ -12,7 +16,7 @@ const router: Router = express.Router()
 
 router.post(
   '/',
-  auth([userRoles.Seller, userRoles.Admin]),
+  auth([userRoles.Admin]),
   async (req: TypedRequestBody<IProduct>, res: Response) => {
     try {
       const product = new Product(req.body)
@@ -116,14 +120,23 @@ router.patch(
   }
 )
 
-router.get('/category/:categoryId', async (req: Request, res: Response) => {
-  try {
-    const products = await Product.find({ category: req.params.categoryId })
-    res.send(products)
-  } catch (error) {
-    res.status(500).send(error)
+router.get(
+  '/category/:categoryId',
+  async (
+    req: TypedRequest<{}, { categoryId: string }, getCategoryProductsOptions>,
+    res: Response
+  ) => {
+    try {
+      const products = await Product.getCategoryProducts(
+        req.params.categoryId,
+        req.query
+      )
+      res.send(products)
+    } catch (error) {
+      res.status(500).send(error)
+    }
   }
-})
+)
 
 router.get('/search', async (req: Request, res: Response) => {})
 
