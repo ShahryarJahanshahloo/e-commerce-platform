@@ -43,4 +43,17 @@ router.patch(
   }
 )
 
+router.post(
+  '/seller/:sellerId/report',
+  auth([userRoles.Seller]),
+  async (req: Request, res: Response) => {
+    try {
+      const products = await StorageItem.find({ seller: req.params.sellerId })
+      res.send(products)
+    } catch (error) {
+      res.status(400).send(error)
+    }
+  }
+)
+
 export default router
