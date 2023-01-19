@@ -1,5 +1,7 @@
 import { Schema, model, Model } from 'mongoose'
 import LeafCategory from '../category/leafCategory'
+import FeatureValue from '../feature/featureValue'
+import Category from '../category/category'
 
 export interface IProduct {
   name: string
@@ -137,6 +139,14 @@ ProductSchema.pre('save', async function (next) {
 
   const category = await LeafCategory.findById(this.category)
   if (category === null) throw new Error('category not found')
+
+  for (const featureValueId of this.featureValues) {
+    const featureValue = await FeatureValue.findById(featureValueId)
+    if (featureValue == null) throw new Error('invalid feaure')
+    if (category.features.includes(featureValue.feature) == false)
+      throw new Error('invald feature')
+  }
+
   next()
 })
 

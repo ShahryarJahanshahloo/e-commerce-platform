@@ -48,7 +48,11 @@ router.patch(
     try {
       const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
-      await updateByValidKeys(product, req.body, ['name', 'description'])
+      await updateByValidKeys(product, req.body, [
+        'name',
+        'description',
+        'featureValues',
+      ])
       res.send(product)
     } catch (error) {
       res.status(500).send(error)
