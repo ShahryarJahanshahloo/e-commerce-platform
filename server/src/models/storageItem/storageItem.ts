@@ -52,7 +52,7 @@ const StorageItemSchema = new Schema<
   {}
 )
 
-StorageItemSchema.pre('save', async function (next) {
+StorageItemSchema.pre('validate', async function (next) {
   if (this.isNew) {
     this.sold = 0
   }

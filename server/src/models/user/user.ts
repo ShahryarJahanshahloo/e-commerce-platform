@@ -49,7 +49,7 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
         if (!validator.isEmail(value)) throw new Error('Invalid Email!!')
       },
     },
-    phoneNumber: { type: Number, required: false, maxlength: 15 },
+    phoneNumber: { type: Number, required: false, unique: true, maxlength: 15 },
     password: {
       type: String,
       required: true,
@@ -77,22 +77,15 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
   }
 )
 
-UserSchema.pre('save', async function (next) {
-  if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 8)
-  }
-  next()
-})
-
 UserSchema.method(
   'generateAccessToken',
   async function generateAccessToken(): Promise<string> {
     const token = jwt.sign(
       { _id: this._id.toString() },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '1800s',
-      }
+      process.env.JWT_SECRET
+      // {
+      //   expiresIn: '1800s',
+      // }
     )
     this.tokens = this.tokens.concat({ token })
     await this.save()
@@ -113,6 +106,20 @@ UserSchema.static(
     return user
   }
 )
+
+UserSchema.pre('validate', function (next) {
+  if (this.isNew) {
+    this.tokens = []
+  }
+  next()
+})
+
+UserSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 8)
+  }
+  next()
+})
 
 const User = model<IUser, UserModel>('User', UserSchema)
 export { IUser, IUserMethods, discriminatorKey }

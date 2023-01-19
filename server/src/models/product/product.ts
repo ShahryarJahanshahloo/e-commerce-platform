@@ -128,7 +128,7 @@ ProductSchema.virtual('rate').get(function (this) {
   return total / this.ratings.length
 })
 
-ProductSchema.pre('save', async function (next) {
+ProductSchema.pre('validate', async function (next) {
   if (this.isNew) {
     this.views = 0
     this.isActive = false

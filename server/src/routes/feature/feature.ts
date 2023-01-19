@@ -7,8 +7,11 @@ import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user'
 import Feature, { IFeature } from '../../models/feature/feature'
 import { updateByValidKeys } from '../../utils/common'
+import featureValueRouter from './featureValue'
 
 const router: Router = express.Router()
+
+router.use('/value', featureValueRouter)
 
 router.post(
   '/',

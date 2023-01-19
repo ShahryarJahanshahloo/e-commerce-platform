@@ -35,7 +35,7 @@ MiddleCategorySchema.virtual('children', {
   foreignField: 'parent',
 })
 
-MiddleCategorySchema.pre('save', async function (next) {
+MiddleCategorySchema.pre('validate', async function (next) {
   const parent = await Category.findById(this.parent)
   if (parent === null) throw new Error('parent category not found')
   if (parent.type === categoryTypes.Leaf)

@@ -32,7 +32,7 @@ const CategorySchema = new Schema<ICategory, CategoryModel, ICategoryMethods>(
   { discriminatorKey }
 )
 
-CategorySchema.pre('save', function (next) {
+CategorySchema.pre('validate', function (next) {
   if (this.isNew) this.isActive = false
   next()
 })

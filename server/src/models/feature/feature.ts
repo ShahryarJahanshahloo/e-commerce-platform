@@ -31,7 +31,7 @@ FeatureSchema.virtual('values', {
   foreignField: 'feature',
 })
 
-FeatureSchema.pre('save', async function (next) {
+FeatureSchema.pre('validate', async function (next) {
   const category = await LeafCategory.findById(this.category)
   if (category === null) throw new Error('category not found')
   next()

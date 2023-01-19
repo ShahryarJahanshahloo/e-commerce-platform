@@ -116,7 +116,7 @@ OrderSchema.virtual('total').get(function (this) {
   return total
 })
 
-OrderSchema.pre('save', async function (next) {
+OrderSchema.pre('validate', async function (next) {
   if (this.isNew) {
     this.state = orderStates.Pending
 

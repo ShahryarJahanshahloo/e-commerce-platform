@@ -73,15 +73,27 @@ router.delete(
   }
 )
 
-router.patch(
-  '/:sellerId',
+router.get(
+  '/me',
   auth([userRoles.Seller]),
-  async (
-    req: TypedRequestBodyWithParams<ISeller, { sellerId: string }>,
-    res: Response
-  ) => {
+  async (req: Request, res: Response) => {
     try {
-      const seller = await Seller.findById(req.params.sellerId)
+      const seller = await Seller.findById(req.user.id)
+      if (seller == null) return res.status(400).send()
+      res.send(seller)
+    } catch (error) {
+      console.log(error)
+      res.status(400).send({ message: 'invalid request' })
+    }
+  }
+)
+
+router.patch(
+  '/me',
+  auth([userRoles.Seller]),
+  async (req: TypedRequestBodyWithParams<ISeller, {}>, res: Response) => {
+    try {
+      const seller = await Seller.findById(req.user.id)
       if (seller === null) return res.status(400).send()
       await updateByValidKeys(seller, req.body, [
         'name',

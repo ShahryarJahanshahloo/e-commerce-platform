@@ -26,16 +26,28 @@ router.post(
   }
 )
 
-router.patch(
-  '/:adminId',
+router.get(
+  '/me',
   auth([userRoles.Admin]),
-  async (
-    req: TypedRequestBodyWithParams<IAdmin, { adminId: string }>,
-    res: Response
-  ) => {
+  async (req: Request, res: Response) => {
     try {
-      const admin = await Admin.findById(req.params.adminId)
-      if (admin === null) return res.status(400).send()
+      const admin = await Admin.findById(req.user.id)
+      if (admin == null) return res.status(400).send()
+      res.send(admin)
+    } catch (error) {
+      console.log(error)
+      res.status(400).send({ message: 'invalid request' })
+    }
+  }
+)
+
+router.patch(
+  '/me',
+  auth([userRoles.Admin]),
+  async (req: TypedRequestBodyWithParams<IAdmin, {}>, res: Response) => {
+    try {
+      const admin = await Admin.findById(req.user.id)
+      if (admin === null) return res.status(404).send()
       await updateByValidKeys(admin, req.body, [
         'name',
         'lastName',

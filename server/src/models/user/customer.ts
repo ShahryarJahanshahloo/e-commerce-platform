@@ -83,7 +83,7 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
   { discriminatorKey }
 )
 
-CustomerSchema.pre('save', function (next) {
+CustomerSchema.pre('validate', function (next) {
   if (this.isNew) this.balance = 0
   next()
 })

@@ -33,7 +33,7 @@ const ShipmentSchema = new Schema<IShipment, ShipmentModel, IShipmentMethods>(
   {}
 )
 
-ShipmentSchema.pre('save', async function () {
+ShipmentSchema.pre('validate', async function () {
   if (this.isNew) {
     this.state = shipmentStates.Pending
 

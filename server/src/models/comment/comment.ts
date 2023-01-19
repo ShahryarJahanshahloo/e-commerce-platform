@@ -56,7 +56,7 @@ const CommentSchema = new Schema<IComment, CommentModel, ICommentMethods>(
   {}
 )
 
-CommentSchema.pre('save', async function (next) {
+CommentSchema.pre('validate', async function (next) {
   if (this.isNew) {
     this.votes = []
   }

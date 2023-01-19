@@ -114,7 +114,7 @@ SellerSchema.virtual('rate').get(function (this) {
   return total / this.ratings.length
 })
 
-SellerSchema.pre('save', function (next) {
+SellerSchema.pre('validate', function (next) {
   if (this.isNew) {
     this.balance = 0
     this.ratings = []
