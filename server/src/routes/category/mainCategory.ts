@@ -26,8 +26,18 @@ router.post(
 
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const mainCategories = await MainCategory.find()
+    const mainCategories = await MainCategory.find({ isActive: true })
     res.send(mainCategories)
+  } catch (error) {}
+})
+
+router.get('/:categoryId/children', async (req: Request, res: Response) => {
+  try {
+    const category = await MainCategory.find({
+      isActive: true,
+      _id: req.params.categoryId,
+    }).populate('children')
+    res.send(category)
   } catch (error) {}
 })
 
