@@ -39,7 +39,7 @@ export type FormCartItem = {
   quantity: number
 }
 
-export type FormSignUpCreds = {
+export type FormSignInCreds = {
   email: string
   password: string
 }

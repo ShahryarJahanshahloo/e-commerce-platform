@@ -131,3 +131,8 @@ export type ApiStorageItem = {
   price: number
   sold: number
 } & HasId
+
+export type ApiCartItem = {
+  storageItem: string
+  quantity: number
+}

@@ -9,11 +9,11 @@ import { GetChildren } from '../../api/category/mainCategory.api'
 import LeafCategory from './LeafCategory'
 
 type Props = {
-  key: string
+  id: string
   name: string
 }
 
-const MiddleCategory: React.FC<Props> = ({ key, name }) => {
+const MiddleCategory: React.FC<Props> = ({ id, name }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [children, setChildren] = useState<ApiCategory[]>()
 
@@ -69,7 +69,13 @@ const MiddleCategory: React.FC<Props> = ({ key, name }) => {
         {children
           ? children.map(child => {
               if (child.type == 'Leaf')
-                return <LeafCategory key={child._id} name={child.name} />
+                return (
+                  <LeafCategory
+                    key={child._id}
+                    id={child._id}
+                    name={child.name}
+                  />
+                )
             })
           : null}
       </div>
