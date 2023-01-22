@@ -1,17 +1,16 @@
 import { RequestReturnType } from '../../hooks/useRequest'
 import request from '../axios'
 import { ApiUser } from '../entities'
+import { FormSignUpCreds } from '../forms'
 
-// export const GetMe = (): RequestReturnType<ApiMe> => {
-//   return request.get('api/users/me/')
-// }
+export const Login = (creds: FormSignUpCreds): RequestReturnType<ApiUser> => {
+  return request.post('/user/login', { ...creds })
+}
 
-// export const PutMe = (user: ApiMe): RequestReturnType<> => {
-//   return request.put('', { ...user })
-// }
+export const Logout = (): RequestReturnType<ApiUser> => {
+  return request.post('/user/logout')
+}
 
-// export const PostSignUp = (
-//   user: ApiUserSignUpCredentials
-// ): RequestReturnType<ApiUser> => {
-//   return request.post('api/users/create', { ...user })
-// }
+export const LogoutAll = (): RequestReturnType<ApiUser> => {
+  return request.post('/user/logout/all')
+}

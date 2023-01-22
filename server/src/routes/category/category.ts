@@ -36,6 +36,7 @@ router.patch(
       if (category === null) return res.status(400).send()
       await toggleActivity(category, true)
       await session.commitTransaction()
+      res.send()
     } catch (error) {
       await session.abortTransaction()
       res.status(400).send(error)
@@ -55,6 +56,7 @@ router.patch(
       if (category === null) return res.status(400).send()
       await toggleActivity(category, false)
       await session.commitTransaction()
+      res.send()
     } catch (error) {
       await session.abortTransaction()
       res.status(400).send(error)

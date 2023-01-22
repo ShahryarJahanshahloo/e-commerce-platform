@@ -23,6 +23,20 @@ router.post('/', async (req: TypedRequestBody<ICustomer>, res: Response) => {
   }
 })
 
+router.get(
+  '/me',
+  auth([userRoles.Customer]),
+  async (req: Request, res: Response) => {
+    try {
+      const customer = await Customer.findById(req.user.id)
+      if (customer == null) return res.status(400).send()
+      res.send(customer)
+    } catch (error) {
+      res.status(500).send()
+    }
+  }
+)
+
 router.put(
   '/cart',
   auth([userRoles.Customer]),
@@ -56,19 +70,14 @@ router.put(
 )
 
 router.delete(
-  '/cart',
+  '/cart/:storageItemId',
   auth([userRoles.Customer]),
-  async (
-    req: TypedRequestBody<{
-      storageItem: Schema.Types.ObjectId
-    }>,
-    res: Response
-  ) => {
+  async (req: Request, res: Response) => {
     try {
       const customer = await Customer.findById(req.user.id)
       if (customer === null) return res.status(400).send()
       customer.cart.filter(cartItem => {
-        return cartItem.storageItem !== req.body.storageItem
+        return cartItem.storageItem.toString() !== req.params.storageItemId
       })
       await customer.save()
       res.send(customer.cart)
@@ -79,7 +88,7 @@ router.delete(
 )
 
 router.patch(
-  '/:customerId',
+  '/me',
   auth([userRoles.Customer]),
   async (
     req: TypedRequestBodyWithParams<ICustomer, { customerId: string }>,

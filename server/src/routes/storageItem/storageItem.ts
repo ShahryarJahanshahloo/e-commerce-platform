@@ -43,7 +43,7 @@ router.patch(
   }
 )
 
-router.post(
+router.get(
   '/seller/:sellerId/report',
   auth([userRoles.Seller]),
   async (req: Request, res: Response) => {
