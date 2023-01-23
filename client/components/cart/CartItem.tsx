@@ -2,6 +2,7 @@ import s from './Cart.module.css'
 import { TbTrash as TrashIcon } from 'react-icons/tb'
 import { BsPlus as PlusIcon } from 'react-icons/bs'
 import { BiMinus as MinusIcon } from 'react-icons/bi'
+import Image from 'next/image'
 
 type Props = {
   storageItem: string
@@ -12,7 +13,16 @@ const CartItem: React.FC<Props> = ({ storageItem, quantity }) => {
   return (
     <div className={s['cart-item']}>
       <div className={s.right}>
-        <div className={s.picture}>a{/* <img src=""></img> */}</div>
+        <div className={s.picture}>
+          <Image
+            src='/images/coffee.jpg'
+            alt='coffee'
+            style={{ width: '100%', height: 'auto' }}
+            width={0}
+            height={0}
+            sizes='100vw'
+          />
+        </div>
       </div>
       <div className={s.left}>
         <div className={s.top}>

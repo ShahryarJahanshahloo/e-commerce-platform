@@ -142,3 +142,11 @@ export type ApiCartItem = {
   storageItem: string
   quantity: number
 }
+
+export type ApiSellerListItem = {
+  storageItem: string
+  quantity: number
+  price: number
+  sellerName: string
+  sellerRate: number
+}
