@@ -5,6 +5,7 @@
   top: 0;
   z-index: 5;
   background-color: #fff;
+  border-bottom: 1px solid #e4e4e4;
 }
 
 .inner {
@@ -25,8 +26,17 @@
 .right-side {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  height: 100%;
   flex-grow: 0;
   padding-left: 20px;
+}
+
+.right-side > a {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .logo {
@@ -39,13 +49,36 @@
   display: flex;
   flex-direction: row;
   flex-grow: 1;
+  height: 100%;
 }
 
 .search-wrapper {
   margin-left: 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.search-wrapper > a {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .mini-cart {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.mini-cart > a {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .user-auth {

@@ -76,6 +76,12 @@ export type ApiProduct = {
   sold: number
 } & HasId
 
+export type ApiProductCart = {
+  name: string
+  price: number
+  rate: number
+} & HasId
+
 export type ApiComment = {
   product: string
   customer: string
