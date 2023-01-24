@@ -11,6 +11,7 @@ import Product, {
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user'
 import { updateByValidKeys } from '../../utils/common'
+// const { upload, uploadErrorHandler } = require('../middleware/upload')
 
 const router: Router = express.Router()
 
@@ -27,6 +28,35 @@ router.post(
     }
   }
 )
+
+// router.post(
+//   '/:productId/image',
+//   auth([userRoles.Admin]),
+//   upload.single('avatar'),
+//   async (req: Request, res: Response) => {
+//     try {
+//       const product = await Product.findById(req.params.productId)
+//       if (product == null) return res.status(400).send()
+//       product.image = req.file.buffer
+//       await product.save()
+//       res.status(200).send()
+//     } catch (e) {
+//       res.status(500).send()
+//     }
+//   },
+//   uploadErrorHandler
+// )
+
+// router.get('/:productId/image', async (req: Request, res: Response) => {
+//   try {
+//     const product = await Product.findById(req.params.productId)
+//     if (!product || !product.image) return res.status(400).send()
+//     res.set('Content-Type', 'image/jpg')
+//     res.send(product.image)
+//   } catch (e) {
+//     res.status(500).send()
+//   }
+// })
 
 router.get('/:productId', async (req: Request, res: Response) => {
   try {

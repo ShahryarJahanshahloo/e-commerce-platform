@@ -6,6 +6,7 @@ declare global {
     export interface Request {
       user: HydratedDocument<IUser>
       token?: string
+      file?: any
     }
   }
 }

@@ -6,6 +6,7 @@ import Category from '../category/category'
 export interface IProduct {
   name: string
   description?: string
+  // image: Buffer
   category: Schema.Types.ObjectId
   isApproved: boolean
   isActive: boolean
@@ -15,7 +16,6 @@ export interface IProduct {
     customer: Schema.Types.ObjectId
     value: number
   }[]
-  sold: number
 }
 interface IProductMethods {}
 interface ProductModel extends Model<IProduct, {}, IProductMethods> {
@@ -39,6 +39,10 @@ const ProductSchema = new Schema<IProduct, ProductModel, IProductMethods>(
       trim: true,
       maxlength: 511,
     },
+    // image: {
+    //   type: Buffer,
+    //   required: false,
+    // },
     category: {
       type: Schema.Types.ObjectId,
       required: true,
@@ -82,10 +86,6 @@ const ProductSchema = new Schema<IProduct, ProductModel, IProductMethods>(
           },
         },
       ],
-      required: true,
-    },
-    sold: {
-      type: Number,
       required: true,
     },
   },
@@ -134,7 +134,6 @@ ProductSchema.pre('validate', async function (next) {
     this.isActive = false
     this.isApproved = false
     this.ratings = []
-    this.sold = 0
   }
 
   const category = await LeafCategory.findById(this.category)
