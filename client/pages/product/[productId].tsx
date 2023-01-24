@@ -7,6 +7,11 @@ import { HiStar as StarIcon } from 'react-icons/hi'
 import { IoClose as CloseButton } from 'react-icons/io5'
 import { ApiSellerListItem } from '../../api/entities'
 import SellerItem from '../../components/Seller/SellerItem'
+import { AiOutlineDislike as DislikeIcon } from 'react-icons/ai'
+import { AiOutlineLike as LikeIcon } from 'react-icons/ai'
+import { GoCommentDiscussion as CommentsIcon } from 'react-icons/go'
+import { MdOutlineFeaturedPlayList as FeaturesIcon } from 'react-icons/md'
+import { MdOutlineDescription as DescriptionIcon } from 'react-icons/md'
 
 const Product: FC = () => {
   const [info, setInfo] = useState<{
@@ -22,6 +27,92 @@ const Product: FC = () => {
   const [price, setPrice] = useState(120000)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [sellers, setSellers] = useState<ApiSellerListItem[]>()
+  const [features, setFeatures] = useState<
+    {
+      key: string
+      value: string
+    }[]
+  >()
+  const [comments, setComments] = useState<
+    {
+      _id: string
+      customerName: string
+      customerRate: number
+      text: string
+      date: string
+      votes: number
+    }[]
+  >([
+    {
+      _id: '123asf',
+      customerName: 'ممد',
+      customerRate: 4.2,
+      text: 'شنسیتمش تشمهستیخشهت سخهشتسخیهتش شنسیتمش تشمهستیخشهت سخهشتسخیهتش مشنسیتمش تشمهستیخشهت سخهشتسخیهتشخهسیتختخشهستیخه شتسخیهتشخهستیخ',
+      date: '',
+      votes: 14,
+    },
+    {
+      _id: '123asf123',
+      customerName: 'ممد',
+      customerRate: 4.6,
+      text: 'مشنسیتمش تشمهستیخشهت سخهشتسخیهتشخهسیت شنسیتمش تشمهستیخشهت سخهشتسخیهتش شنسیتمش تشمهستیخشهت سخهشتسخیهتش ختخشهستیخه شتسخیهتشخهستیخ',
+      date: '',
+      votes: 14,
+    },
+  ])
+
+  useEffect(() => {
+    const fetch = async () => {
+      //get features from api
+      setFeatures([
+        {
+          key: '۱ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۲ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۳ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۴ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۵ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۶ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۷ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۸ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۹ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۱۰ویژگی',
+          value: 'مقدار',
+        },
+        {
+          key: '۱۱ویژگی',
+          value: 'مقدار',
+        },
+      ])
+    }
+    fetch()
+  }, [])
 
   const openModalHandler = () => {
     //get list of sellers
@@ -131,9 +222,55 @@ const Product: FC = () => {
         </div>
         <div className={s.features}>
           <div className={s.title}>مشخصات</div>
+          <div className={s['features-list']}>
+            {features
+              ? features.map(feature => {
+                  return (
+                    <div className={s.feature} key={feature.key}>
+                      <div className={s['feature-key']}>{feature.key}</div>
+                      <div className={s['feature-value']}>{feature.value}</div>
+                    </div>
+                  )
+                })
+              : null}
+          </div>
         </div>
         <div className={s.comments}>
           <div className={s.title}>دیدگاه ها</div>
+          <div className={s['comments-list']}>
+            {comments
+              ? comments.map(comment => {
+                  return (
+                    <div className={s.comment} key={comment._id}>
+                      <div className={s['comment-top']}>
+                        <div className={s['comment-customer']}>
+                          {comment.customerName}
+                        </div>
+                        <div className={s['comment-rate']}>
+                          {comment.customerRate}
+                        </div>
+                      </div>
+                      <div className={s['comment-main']}>{comment.text}</div>
+                      <div className={s['comment-bottom']}>
+                        <div className={s['comment-date']}></div>
+                        <div className={s['comment-label']}>
+                          آیا این دیدگاه مفید بود؟
+                        </div>
+                        <div className={s['comment-vote-box']}>
+                          <div className={s['vote-icon']}>
+                            <LikeIcon style={{ fontSize: '14px' }} />
+                          </div>
+                          <div className={s['vote']}>{comment.votes}</div>
+                          <div className={s['vote-icon']}>
+                            <DislikeIcon style={{ fontSize: '14px' }} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })
+              : null}
+          </div>
         </div>
       </div>
     </Layout>
