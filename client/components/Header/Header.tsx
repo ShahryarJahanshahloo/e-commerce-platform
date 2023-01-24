@@ -42,30 +42,38 @@ const Header: React.FC = props => {
     router.push('/')
   }
 
+  const removeFromCart = (storageItemId: string) => {
+    //api
+    setCart(prevState => {
+      const newState = prevState?.filter(cartItem => {
+        return cartItem.storageItem !== storageItemId
+      })
+      return newState
+    })
+  }
+
   const finalizeOrderHandler = () => {}
 
   const openCartModalHandler = async () => {
     // const { data } = await GetCart()
     const data = [
       {
-        storageItem: 'asduih1u23',
+        storageItem: '1asduih1u23',
         quantity: 1,
+        name: 'پیاز',
+        price: 10000,
       },
       {
-        storageItem: 'asduih1u23123',
+        storageItem: '2asduih1u23123',
         quantity: 3,
+        name: 'پیاز',
+        price: 10000,
       },
       {
-        storageItem: 'asduih1u665723',
+        storageItem: '3asduih1u665723',
         quantity: 4,
-      },
-      {
-        storageItem: 'asduih1u665723',
-        quantity: 4,
-      },
-      {
-        storageItem: 'asduih1u665723',
-        quantity: 4,
+        name: 'پیاز',
+        price: 10000,
       },
     ]
     setCart(data)
@@ -140,8 +148,10 @@ const Header: React.FC = props => {
                     return (
                       <CartItem
                         key={cartItem.storageItem}
-                        storageItem={cartItem.storageItem}
-                        quantity={cartItem.quantity}
+                        initialQuantity={cartItem.quantity}
+                        price={cartItem.price}
+                        name={cartItem.name}
+                        remove={() => removeFromCart(cartItem.storageItem)}
                       />
                     )
                   })

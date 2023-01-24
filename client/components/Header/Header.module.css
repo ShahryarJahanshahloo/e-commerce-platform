@@ -236,7 +236,8 @@
   height: 45px;
   text-align: center;
   line-height: 45px;
-  background-color: #e4e4e4;
-  color: black;
+  background-color: #3ecf8e;
+  font-weight: 900;
+  color: white;
   border-radius: 5px;
 }

@@ -141,6 +141,8 @@ export type ApiStorageItem = {
 export type ApiCartItem = {
   storageItem: string
   quantity: number
+  price: number
+  name: string
 }
 
 export type ApiSellerListItem = {
