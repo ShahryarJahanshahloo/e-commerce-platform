@@ -56,7 +56,7 @@ const Category: FC = () => {
   }, [])
 
   return (
-    <Layout>
+    <>
       <div className={s.flex}>
         <div className={s.options}>
           <div className={s['option-wrapper']}>
@@ -88,7 +88,7 @@ const Category: FC = () => {
             : null}
         </div>
       </div>
-    </Layout>
+    </>
   )
 }
 
