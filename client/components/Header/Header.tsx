@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Cart from '../Cart/Cart'
 import Menu from '../Menu/Menu'
 import useMenu from '../../hooks/useMenu'
+import Search from '../Search/Search'
 
 import s from './Header.module.css'
 import { AiOutlineMenu as MenuIcon } from 'react-icons/ai'
@@ -19,6 +20,7 @@ const Header: React.FC = props => {
   const router = useRouter()
   const [isMenuOpen, openMenuHandler, closeMenuHandler] = useMenu()
   const [isCartOpen, openCartHandler, closeCartHandler] = useMenu()
+  const [isSearchOpen, openSearchHandler, closeSearchHandler] = useMenu()
 
   const redirectToHome = () => {
     router.push('/')
@@ -35,11 +37,12 @@ const Header: React.FC = props => {
               </a>
             </div>
             <Cart isOpen={isCartOpen} closeHandler={closeCartHandler} />
-            <div className={s['search-wrapper']}>
+            <div className={s['search-wrapper']} onClick={openSearchHandler}>
               <a>
                 <SearchIcon style={iconStyle} />
               </a>
             </div>
+            <Search isOpen={isSearchOpen} closeHandler={closeSearchHandler} />
             <div className={s['user-auth']}></div>
           </div>
           <div className={s.logo} onClick={redirectToHome}>
