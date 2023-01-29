@@ -1,5 +1,6 @@
 .wrapper-open {
   position: fixed;
+  visibility: visible;
   opacity: 1;
   top: 0;
   left: 0;
@@ -12,6 +13,7 @@
 
 .wrapper-closed {
   position: fixed;
+  visibility: hidden;
   opacity: 0;
   top: 0;
   left: 0;
@@ -39,6 +41,7 @@
 }
 
 .dropdown {
+  position: relative;
   width: 100%;
   height: 300px;
   flex-shrink: 0;
