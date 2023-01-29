@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import Cart from '../Cart/Cart'
 import Menu from '../Menu/Menu'
+import useMenu from '../../hooks/useMenu'
 
 import s from './Header.module.css'
 import { AiOutlineMenu as MenuIcon } from 'react-icons/ai'
@@ -16,43 +17,24 @@ const iconStyle = {
 
 const Header: React.FC = props => {
   const router = useRouter()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isCartModalOpen, setIsCartModalOpen] = useState(false)
-
-  const openMenuHandler = () => {
-    setIsMenuOpen(true)
-  }
-
-  const closeMenuHandler = useCallback(() => {
-    setIsMenuOpen(false)
-  }, [])
+  const [isMenuOpen, openMenuHandler, closeMenuHandler] = useMenu()
+  const [isCartOpen, openCartHandler, closeCartHandler] = useMenu()
 
   const redirectToHome = () => {
     router.push('/')
   }
-
-  const openCartModalHandler = async () => {
-    setIsCartModalOpen(true)
-  }
-
-  const closeCartModalHandler = useCallback(() => {
-    setIsCartModalOpen(false)
-  }, [])
 
   return (
     <div className={s.header}>
       <div className={s.inner}>
         <div className={s['inner-flex']}>
           <div className={s['left-side']}>
-            <div className={s['mini-cart']} onClick={openCartModalHandler}>
+            <div className={s['mini-cart']} onClick={openCartHandler}>
               <a>
                 <CartIcon style={iconStyle} />
               </a>
             </div>
-            <Cart
-              isOpen={isCartModalOpen}
-              closeHandler={closeCartModalHandler}
-            />
+            <Cart isOpen={isCartOpen} closeHandler={closeCartHandler} />
             <div className={s['search-wrapper']}>
               <a>
                 <SearchIcon style={iconStyle} />

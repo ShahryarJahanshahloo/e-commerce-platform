@@ -1,19 +1,23 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { FC } from 'react'
-import Layout from '../../components/Layout/Layout'
-import { BiSortDown as SortIcon } from 'react-icons/bi'
-import { GoSettings as FilterIcon } from 'react-icons/go'
-import s from '../../styles/category.module.css'
+// import { useRouter } from 'next/router'
+
 import { ApiProduct, ApiProductCart } from '../../api/entities'
-import Router, { useRouter } from 'next/router'
 import { GetProductsByCategory } from '../../api/product/product.api'
 import Product from '../../components/Product/Product'
+import Sort from '../../components/Sort/Sort'
+import Filter from '../../components/Filter/Filter'
+import useMenu from '../../hooks/useMenu'
 
-const Category: FC = () => {
-  const router = useRouter()
-  const { categoryId } = router.query
+import s from '../../styles/category.module.css'
+import { BiSortDown as SortIcon } from 'react-icons/bi'
+import { GoSettings as FilterIcon } from 'react-icons/go'
+
+const CategoryPage = () => {
+  // const router = useRouter()
+  // const { id } = router.query
   const [products, setProducts] = useState<ApiProductCart[]>()
+  const [isSortOpen, openSortHandler, closeSortHandler] = useMenu()
+  const [isFilterOpen, openFilterHandler, closeFilterHandler] = useMenu()
 
   useEffect(() => {
     const fetch = async () => {
@@ -60,16 +64,22 @@ const Category: FC = () => {
       <div className={s.flex}>
         <div className={s.options}>
           <div className={s['option-wrapper']}>
-            <div className={s['option-icon']}>
-              <FilterIcon style={{ fontSize: '24px' }} />
+            <div className={s.clickable} onClick={openFilterHandler}>
+              <div className={s['option-icon']}>
+                <FilterIcon style={{ fontSize: '24px' }} />
+              </div>
+              <div className={s['option-label']}>فیلتر</div>
             </div>
-            <div className={s['option-label']}>فیلتر</div>
+            <Filter isOpen={isFilterOpen} closeHandler={closeFilterHandler} />
           </div>
           <div className={s['option-wrapper']}>
-            <div className={s['option-icon']}>
-              <SortIcon style={{ fontSize: '24px' }} />
+            <div className={s.clickable} onClick={openSortHandler}>
+              <div className={s['option-icon']}>
+                <SortIcon style={{ fontSize: '24px' }} />
+              </div>
+              <div className={s['option-label']}>مرتب سازی</div>
             </div>
-            <div className={s['option-label']}>مرتب سازی</div>
+            <Sort isOpen={isSortOpen} closeHandler={closeSortHandler} />
           </div>
         </div>
         <div className={s.list}>
@@ -92,4 +102,4 @@ const Category: FC = () => {
   )
 }
 
-export default Category
+export default CategoryPage

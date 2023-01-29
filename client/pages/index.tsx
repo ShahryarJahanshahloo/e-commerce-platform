@@ -1,21 +1,6 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { FC } from 'react'
-
-const Home: FC = () => {
+const HomePage = () => {
   return (
     <>
-      <div>asdasd</div>
-      <div>asdasd</div>
-      <div>asdasd</div>
-      <div>asdasd</div>
-      <div>asdasd</div>
-      <div>asdasd</div>
-      <div>asdasd</div>
-      <div>asdasd</div>
-      <div>asdasd</div>
-      <div>asdasd</div>
-      <div>asdasd</div>
       <div>asdasd</div>
       <div>asdasd</div>
       <div>asdasd</div>
@@ -27,4 +12,4 @@ const Home: FC = () => {
   )
 }
 
-export default Home
+export default HomePage

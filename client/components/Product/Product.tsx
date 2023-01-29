@@ -1,7 +1,8 @@
-import s from './Product.module.css'
-import { HiStar as StarIcon } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+
+import s from './Product.module.css'
+import { HiStar as StarIcon } from 'react-icons/hi'
 
 type Props = {
   id: string
