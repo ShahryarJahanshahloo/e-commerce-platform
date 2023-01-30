@@ -1,6 +1,6 @@
 import { RequestReturnType } from '../../hooks/useRequest'
 import request from '../axios'
-import { ApiProduct } from '../entities'
+import { ApiShipment } from './entities'
 
 // export const GetMe = (): RequestReturnType<ApiMe> => {
 //   return request.get('api/users/me/')

@@ -1,6 +1,6 @@
 import { RequestReturnType } from '../../hooks/useRequest'
 import request from '../axios'
-import { ApiProduct } from '../entities'
+import { ApiProduct } from '../entities.common'
 import { FormProduct } from '../forms'
 
 export const CreateProduct = (

@@ -1,7 +1,7 @@
 import { RequestReturnType } from '../../hooks/useRequest'
 import request from '../axios'
-import { ApiStorageItem } from '../entities'
 import { FormStorageItem } from '../forms'
+import { ApiStorageItem } from './entities'
 
 export const CreateStorageItem = (
   storageItem: FormStorageItem

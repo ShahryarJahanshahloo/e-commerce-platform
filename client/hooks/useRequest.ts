@@ -42,12 +42,12 @@ export const useRequest = <T = unknown>(
     if (!callOnMount) return
     call()
   }, [])
-  //todo: convert it to array so it would useable as many time as needed in one component
+
   return {
     isLoading,
     response: response?.data,
     responseFull: response,
     error,
-    call: call,
+    call,
   }
 }

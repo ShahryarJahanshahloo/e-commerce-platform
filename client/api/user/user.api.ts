@@ -1,9 +1,16 @@
 import { RequestReturnType } from '../../hooks/useRequest'
 import request from '../axios'
-import { ApiUser } from '../entities'
-import { FormSignUpCreds } from '../forms'
+import {
+  FormAdmin,
+  FormCartItem,
+  FormCustomer,
+  FormSeller,
+  FormSellerVote,
+  FormSignInCreds,
+} from '../forms'
+import { ApiAdmin, ApiCustomer, ApiSeller, ApiUser } from './entities'
 
-export const Login = (creds: FormSignUpCreds): RequestReturnType<ApiUser> => {
+export const Login = (creds: FormSignInCreds): RequestReturnType<ApiUser> => {
   return request.post('/user/login', { ...creds })
 }
 
@@ -13,4 +20,98 @@ export const Logout = (): RequestReturnType<ApiUser> => {
 
 export const LogoutAll = (): RequestReturnType<ApiUser> => {
   return request.post('/user/logout/all')
+}
+
+export const CreateAdmin = (admin: FormAdmin): RequestReturnType<ApiAdmin> => {
+  return request.post('/user/admin', { ...admin })
+}
+
+export const GetMeAdmin = (): RequestReturnType<ApiAdmin> => {
+  return request.get('/user/admin/me')
+}
+
+export const UpdateMeAdmin = (
+  adminId: string,
+  updates: {
+    name: string
+    lastName: string
+    phoneNumber: number
+  }
+): RequestReturnType<ApiAdmin> => {
+  return request.patch('/user/admin/' + adminId, { ...updates })
+}
+
+export const CreateCustomer = (
+  customer: FormCustomer
+): RequestReturnType<ApiCustomer> => {
+  return request.post('/user/customer', { ...customer })
+}
+
+export const GetMeCustomer = (): RequestReturnType<ApiCustomer> => {
+  return request.get('/user/customer/me')
+}
+
+export const AddToCart = (cartItem: FormCartItem): RequestReturnType<{}> => {
+  return request.put('/user/customer/cart', { ...cartItem })
+}
+
+export const RemoveFromCart = (
+  storageItemId: string
+): RequestReturnType<{}> => {
+  return request.delete('/user/customer/cart/' + storageItemId)
+}
+
+export const UpdateMeCustomer = (updates: {
+  name: string
+  lastName: string
+  phoneNumber: number
+  address: {
+    description: string
+    coordinates?: {
+      lat: number
+      lon: number
+    }
+    zipCode: number
+  }
+}): RequestReturnType<ApiCustomer> => {
+  return request.patch('/user/customer/me', { ...updates })
+}
+
+export const CreateSeller = (
+  seller: FormSeller
+): RequestReturnType<ApiSeller> => {
+  return request.post('/user/seller', { ...seller })
+}
+
+export const RateSeller = (
+  sellerId: string,
+  rate: FormSellerVote
+): RequestReturnType<{}> => {
+  return request.put('/user/seller/' + sellerId + '/rate', { ...rate })
+}
+
+export const UnrateSeller = (sellerId: string): RequestReturnType<{}> => {
+  return request.delete('/user/seller/' + sellerId + '/rate')
+}
+
+export const GetMeSeller = (): RequestReturnType<ApiSeller> => {
+  return request.get('/user/seller/me')
+}
+
+export const UpdateMeSeller = (updates: {
+  name: string
+  lastName: string
+  phoneNumber: number
+  shopSlug: string
+  description: string
+  address: {
+    description: string
+    coordinates?: {
+      lat: number
+      lon: number
+    }
+    zipCode: number
+  }
+}): RequestReturnType<ApiSeller> => {
+  return request.patch('/user/seller/me')
 }

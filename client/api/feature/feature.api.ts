@@ -1,7 +1,7 @@
 import { RequestReturnType } from '../../hooks/useRequest'
 import request from '../axios'
-import { ApiFeature, ApiProduct } from '../entities'
-import { FormFeature } from '../forms'
+import { FormFeature, FormFeatureValue } from '../forms'
+import { ApiFeature, ApiFeatureValue } from './entities'
 
 export const CreateFeature = (
   feature: FormFeature
@@ -22,4 +22,25 @@ export const UpdateFeature = (
   }
 ): RequestReturnType<ApiFeature> => {
   return request.patch('/feature/' + featureId, { ...updates })
+}
+
+export const CreateFeatureValue = (
+  featureValue: FormFeatureValue
+): RequestReturnType<ApiFeatureValue> => {
+  return request.post('/feature/value/', { ...featureValue })
+}
+
+export const GetFeatureValue = (
+  featureValueId: string
+): RequestReturnType<ApiFeatureValue> => {
+  return request.get('/feature/value' + featureValueId)
+}
+
+export const UpdateFeatureValue = (
+  featureValueId: string,
+  updates: {
+    value: number
+  }
+): RequestReturnType<ApiFeatureValue> => {
+  return request.patch('/feature/value/' + featureValueId, { ...updates })
 }

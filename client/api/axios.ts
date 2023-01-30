@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 const baseURL = 'http://localhost:3001/'
 
@@ -17,6 +17,7 @@ request.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
 request.interceptors.request.use(
   config => {
     if (typeof window !== 'undefined') {

@@ -1,7 +1,7 @@
 import { RequestReturnType } from '../../hooks/useRequest'
 import request from '../axios'
-import { ApiOrder, ApiProduct } from '../entities'
 import { FormOrder } from '../forms'
+import { ApiOrder } from './entities'
 
 export const CreateOrder = (order: FormOrder): RequestReturnType<ApiOrder> => {
   return request.post('/order', { ...order })

@@ -4,8 +4,7 @@ import {
   IoIosArrowUp as UpArrowIcon,
   IoIosArrowDown as DownArrowIcon,
 } from 'react-icons/io'
-import { ApiCategory } from '../../api/entities'
-import { GetChildren } from '../../api/category/mainCategory.api'
+import { ApiCategory } from '../../api/category/entities'
 import LeafCategory from './LeafCategory'
 
 type Props = {

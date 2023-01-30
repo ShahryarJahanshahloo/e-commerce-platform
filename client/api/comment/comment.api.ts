@@ -1,7 +1,7 @@
 import { RequestReturnType } from '../../hooks/useRequest'
 import request from '../axios'
-import { ApiComment, ApiProduct } from '../entities'
 import { FormComment } from '../forms'
+import { ApiComment } from './entities'
 
 export const CreateComment = (
   comment: FormComment

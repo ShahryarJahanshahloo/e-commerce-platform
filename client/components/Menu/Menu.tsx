@@ -3,8 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import MainCategory from '../Category/MainCategory'
-import { GetMainCategories } from '../../api/category/mainCategory.api'
-import { ApiCategory } from '../../api/entities'
+import { ApiCategory } from '../../api/category/entities'
 
 import s from './Menu.module.css'
 import { IoClose as CloseButton } from 'react-icons/io5'
