@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-import MainCategory from '../Category/MainCategory'
+import Category from '../Category/Category'
 import { ApiCategory } from '../../api/category/entities'
 
 import s from './Menu.module.css'
@@ -79,10 +79,12 @@ const Menu: React.FC<Props> = ({ isOpen, closeHandler }) => {
           {mainCategories
             ? mainCategories.map(mainCategory => {
                 return (
-                  <MainCategory
+                  <Category
                     key={mainCategory._id}
                     id={mainCategory._id}
                     name={mainCategory.name}
+                    hasChildren
+                    isChild={false}
                   />
                 )
               })

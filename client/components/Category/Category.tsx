@@ -1,27 +1,27 @@
-import { useState } from 'react'
+import { useMemo } from 'react'
 import s from './Category.module.css'
 import {
   IoIosArrowUp as UpArrowIcon,
   IoIosArrowDown as DownArrowIcon,
 } from 'react-icons/io'
 import { ApiCategory } from '../../api/category/entities'
-import MiddleCategory from './MiddleCategory'
-import LeafCategory from './LeafCategory'
+import useMenu from '../../hooks/useMenu'
+import Link from 'next/link'
 
 type Props = {
   id: string
   name: string
+  isChild: boolean
 }
 
-const MainCategory: React.FC<Props> = ({ id, name }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [children, setChildren] = useState<ApiCategory[]>()
-
-  const openHandler = async () => {
+const Category: React.FC<Props> = ({ id, name, isChild }) => {
+  const [isOpen, openHandler, closeHandler] = useMenu()
+  const children = useMemo(() => {
+    if (isOpen === false) return null
     // const { data } = await GetChildren(key)
     const data = [
       {
-        type: 'Middle',
+        type: 'Leaf',
         name: 'دسته بندی 10',
         isActive: true,
         _id: 'aasdasd1231',
@@ -45,16 +45,11 @@ const MainCategory: React.FC<Props> = ({ id, name }) => {
         _id: 'aasdasd1234',
       },
     ]
-    setChildren(data)
-    setIsOpen(true)
-  }
-
-  const closeHandler = () => {
-    setIsOpen(false)
-  }
+    return data
+  }, [isOpen])
 
   return (
-    <div className={s['main-category']}>
+    <div className={isChild ? s['category-child'] : s['category-nonchild']}>
       <div className={s.upper}>
         <div className={s.name}>{name}</div>
         <div className={s.button}>
@@ -68,21 +63,24 @@ const MainCategory: React.FC<Props> = ({ id, name }) => {
       <div className={isOpen ? s['children-open'] : s['children-closed']}>
         {children
           ? children.map(child => {
-              if (child.type == 'Middle')
+              if (child.type === 'Middle')
                 return (
-                  <MiddleCategory
+                  <Category
                     key={child._id}
                     id={child._id}
                     name={child.name}
+                    isChild
                   />
                 )
-              if (child.type == 'Leaf')
+              if (child.type === 'Leaf')
                 return (
-                  <LeafCategory
+                  <Link
+                    href={`/category/${child._id}`}
                     key={child._id}
-                    id={child._id}
-                    name={child.name}
-                  />
+                    className={s.leaf}
+                  >
+                    <div className={s.name}>{child.name}</div>
+                  </Link>
                 )
             })
           : null}
@@ -91,4 +89,4 @@ const MainCategory: React.FC<Props> = ({ id, name }) => {
   )
 }
 
-export default MainCategory
+export default Category

@@ -1,12 +1,5 @@
-.main-category {
-}
-
-.leaf-category {
-  padding-right: 20px;
-}
-
-.middle-category {
-  padding-right: 10px;
+.category-child {
+  padding-right: 30px;
 }
 
 .children-closed {
@@ -39,4 +32,14 @@
 
 .button {
   width: 30px;
+}
+
+.leaf {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 55px;
+  direction: rtl;
+  align-items: center;
+  padding-right: 30px;
 }
