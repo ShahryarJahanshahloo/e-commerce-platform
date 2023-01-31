@@ -1,8 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, Action } from '@reduxjs/toolkit'
+import { ThunkAction } from 'redux-thunk'
+
 import CartSlice from './slices/CartSlice'
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     cart: CartSlice,
   },
 })
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+
+export default store

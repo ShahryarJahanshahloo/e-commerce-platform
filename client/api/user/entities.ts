@@ -46,4 +46,7 @@ export type ApiAdmin = {} & ApiUser
 export type ApiCartItem = {
   storageItem: string
   quantity: number
+  price: number
+  productId: string
+  productName: string
 }

@@ -8,7 +8,13 @@ import {
   FormSellerVote,
   FormSignInCreds,
 } from '../forms'
-import { ApiAdmin, ApiCustomer, ApiSeller, ApiUser } from './entities'
+import {
+  ApiAdmin,
+  ApiCartItem,
+  ApiCustomer,
+  ApiSeller,
+  ApiUser,
+} from './entities'
 
 export const Login = (creds: FormSignInCreds): RequestReturnType<ApiUser> => {
   return request.post('/user/login', { ...creds })
@@ -51,14 +57,36 @@ export const GetMeCustomer = (): RequestReturnType<ApiCustomer> => {
   return request.get('/user/customer/me')
 }
 
+// export const GetCart = (): RequestReturnType<ApiCartItem[]> => {
+//  return request.get('/user/customer/me/cart')
+// }
+export const GetCart = (): ApiCartItem[] => {
+  return [
+    {
+      storageItem: 'mamad1',
+      price: 123,
+      productId: 'product1',
+      productName: 'product1',
+      quantity: 13,
+    },
+    {
+      storageItem: 'mamad2',
+      price: 1241,
+      productId: 'product2',
+      productName: 'product2',
+      quantity: 1,
+    },
+  ]
+}
+
 export const AddToCart = (cartItem: FormCartItem): RequestReturnType<{}> => {
-  return request.put('/user/customer/cart', { ...cartItem })
+  return request.put('/user/customer/me/cart', { ...cartItem })
 }
 
 export const RemoveFromCart = (
   storageItemId: string
 ): RequestReturnType<{}> => {
-  return request.delete('/user/customer/cart/' + storageItemId)
+  return request.delete('/user/customer/me/cart/' + storageItemId)
 }
 
 export const UpdateMeCustomer = (updates: {
