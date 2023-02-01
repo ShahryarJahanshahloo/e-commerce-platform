@@ -1,5 +1,5 @@
 import React from 'react'
-import s from './Sort.module.sass'
+import s from './Sort.module.scss'
 
 type Props = {
   isOpen: boolean

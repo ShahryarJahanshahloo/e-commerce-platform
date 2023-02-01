@@ -8,7 +8,7 @@ import Sort from '../../components/Sort/Sort'
 import Filter from '../../components/Filter/Filter'
 import useMenu from '../../hooks/useMenu'
 
-import s from '../../styles/category.module.sass'
+import s from '../../styles/category.module.scss'
 import { BiSortDown as SortIcon } from 'react-icons/bi'
 import { GoSettings as FilterIcon } from 'react-icons/go'
 

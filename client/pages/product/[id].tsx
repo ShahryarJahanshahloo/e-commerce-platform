@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import { ApiProductPublic } from '../../api/product/entities'
 
-import s from '../../styles/product.module.sass'
+import s from '../../styles/product.module.scss'
 
 const ProductPage = () => {
   // const router = useRouter()

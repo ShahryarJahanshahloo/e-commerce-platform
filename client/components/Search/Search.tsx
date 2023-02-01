@@ -1,4 +1,4 @@
-import s from './Search.module.sass'
+import s from './Search.module.scss'
 import { IoClose as CloseButton } from 'react-icons/io5'
 
 type Props = {

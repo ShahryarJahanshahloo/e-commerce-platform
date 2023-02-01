@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import Category from '../Category/Category'
 import { ApiCategory } from '../../api/category/entities'
 
-import s from './Menu.module.sass'
+import s from './Menu.module.scss'
 import { IoClose as CloseButton } from 'react-icons/io5'
 
 type Props = {

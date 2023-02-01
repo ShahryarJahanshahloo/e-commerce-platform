@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import CartItem from '../CartItem/CartItem'
 import { ApiCartItem } from '../../api/user/entities'
 
-import s from './Cart.module.sass'
+import s from './Cart.module.scss'
 import { IoClose as CloseButton } from 'react-icons/io5'
 
 type Props = {
@@ -51,11 +51,9 @@ const Cart: React.FC<Props> = ({ isOpen, closeHandler }) => {
   return (
     <div className={isOpen ? s['open'] : s['closed']}>
       <div className={s['top']}>
-        <div className={s['close-button-wrapper']}>
-          <span className={s['close-button']} onClick={closeHandler}>
-            <CloseButton style={{ fontSize: '28px' }} />
-          </span>
-        </div>
+        <span className={s['close-button']} onClick={closeHandler}>
+          <CloseButton style={{ fontSize: '28px' }} />
+        </span>
         <span className={s['label']}>سبد خرید</span>
       </div>
       <div className={s['list']}>

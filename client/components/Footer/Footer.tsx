@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import s from './Footer.module.sass'
+import s from './Footer.module.scss'
 import { AiOutlineInstagram as InstagramIcon } from 'react-icons/ai'
 import { AiOutlineTwitter as TwitterIcon } from 'react-icons/ai'
 import { FaTelegram as TelegramICon } from 'react-icons/fa'

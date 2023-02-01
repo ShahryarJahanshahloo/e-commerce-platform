@@ -1,0 +1,48 @@
+.menu-wrapper {
+  background-color: #fff;
+  height: 0;
+}
+
+%menu-shared {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  padding-top: 20px;
+  max-width: 1200px;
+  z-index: 10;
+  overflow-y: auto;
+  transition: right 0.3s;
+  background-color: #fff;
+}
+
+.menu-closed {
+  @extend %menu-shared;
+  right: -100%;
+}
+
+.menu-open {
+  @extend %menu-shared;
+  right: 0;
+}
+
+.close {
+  margin-left: 30px;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 30px 0;
+}
+
+.auth {
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.separator {
+  padding: 0 5px;
+}

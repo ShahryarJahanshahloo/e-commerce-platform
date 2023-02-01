@@ -6,7 +6,7 @@ import Menu from '../Menu/Menu'
 import useMenu from '../../hooks/useMenu'
 import Search from '../Search/Search'
 
-import s from './Header.module.sass'
+import s from './Header.module.scss'
 import { AiOutlineMenu as MenuIcon } from 'react-icons/ai'
 import { FiSearch as SearchIcon } from 'react-icons/fi'
 import { GrCart as CartIcon } from 'react-icons/gr'
