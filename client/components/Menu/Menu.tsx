@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import Category from '../Category/Category'
 import { ApiCategory } from '../../api/category/entities'
 
-import s from './Menu.module.css'
+import s from './Menu.module.sass'
 import { IoClose as CloseButton } from 'react-icons/io5'
 
 type Props = {
@@ -83,7 +83,6 @@ const Menu: React.FC<Props> = ({ isOpen, closeHandler }) => {
                     key={mainCategory._id}
                     id={mainCategory._id}
                     name={mainCategory.name}
-                    hasChildren
                     isChild={false}
                   />
                 )

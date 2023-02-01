@@ -1,4 +1,5 @@
-import s from './Sort.module.css'
+import React from 'react'
+import s from './Sort.module.sass'
 
 type Props = {
   isOpen: boolean
@@ -9,4 +10,4 @@ const Filter: React.FC<Props> = ({ isOpen, closeHandler }) => {
   return <div></div>
 }
 
-export default Filter
+export default React.memo(Filter)

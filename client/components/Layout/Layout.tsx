@@ -1,6 +1,6 @@
 import React from 'react'
 
-import s from './Layout.module.css'
+import s from './Layout.module.sass'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 

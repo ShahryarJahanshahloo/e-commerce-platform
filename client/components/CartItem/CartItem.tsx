@@ -1,4 +1,4 @@
-import s from './CartItem.module.css'
+import s from './CartItem.module.sass'
 import { TbTrash as TrashIcon } from 'react-icons/tb'
 import { BsPlus as PlusIcon } from 'react-icons/bs'
 import { BiMinus as MinusIcon } from 'react-icons/bi'

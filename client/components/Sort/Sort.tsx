@@ -1,4 +1,5 @@
-import s from './Sort.module.css'
+import React from 'react'
+import s from './Sort.module.sass'
 import { IoClose as CloseButton } from 'react-icons/io5'
 
 type Props = {
@@ -25,4 +26,4 @@ const Sort: React.FC<Props> = ({ isOpen, closeHandler }) => {
   )
 }
 
-export default Sort
+export default React.memo(Sort)

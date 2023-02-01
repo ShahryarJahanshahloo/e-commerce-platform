@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import s from './Category.module.css'
+import s from './Category.module.sass'
 import {
   IoIosArrowUp as UpArrowIcon,
   IoIosArrowDown as DownArrowIcon,

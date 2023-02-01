@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import CartItem from '../CartItem/CartItem'
 import { ApiCartItem } from '../../api/user/entities'
 
-import s from './Cart.module.css'
+import s from './Cart.module.sass'
 import { IoClose as CloseButton } from 'react-icons/io5'
 
 type Props = {
@@ -24,22 +24,23 @@ const Cart: React.FC<Props> = ({ isOpen, closeHandler }) => {
       {
         storageItem: '1asduih1u23',
         quantity: 1,
+        price: 123,
+        productId: 'asdqwe123',
+        productName: 'product2',
       },
       {
         storageItem: 'as2duih1u23123',
         quantity: 3,
+        price: 123,
+        productId: 'asdqwe123',
+        productName: 'product2',
       },
       {
         storageItem: 'asdu3ih1u665723',
         quantity: 4,
-      },
-      {
-        storageItem: 'asduih41u665723',
-        quantity: 4,
-      },
-      {
-        storageItem: 'asdu5ih1u665723',
-        quantity: 4,
+        price: 123,
+        productId: 'asdqwe123',
+        productName: 'product2',
       },
     ]
     setItems(data)
