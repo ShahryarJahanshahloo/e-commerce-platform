@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
-import { ApiProductPublic } from '../../api/product/entities'
+import { ApiProductPublic } from '../../services/product/product.entities'
 
 import s from '../../styles/product.module.scss'
 

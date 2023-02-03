@@ -4,7 +4,7 @@ import {
   IoIosArrowUp as UpArrowIcon,
   IoIosArrowDown as DownArrowIcon,
 } from 'react-icons/io'
-import { ApiCategory } from '../../api/category/entities'
+import { ApiCategory } from '../../services/category/category.entities'
 import useMenu from '../../hooks/useMenu'
 import Link from 'next/link'
 

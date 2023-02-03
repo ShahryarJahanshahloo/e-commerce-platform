@@ -1,53 +1,32 @@
-import { AxiosError, AxiosResponse } from 'axios'
+import { AsyncThunk, unwrapResult } from '@reduxjs/toolkit'
 import { useCallback, useEffect, useState } from 'react'
+import { useAppDispatch } from '../utils/store'
 
-type UseRequestType<T> = {
-  isLoading: boolean
-  response: T | undefined
-  responseFull: AxiosResponse<T> | undefined
-  error: AxiosError | undefined
-  call: (...args: any) => void
-}
+export const useRequest = <ThunkInput = void>(
+  thunk: AsyncThunk<any, ThunkInput, any>,
+  requestOnMount: false | (ThunkInput extends void ? true : ThunkInput) = false
+) => {
+  const dispatch = useAppDispatch()
+  const [loading, setLoading] = useState(false)
 
-export type RequestReturnType<T> = Promise<AxiosResponse<T>>
-
-export const useRequest = <T = unknown>(
-  request: (...args: any) => RequestReturnType<T>,
-  callOnMount = false,
-  onSuccess?: (response: T) => void,
-  onError?: (error: AxiosError) => void
-): UseRequestType<T> => {
-  const [isLoading, setLoading] = useState(false)
-  const [response, setResponse] = useState<AxiosResponse>()
-  const [error, setError] = useState<AxiosError>()
-
-  const call = useCallback(
-    async (...args: any) => {
-      try {
-        setLoading(true)
-        const response = await request(...args)
-        setResponse(response)
-        onSuccess?.(response.data)
-      } catch (error) {
-        setResponse(undefined)
-        setError(error as AxiosError)
-        onError?.(error as AxiosError)
-      }
+  const sendRequest = useCallback((args: ThunkInput) => {
+    setLoading(true)
+    return dispatch(thunk(args)).then(res => {
       setLoading(false)
-    },
-    [request]
-  )
-
-  useEffect(() => {
-    if (!callOnMount) return
-    call()
+      return unwrapResult(res)
+    })
   }, [])
 
-  return {
-    isLoading,
-    response: response?.data,
-    responseFull: response,
-    error,
-    call,
-  }
+  // I Hate Typescript
+  useEffect(() => {
+    if (requestOnMount) {
+      if (typeof requestOnMount === 'boolean') {
+        ;(sendRequest as any)()
+      } else {
+        ;(sendRequest as any)(requestOnMount)
+      }
+    }
+  }, [])
+
+  return { loading, sendRequest }
 }

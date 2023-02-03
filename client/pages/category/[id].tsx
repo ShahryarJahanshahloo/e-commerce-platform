@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 // import { useRouter } from 'next/router'
 
-import { ApiProductCart } from '../../api/product/entities'
-import { GetProductsByCategory } from '../../api/product/product.api'
+import { ApiProductCart } from '../../services/product/product.entities'
+import { GetProductsByCategory } from '../../services/product/product.api'
 import Product from '../../components/Product/Product'
 import Sort from '../../components/Sort/Sort'
 import Filter from '../../components/Filter/Filter'
