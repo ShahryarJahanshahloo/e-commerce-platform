@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { fetchCart } from '../store/slices/CartSlice'
+import { useAppDispatch, useAppSelector } from '../utils/store'
+import { fetchCart } from '../services/cart/cart.thunks'
 
 const HomePage = () => {
   const dispatch = useAppDispatch()

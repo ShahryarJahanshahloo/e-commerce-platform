@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import CartItem from '../CartItem/CartItem'
-import { ApiCartItem } from '../../services/user/user.entities'
+import { ApiCartItem } from '../../services/cart/cart.entities'
 
 import s from './Cart.module.scss'
 import { IoClose as CloseButton } from 'react-icons/io5'
