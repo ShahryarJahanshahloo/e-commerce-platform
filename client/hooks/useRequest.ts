@@ -1,32 +1,52 @@
-import { AsyncThunk, unwrapResult } from '@reduxjs/toolkit'
+import { AxiosError, AxiosResponse } from 'axios'
 import { useCallback, useEffect, useState } from 'react'
-import { useAppDispatch } from '../utils/store'
+import { RequestReturnType } from '../services/axios'
 
-export const useRequest = <ThunkInput = void>(
-  thunk: AsyncThunk<any, ThunkInput, any>,
-  requestOnMount: false | (ThunkInput extends void ? true : ThunkInput) = false
-) => {
-  const dispatch = useAppDispatch()
-  const [loading, setLoading] = useState(false)
+type UseRequestType<T> = {
+  isLoading: boolean
+  response: T | undefined
+  responseFull: AxiosResponse<T> | undefined
+  error: AxiosError | undefined
+  sendRequest: (...args: any) => void
+}
 
-  const sendRequest = useCallback((args: ThunkInput) => {
-    setLoading(true)
-    return dispatch(thunk(args)).then(res => {
-      setLoading(false)
-      return unwrapResult(res)
-    })
-  }, [])
+export const useRequest = <T = unknown>(
+  request: (...args: any) => RequestReturnType<T>,
+  callOnMount = false,
+  onSuccess?: (response: T) => void,
+  onError?: (error: AxiosError) => void
+): UseRequestType<T> => {
+  const [isLoading, setLoading] = useState(false)
+  const [response, setResponse] = useState<AxiosResponse>()
+  const [error, setError] = useState<AxiosError>()
 
-  // I Hate Typescript
-  useEffect(() => {
-    if (requestOnMount) {
-      if (typeof requestOnMount === 'boolean') {
-        ;(sendRequest as any)()
-      } else {
-        ;(sendRequest as any)(requestOnMount)
+  const sendRequest = useCallback(
+    async (...args: any) => {
+      try {
+        setLoading(true)
+        const response = await request(...args)
+        setResponse(response)
+        onSuccess?.(response.data)
+      } catch (error) {
+        setResponse(undefined)
+        setError(error as AxiosError)
+        onError?.(error as AxiosError)
       }
-    }
+      setLoading(false)
+    },
+    [request]
+  )
+
+  useEffect(() => {
+    if (!callOnMount) return
+    sendRequest()
   }, [])
 
-  return { loading, sendRequest }
+  return {
+    isLoading,
+    response: response?.data,
+    responseFull: response,
+    error,
+    sendRequest,
+  }
 }

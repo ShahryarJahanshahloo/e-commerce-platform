@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ApiCartItem } from './cart.entities'
-import { GetCart } from '../../services/user/user.api'
+import { GetCart } from './cart.api'
 import { AppThunk } from '../../utils/store'
 
 interface CartState {
   data: ApiCartItem[]
+  error: any
 }
 
-const initialState: CartState = { data: [] }
+const initialState: CartState = { data: [], error: {} }
 
 const CartSlice = createSlice({
   name: 'cart',
