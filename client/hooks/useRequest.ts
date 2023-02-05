@@ -12,7 +12,6 @@ type UseRequestType<T> = {
 
 export const useRequest = <T = unknown>(
   request: (...args: any) => RequestReturnType<T>,
-  callOnMount = false,
   onSuccess?: (response: T) => void,
   onError?: (error: AxiosError) => void
 ): UseRequestType<T> => {
@@ -36,11 +35,6 @@ export const useRequest = <T = unknown>(
     },
     [request]
   )
-
-  useEffect(() => {
-    if (!callOnMount) return
-    sendRequest()
-  }, [])
 
   return {
     isLoading,

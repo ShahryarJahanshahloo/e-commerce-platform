@@ -1,7 +1,14 @@
+export enum userRoles {
+  Admin = 'Admin',
+  Seller = 'Seller',
+  Customer = 'Customer',
+}
+
 export type ApiUser = {
   _id: string
   name: string
   lastName: string
+  role: userRoles
 }
 
 export type ApiCustomer = {

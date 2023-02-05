@@ -107,3 +107,7 @@ export const UpdateMeSeller = (updates: {
 }): RequestReturnType<ApiSeller> => {
   return request.patch('/user/seller/me')
 }
+
+export const Authenticate = (): RequestReturnType<ApiUser> => {
+  return request.post('/user/authenticate')
+}

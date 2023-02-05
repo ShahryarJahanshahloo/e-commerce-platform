@@ -33,6 +33,17 @@ router.post(
   }
 )
 
+router.post('/authenticate', auth(), async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.user.id)
+    if (user === null) return res.status(401).send()
+    res.send(user)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send()
+  }
+})
+
 router.post('/logout', auth(), async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.user.id)
