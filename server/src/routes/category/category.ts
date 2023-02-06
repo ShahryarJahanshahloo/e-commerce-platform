@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express, { Router } from 'express'
 import auth from '../../middlewares/auth'
 import Category from '../../models/category/category'
 import { userRoles } from '../../models/user/user'
@@ -14,7 +14,7 @@ router.use('/leaf', leafCategoryRouter)
 router.use('/main', mainCategoryRouter)
 router.use('/middle', middleCategoryRouter)
 
-router.get('/:categoryId', async (req: Request, res: Response) => {
+router.get('/:categoryId', async (req, res) => {
   try {
     const id = req.params.categoryId
     const category = await Category.findById(id)
@@ -28,7 +28,7 @@ router.get('/:categoryId', async (req: Request, res: Response) => {
 router.patch(
   '/:categoryId/activate',
   auth([userRoles.Admin]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     const session = await mongoose.connection.startSession()
     try {
       session.startTransaction()
@@ -48,7 +48,7 @@ router.patch(
 router.patch(
   '/:categoryId/deactivate',
   auth([userRoles.Admin]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     const session = await mongoose.connection.startSession()
     try {
       session.startTransaction()

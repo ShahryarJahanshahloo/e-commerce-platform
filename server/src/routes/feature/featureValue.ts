@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import FeatureValue, { IFeatureValue } from '../../models/feature/featureValue'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user'
@@ -8,12 +8,12 @@ import {
 } from '../../TypedRequestBody'
 import { updateByValidKeys } from '../../utils/common'
 
-const router: Router = express.Router()
+const router = express.Router()
 
 router.post(
   '/',
   auth([userRoles.Admin]),
-  async (req: TypedRequestBody<IFeatureValue>, res: Response) => {
+  async (req: TypedRequestBody<IFeatureValue>, res) => {
     try {
       const featureValue = new FeatureValue(req.body)
       await featureValue.save()
@@ -24,7 +24,7 @@ router.post(
   }
 )
 
-router.get('/:featureValueId', async (req: Request, res: Response) => {
+router.get('/:featureValueId', async (req, res) => {
   try {
     const featureValue = await FeatureValue.findById(req.params.featureValueId)
     if (featureValue === null) return res.status(400).send()
@@ -39,7 +39,7 @@ router.patch(
   auth([userRoles.Admin]),
   async (
     req: TypedRequestBodyWithParams<IFeatureValue, { featureValueId: string }>,
-    res: Response
+    res
   ) => {
     try {
       const featureValue = await FeatureValue.findById(

@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import User from '../../models/user/user'
 import { TypedRequestBody } from '../../TypedRequestBody'
 import auth from '../../middlewares/auth'
@@ -6,7 +6,7 @@ import customerRouter from './customer'
 import adminRouter from './admin'
 import sellerRouter from './seller'
 
-const router: Router = express.Router()
+const router = express.Router()
 
 router.use('/customer', customerRouter)
 router.use('/admin', adminRouter)
@@ -14,10 +14,7 @@ router.use('/seller', sellerRouter)
 
 router.post(
   '/login',
-  async (
-    req: TypedRequestBody<{ email: string; password: string }>,
-    res: Response
-  ) => {
+  async (req: TypedRequestBody<{ email: string; password: string }>, res) => {
     try {
       const user = await User.findByCredentials(
         req.body.email,
@@ -33,7 +30,7 @@ router.post(
   }
 )
 
-router.post('/authenticate', auth(), async (req: Request, res: Response) => {
+router.post('/authenticate', auth(), async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
     if (user === null) return res.status(401).send()
@@ -44,7 +41,7 @@ router.post('/authenticate', auth(), async (req: Request, res: Response) => {
   }
 })
 
-router.post('/logout', auth(), async (req: Request, res: Response) => {
+router.post('/logout', auth(), async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
     if (user == null) return res.status(400).send()
@@ -58,7 +55,7 @@ router.post('/logout', auth(), async (req: Request, res: Response) => {
   }
 })
 
-router.post('/logout/all', auth(), async (req: Request, res: Response) => {
+router.post('/logout/all', auth(), async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
     if (user == null) return res.status(400).send()

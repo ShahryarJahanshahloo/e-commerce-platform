@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import {
   TypedRequestBody,
   TypedRequestBodyWithParams,
@@ -10,6 +10,6 @@ import Shipment, {
   shipmentStates,
 } from '../../models/shipment/shipment'
 
-const router: Router = express.Router()
+const router = express.Router()
 
 export default router

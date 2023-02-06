@@ -1,4 +1,4 @@
-import express, { Router } from 'express'
+import express from 'express'
 
 import userRouter from './user/user'
 import categoryRouter from './category/category'
@@ -9,9 +9,11 @@ import commentRouter from './comment/comment'
 import orderRouter from './order/order'
 import shipmentRouter from './shipment/shipment'
 
-const router: Router = express.Router()
+const router = express.Router()
 
-router.get('/ping', (req, res) => {
+router.get('/ping', (req, res, next) => {
+  try {
+  } catch (error) {}
   res.send('pong')
 })
 

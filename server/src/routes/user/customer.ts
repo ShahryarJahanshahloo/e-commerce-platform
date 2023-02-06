@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import Customer, { ICustomer } from '../../models/user/customer'
 import {
   TypedRequestBody,
@@ -9,9 +9,9 @@ import auth from '../../middlewares/auth'
 import { Schema } from 'mongoose'
 import { updateByValidKeys } from '../../utils/common'
 
-const router: Router = express.Router()
+const router = express.Router()
 
-router.post('/', async (req: TypedRequestBody<ICustomer>, res: Response) => {
+router.post('/', async (req: TypedRequestBody<ICustomer>, res) => {
   try {
     const customer = new Customer(req.body)
     await customer.save()
@@ -23,19 +23,15 @@ router.post('/', async (req: TypedRequestBody<ICustomer>, res: Response) => {
   }
 })
 
-router.get(
-  '/me',
-  auth([userRoles.Customer]),
-  async (req: Request, res: Response) => {
-    try {
-      const customer = await Customer.findById(req.user.id)
-      if (customer == null) return res.status(400).send()
-      res.send(customer)
-    } catch (error) {
-      res.status(500).send()
-    }
+router.get('/me', auth([userRoles.Customer]), async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.user.id)
+    if (customer == null) return res.status(400).send()
+    res.send(customer)
+  } catch (error) {
+    res.status(500).send()
   }
-)
+})
 
 router.put(
   '/cart',
@@ -45,7 +41,7 @@ router.put(
       storageItem: Schema.Types.ObjectId
       quantity: number
     }>,
-    res: Response
+    res
   ) => {
     try {
       const customer = await Customer.findById(req.user.id)
@@ -72,7 +68,7 @@ router.put(
 router.delete(
   '/cart/:storageItemId',
   auth([userRoles.Customer]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const customer = await Customer.findById(req.user.id)
       if (customer === null) return res.status(400).send()
@@ -92,7 +88,7 @@ router.patch(
   auth([userRoles.Customer]),
   async (
     req: TypedRequestBodyWithParams<ICustomer, { customerId: string }>,
-    res: Response
+    res
   ) => {
     try {
       const customer = await Customer.findById(req.params.customerId)

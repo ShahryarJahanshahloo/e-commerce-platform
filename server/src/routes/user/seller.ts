@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import Seller, { ISeller } from '../../models/user/seller'
 import {
   TypedRequestBody,
@@ -8,9 +8,9 @@ import { userRoles } from '../../models/user/user'
 import auth from '../../middlewares/auth'
 import { updateByValidKeys } from '../../utils/common'
 
-const router: Router = express.Router()
+const router = express.Router()
 
-router.post('/', async (req: TypedRequestBody<ISeller>, res: Response) => {
+router.post('/', async (req: TypedRequestBody<ISeller>, res) => {
   try {
     const seller = new Seller(req.body)
     await seller.save()
@@ -31,7 +31,7 @@ router.put(
       },
       { sellerId: string }
     >,
-    res: Response
+    res
   ) => {
     try {
       const seller = await Seller.findById(req.params.sellerId)
@@ -58,7 +58,7 @@ router.put(
 router.delete(
   '/:sellerId/rate',
   auth([userRoles.Customer]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const seller = await Seller.findById(req.params.sellerId)
       if (seller === null) return res.status(400).send()
@@ -73,25 +73,21 @@ router.delete(
   }
 )
 
-router.get(
-  '/me',
-  auth([userRoles.Seller]),
-  async (req: Request, res: Response) => {
-    try {
-      const seller = await Seller.findById(req.user.id)
-      if (seller == null) return res.status(400).send()
-      res.send(seller)
-    } catch (error) {
-      console.log(error)
-      res.status(400).send({ message: 'invalid request' })
-    }
+router.get('/me', auth([userRoles.Seller]), async (req, res) => {
+  try {
+    const seller = await Seller.findById(req.user.id)
+    if (seller == null) return res.status(400).send()
+    res.send(seller)
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ message: 'invalid request' })
   }
-)
+})
 
 router.patch(
   '/me',
   auth([userRoles.Seller]),
-  async (req: TypedRequestBodyWithParams<ISeller, {}>, res: Response) => {
+  async (req: TypedRequestBodyWithParams<ISeller, {}>, res) => {
     try {
       const seller = await Seller.findById(req.user.id)
       if (seller === null) return res.status(400).send()

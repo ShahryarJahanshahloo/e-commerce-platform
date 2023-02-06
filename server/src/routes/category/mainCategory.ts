@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import {
   TypedRequestBody,
   TypedRequestBodyWithParams,
@@ -8,12 +8,12 @@ import { userRoles } from '../../models/user/user'
 import MainCategory, { IMainCategory } from '../../models/category/mainCategory'
 import { updateByValidKeys } from '../../utils/common'
 
-const router: Router = express.Router()
+const router = express.Router()
 
 router.post(
   '/',
   auth([userRoles.Admin]),
-  async (req: TypedRequestBody<IMainCategory>, res: Response) => {
+  async (req: TypedRequestBody<IMainCategory>, res) => {
     try {
       const category = new MainCategory(req.body)
       await category.save()
@@ -24,14 +24,14 @@ router.post(
   }
 )
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', async (req, res) => {
   try {
     const mainCategories = await MainCategory.find({ isActive: true })
     res.send(mainCategories)
   } catch (error) {}
 })
 
-router.get('/:categoryId/children', async (req: Request, res: Response) => {
+router.get('/:categoryId/children', async (req, res) => {
   try {
     const category = await MainCategory.find({
       isActive: true,
@@ -46,7 +46,7 @@ router.patch(
   auth([userRoles.Admin]),
   async (
     req: TypedRequestBodyWithParams<IMainCategory, { categoryId: string }>,
-    res: Response
+    res
   ) => {
     try {
       const category = await MainCategory.findById(req.params.categoryId)

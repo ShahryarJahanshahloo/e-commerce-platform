@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import {
   TypedRequest,
   TypedRequestBody,
@@ -12,12 +12,12 @@ import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user'
 import { updateByValidKeys } from '../../utils/common'
 
-const router: Router = express.Router()
+const router = express.Router()
 
 router.post(
   '/',
   auth([userRoles.Admin]),
-  async (req: TypedRequestBody<IProduct>, res: Response) => {
+  async (req: TypedRequestBody<IProduct>, res) => {
     try {
       const product = new Product(req.body)
       await product.save()
@@ -28,7 +28,7 @@ router.post(
   }
 )
 
-router.get('/:productId', async (req: Request, res: Response) => {
+router.get('/:productId', async (req, res) => {
   try {
     const product = await Product.findById(req.params.productId)
     if (product === null) return res.status(400).send()
@@ -43,7 +43,7 @@ router.patch(
   auth([userRoles.Admin]),
   async (
     req: TypedRequestBodyWithParams<IProduct, { productId: string }>,
-    res: Response
+    res
   ) => {
     try {
       const product = await Product.findById(req.params.productId)
@@ -63,7 +63,7 @@ router.patch(
 router.patch(
   '/:productId/approve',
   auth([userRoles.Admin]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
@@ -79,7 +79,7 @@ router.patch(
 router.patch(
   '/:productId/disapprove',
   auth([userRoles.Admin]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
@@ -95,7 +95,7 @@ router.patch(
 router.patch(
   '/:productId/activate',
   auth([userRoles.Admin]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
@@ -111,7 +111,7 @@ router.patch(
 router.patch(
   '/:productId/deactivate',
   auth([userRoles.Admin]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const product = await Product.findById(req.params.productId)
       if (product === null) return res.status(400).send()
@@ -128,7 +128,7 @@ router.get(
   '/category/:categoryId',
   async (
     req: TypedRequest<{}, { categoryId: string }, getCategoryProductsOptions>,
-    res: Response
+    res
   ) => {
     try {
       const products = await Product.getCategoryProducts(
@@ -142,7 +142,7 @@ router.get(
   }
 )
 
-router.get('/search', async (req: Request, res: Response) => {})
+router.get('/search', async (req, res) => {})
 
 router.put(
   '/:productId/rate',
@@ -154,7 +154,7 @@ router.put(
       },
       { id: string }
     >,
-    res: Response
+    res
   ) => {
     try {
       const product = await Product.findById(req.params.id)
@@ -181,7 +181,7 @@ router.put(
 router.delete(
   '/:productId/rate',
   auth([userRoles.Customer]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const product = await Product.findById(req.params.id)
       if (product === null) return res.status(400).send()

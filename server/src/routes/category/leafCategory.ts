@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express, { Router } from 'express'
 import {
   TypedRequestBody,
   TypedRequestBodyWithParams,
@@ -8,12 +8,12 @@ import { userRoles } from '../../models/user/user'
 import LeafCategory, { ILeafCategory } from '../../models/category/leafCategory'
 import { updateByValidKeys } from '../../utils/common'
 
-const router: Router = express.Router()
+const router = express.Router()
 
 router.post(
   '/',
   auth([userRoles.Admin]),
-  async (req: TypedRequestBody<ILeafCategory>, res: Response) => {
+  async (req: TypedRequestBody<ILeafCategory>, res) => {
     try {
       const category = new LeafCategory(req.body)
       await category.save()
@@ -24,7 +24,7 @@ router.post(
   }
 )
 
-router.get('/:categoryId/features', async (req: Request, res: Response) => {
+router.get('/:categoryId/features', async (req, res) => {
   try {
     const category = await LeafCategory.findById(req.params.categoryId)
     if (category === null) return res.status(400).send()
@@ -39,7 +39,7 @@ router.patch(
   auth([userRoles.Admin]),
   async (
     req: TypedRequestBodyWithParams<ILeafCategory, { categoryId: string }>,
-    res: Response
+    res
   ) => {
     try {
       const category = await LeafCategory.findById(req.params.categoryId)

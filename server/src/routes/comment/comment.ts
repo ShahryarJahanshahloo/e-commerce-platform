@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user'
 import {
@@ -8,12 +8,12 @@ import {
 import Comment, { IComment, voteValues } from '../../models/comment/comment'
 import { updateByValidKeys } from '../../utils/common'
 
-const router: Router = express.Router()
+const router = express.Router()
 
 router.post(
   '/',
   auth([userRoles.Customer]),
-  async (req: TypedRequestBody<IComment>, res: Response) => {
+  async (req: TypedRequestBody<IComment>, res) => {
     try {
       const comment = new Comment(req.body)
       await comment.save()
@@ -24,7 +24,7 @@ router.post(
   }
 )
 
-router.get('/product/:productId', async (req: Request, res: Response) => {
+router.get('/product/:productId', async (req, res) => {
   try {
     const comments = await Comment.find({ product: req.params.productId })
     res.send(comments)
@@ -38,7 +38,7 @@ router.patch(
   auth([userRoles.Customer]),
   async (
     req: TypedRequestBodyWithParams<IComment, { commentId: string }>,
-    res: Response
+    res
   ) => {
     try {
       const comment = await Comment.findById(req.params.commentId)
@@ -60,7 +60,7 @@ router.put(
       { value: voteValues },
       { commentId: string }
     >,
-    res: Response
+    res
   ) => {
     try {
       const comment = await Comment.findById(req.params.commentId)

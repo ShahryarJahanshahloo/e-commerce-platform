@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import auth from '../../middlewares/auth'
 import {
   TypedRequestBody,
@@ -8,12 +8,12 @@ import { userRoles } from '../../models/user/user'
 import { updateByValidKeys } from '../../utils/common'
 import StorageItem, { IStorageItem } from '../../models/storageItem/storageItem'
 
-const router: Router = express.Router()
+const router = express.Router()
 
 router.post(
   '/',
   auth([userRoles.Seller]),
-  async (req: TypedRequestBody<IStorageItem>, res: Response) => {
+  async (req: TypedRequestBody<IStorageItem>, res) => {
     try {
       req.body.seller = req.user.id
       const storageItem = new StorageItem(req.body)
@@ -30,7 +30,7 @@ router.patch(
   auth([userRoles.Seller]),
   async (
     req: TypedRequestBodyWithParams<IStorageItem, { storageItemID: string }>,
-    res: Response
+    res
   ) => {
     try {
       const storageItem = await StorageItem.findById(req.params.storageItemID)
@@ -46,7 +46,7 @@ router.patch(
 router.get(
   '/seller/:sellerId/report',
   auth([userRoles.Seller]),
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const products = await StorageItem.find({ seller: req.params.sellerId })
       res.send(products)

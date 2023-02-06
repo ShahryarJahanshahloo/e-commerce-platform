@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express'
+import express from 'express'
 import {
   TypedRequestBody,
   TypedRequestBodyWithParams,
@@ -10,12 +10,12 @@ import MiddleCategory, {
 } from '../../models/category/middleCategory'
 import { updateByValidKeys } from '../../utils/common'
 
-const router: Router = express.Router()
+const router = express.Router()
 
 router.post(
   '/',
   auth([userRoles.Admin]),
-  async (req: TypedRequestBody<IMiddleCategory>, res: Response) => {
+  async (req: TypedRequestBody<IMiddleCategory>, res) => {
     try {
       const category = new MiddleCategory(req.body)
       await category.save()
@@ -31,7 +31,7 @@ router.patch(
   auth([userRoles.Admin]),
   async (
     req: TypedRequestBodyWithParams<IMiddleCategory, { categoryId: string }>,
-    res: Response
+    res
   ) => {
     try {
       const category = await MiddleCategory.findById(req.params.categoryId)
