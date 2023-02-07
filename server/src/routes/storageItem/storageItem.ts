@@ -1,8 +1,10 @@
 import express from 'express'
 import auth from '../../middlewares/auth'
-import { userRoles } from '../../models/user/user'
+import { userRoles } from '../../models/user/user.model'
 import { updateByValidKeys } from '../../utils/common'
-import StorageItem, { IStorageItem } from '../../models/storageItem/storageItem'
+import StorageItem, {
+  IStorageItem,
+} from '../../models/storageItem/storageItem.model'
 
 const router = express.Router()
 

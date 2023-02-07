@@ -1,39 +1,18 @@
-import { Schema, model, Model } from 'mongoose'
+import { Schema, Model } from 'mongoose'
 import Category, {
-  discriminatorKey,
   ICategory,
   ICategoryMethods,
   categoryTypes,
-} from './category'
+} from '../category.model'
+import MiddleCategorySchema from './middleCategory.schema'
 
 export interface IMiddleCategory extends ICategory {
   children: Schema.Types.ObjectId[]
   parent: Schema.Types.ObjectId
 }
-interface IMiddleCategoryMethods extends ICategoryMethods {}
-interface MiddleCategoryModel
+export interface IMiddleCategoryMethods extends ICategoryMethods {}
+export interface MiddleCategoryModel
   extends Model<IMiddleCategory, {}, IMiddleCategoryMethods> {}
-
-const MiddleCategorySchema = new Schema<
-  IMiddleCategory,
-  MiddleCategoryModel,
-  IMiddleCategoryMethods
->(
-  {
-    parent: {
-      type: Schema.Types.ObjectId,
-      ref: 'Category',
-      required: true,
-    },
-  },
-  { discriminatorKey }
-)
-
-MiddleCategorySchema.virtual('children', {
-  ref: 'Category',
-  localField: '_id',
-  foreignField: 'parent',
-})
 
 MiddleCategorySchema.pre('validate', async function (next) {
   const parent = await Category.findById(this.parent)

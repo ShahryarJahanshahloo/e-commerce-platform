@@ -1,28 +1,6 @@
-import { Schema, Model } from 'mongoose'
-
-import User, { discriminatorKey, IUser, IUserMethods, userRoles } from './user'
-
-export interface ISeller extends IUser {
-  shopSlug?: string
-  description?: string
-  balance: number
-  account: number
-  ratings: {
-    customer: Schema.Types.ObjectId
-    value: number
-  }[]
-  rate: number
-  address: {
-    description: string
-    coordinates?: {
-      lat: number
-      lon: number
-    }
-    zipCode: number
-  }
-}
-interface ISellerMethods extends IUserMethods {}
-interface SellerModel extends Model<ISeller, {}, ISellerMethods> {}
+import { Schema } from 'mongoose'
+import { discriminatorKey } from '../user.model'
+import { ISeller, ISellerMethods, SellerModel } from './seller.model'
 
 const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(
   {
@@ -114,14 +92,4 @@ SellerSchema.virtual('rate').get(function (this) {
   return total / this.ratings.length
 })
 
-SellerSchema.pre('validate', function (next) {
-  if (this.isNew) {
-    this.balance = 0
-    this.ratings = []
-  }
-  next()
-})
-
-const Seller = User.discriminator(userRoles.Seller, SellerSchema)
-
-export default Seller
+export default SellerSchema

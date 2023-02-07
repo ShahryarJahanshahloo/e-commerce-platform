@@ -1,7 +1,7 @@
 import express from 'express'
-import Admin, { IAdmin } from '../../models/user/admin'
+import Admin, { IAdmin } from '../../models/user/admin/admin.model'
 import auth from '../../middlewares/auth'
-import { userRoles } from '../../models/user/user'
+import { userRoles } from '../../models/user/user.model'
 import { updateByValidKeys } from '../../utils/common'
 
 const router = express.Router()

@@ -1,7 +1,7 @@
 import express from 'express'
 import auth from '../../middlewares/auth'
-import { userRoles } from '../../models/user/user'
-import Feature, { IFeature } from '../../models/feature/feature'
+import { userRoles } from '../../models/user/user.model'
+import Feature, { IFeature } from '../../models/feature/feature.model'
 import { updateByValidKeys } from '../../utils/common'
 import featureValueRouter from './featureValue'
 

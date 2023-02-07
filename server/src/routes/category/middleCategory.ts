@@ -1,9 +1,9 @@
 import express from 'express'
 import auth from '../../middlewares/auth'
-import { userRoles } from '../../models/user/user'
+import { userRoles } from '../../models/user/user.model'
 import MiddleCategory, {
   IMiddleCategory,
-} from '../../models/category/middleCategory'
+} from '../../models/category/middleCategory/middleCategory.model'
 import { updateByValidKeys } from '../../utils/common'
 
 const router = express.Router()

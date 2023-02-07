@@ -1,9 +1,9 @@
-import Category, { ICategory } from '../models/category/category'
+import Category, { ICategory } from '../models/category/category.model'
 import { HydratedDocument } from 'mongoose'
-import Product from '../models/product/product'
-import MainCategory from '../models/category/mainCategory'
-import LeafCategory from '../models/category/leafCategory'
-import MiddleCategory from '../models/category/middleCategory'
+import Product from '../models/product/product.model'
+import MainCategory from '../models/category/mainCategory/mainCategory.model'
+import LeafCategory from '../models/category/leafCategory/leafCategory.model'
+import MiddleCategory from '../models/category/middleCategory/middleCategory.model'
 
 export async function toggleActivity(
   category: HydratedDocument<ICategory>,

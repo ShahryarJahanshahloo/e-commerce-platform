@@ -1,10 +1,10 @@
 import express from 'express'
 import auth from '../../middlewares/auth'
-import { userRoles } from '../../models/user/user'
-import Order, { IOrder, orderStates } from '../../models/order/order'
+import { userRoles } from '../../models/user/user.model'
+import Order, { IOrder, orderStates } from '../../models/order/order.model'
 import axios from 'axios'
-import Seller from '../../models/user/seller'
-import Shipment, { shipmentStates } from '../../models/shipment/shipment'
+import Seller from '../../models/user/seller/seller.model'
+import Shipment, { shipmentStates } from '../../models/shipment/shipment.model'
 
 const router = express.Router()
 

@@ -1,4 +1,4 @@
-import { IUser } from './models/user/user'
+import { IUser } from './models/user/user.model'
 import { HydratedDocument } from 'mongoose'
 
 declare global {

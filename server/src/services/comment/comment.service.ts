@@ -1,4 +1,4 @@
-import Comment from '../../models/comment/comment'
+import Comment from '../../models/comment/comment.model'
 import { updateByValidKeys } from '../../utils/common'
 
 export const create = async (body: any) => {

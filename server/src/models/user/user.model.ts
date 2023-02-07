@@ -1,9 +1,9 @@
-import { Schema, model, Model, HydratedDocument } from 'mongoose'
-import validator from 'validator'
+import { model, Model, HydratedDocument } from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import UserSchema from './user.schema'
 
-const discriminatorKey = 'role'
+export const discriminatorKey = 'role'
 
 export enum userRoles {
   Admin = 'Admin',
@@ -11,7 +11,7 @@ export enum userRoles {
   Seller = 'Seller',
 }
 
-interface IUser {
+export interface IUser {
   role: userRoles
   name: string
   lastName?: string
@@ -20,62 +20,15 @@ interface IUser {
   password: string
   tokens: { token: string }[]
 }
-interface IUserMethods {
+export interface IUserMethods {
   generateAccessToken(): Promise<string>
 }
-interface UserModel extends Model<IUser, {}, IUserMethods> {
+export interface UserModel extends Model<IUser, {}, IUserMethods> {
   findByCredentials(
     email: string,
     password: string
   ): Promise<HydratedDocument<IUser, IUserMethods>>
 }
-
-const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-      maxlength: 255,
-    },
-    lastName: { type: String, required: false, maxlength: 255 },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      lowercase: true,
-      validate(value: string) {
-        if (!validator.isEmail(value)) throw new Error('Invalid Email!!')
-      },
-    },
-    phoneNumber: { type: Number, required: false, unique: true, maxlength: 15 },
-    password: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 7,
-      maxlength: 255,
-    },
-    tokens: [
-      {
-        token: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
-  },
-  {
-    discriminatorKey,
-    toJSON: {
-      transform: function (doc, ret) {
-        delete ret.tokens
-        delete ret.password
-      },
-    },
-  }
-)
 
 UserSchema.method(
   'generateAccessToken',
@@ -122,5 +75,4 @@ UserSchema.pre('save', async function (next) {
 })
 
 const User = model<IUser, UserModel>('User', UserSchema)
-export { IUser, IUserMethods, discriminatorKey }
 export default User

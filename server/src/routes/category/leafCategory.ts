@@ -1,7 +1,9 @@
 import express, { Router } from 'express'
 import auth from '../../middlewares/auth'
-import { userRoles } from '../../models/user/user'
-import LeafCategory, { ILeafCategory } from '../../models/category/leafCategory'
+import { userRoles } from '../../models/user/user.model'
+import LeafCategory, {
+  ILeafCategory,
+} from '../../models/category/leafCategory/leafCategory.model'
 import { updateByValidKeys } from '../../utils/common'
 
 const router = express.Router()

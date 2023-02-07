@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 
-import User, { userRoles } from '../models/user/user'
+import User, { userRoles } from '../models/user/user.model'
 
 interface JWTPayload {
   _id: string

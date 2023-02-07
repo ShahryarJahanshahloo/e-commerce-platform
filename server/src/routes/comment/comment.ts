@@ -1,7 +1,7 @@
 import express from 'express'
 import auth from '../../middlewares/auth'
-import { userRoles } from '../../models/user/user'
-import Comment from '../../models/comment/comment'
+import { userRoles } from '../../models/user/user.model'
+import Comment from '../../models/comment/comment.model'
 import * as CommentService from '../../services/comment/comment.service'
 
 const router = express.Router()

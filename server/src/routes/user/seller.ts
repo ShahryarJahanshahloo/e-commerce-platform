@@ -1,6 +1,6 @@
 import express from 'express'
-import Seller, { ISeller } from '../../models/user/seller'
-import { userRoles } from '../../models/user/user'
+import Seller, { ISeller } from '../../models/user/seller/seller.model'
+import { userRoles } from '../../models/user/user.model'
 import auth from '../../middlewares/auth'
 import { updateByValidKeys } from '../../utils/common'
 

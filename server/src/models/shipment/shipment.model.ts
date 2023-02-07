@@ -1,5 +1,6 @@
 import { Schema, model, Model } from 'mongoose'
-import Seller from '../user/seller'
+import Seller from '../user/seller/seller.model'
+import ShipmentSchema from './shipment.schema'
 
 export enum shipmentStates {
   Pending = 'Pending',
@@ -13,25 +14,8 @@ export interface IShipment {
   seller: Schema.Types.ObjectId
   state: shipmentStates
 }
-interface IShipmentMethods {}
-interface ShipmentModel extends Model<IShipment, {}, IShipmentMethods> {}
-
-const ShipmentSchema = new Schema<IShipment, ShipmentModel, IShipmentMethods>(
-  {
-    order: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'Order',
-    },
-    seller: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
-    state: {
-      type: String,
-      required: true,
-      enum: shipmentStates,
-    },
-  },
-  {}
-)
+export interface IShipmentMethods {}
+export interface ShipmentModel extends Model<IShipment, {}, IShipmentMethods> {}
 
 ShipmentSchema.pre('validate', async function () {
   if (this.isNew) {

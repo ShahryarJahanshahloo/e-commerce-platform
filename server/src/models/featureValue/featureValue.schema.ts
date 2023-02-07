@@ -1,13 +1,10 @@
-import { Schema, model, Model } from 'mongoose'
+import { Schema } from 'mongoose'
+import {
+  FeatureValueModel,
+  IFeatureValue,
+  IFeatureValueMethods,
+} from './featureValue.model'
 
-export interface IFeatureValue {
-  value: string
-  feature: Schema.Types.ObjectId
-  products: Schema.Types.ObjectId[]
-}
-interface IFeatureValueMethods {}
-interface FeatureValueModel
-  extends Model<IFeatureValue, {}, IFeatureValueMethods> {}
 const FeatureValueSchema = new Schema<
   IFeatureValue,
   FeatureValueModel,
@@ -35,8 +32,4 @@ const FeatureValueSchema = new Schema<
   {}
 )
 
-const FeatureValue = model<IFeatureValue, FeatureValueModel>(
-  'FeatureValue',
-  FeatureValueSchema
-)
-export default FeatureValue
+export default FeatureValueSchema

@@ -1,6 +1,6 @@
 import express from 'express'
-import Customer, { ICustomer } from '../../models/user/customer'
-import { userRoles } from '../../models/user/user'
+import Customer, { ICustomer } from '../../models/user/customer/customer.model'
+import { userRoles } from '../../models/user/user.model'
 import auth from '../../middlewares/auth'
 import { Schema } from 'mongoose'
 import { updateByValidKeys } from '../../utils/common'

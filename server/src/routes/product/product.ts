@@ -2,9 +2,9 @@ import express from 'express'
 import Product, {
   IProduct,
   getCategoryProductsOptions,
-} from '../../models/product/product'
+} from '../../models/product/product.model'
 import auth from '../../middlewares/auth'
-import { userRoles } from '../../models/user/user'
+import { userRoles } from '../../models/user/user.model'
 import { updateByValidKeys } from '../../utils/common'
 
 const router = express.Router()

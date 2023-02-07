@@ -1,24 +1,6 @@
-import { Schema, Model } from 'mongoose'
-
-import User, { discriminatorKey, IUser, IUserMethods, userRoles } from './user'
-
-export interface ICustomer extends IUser {
-  balance: number
-  address?: {
-    description: string
-    coordinates?: {
-      lat: number
-      lon: number
-    }
-    zipCode: number
-  }
-  cart: {
-    storageItem: Schema.Types.ObjectId
-    quantity: number
-  }[]
-}
-interface ICustomerMethods extends IUserMethods {}
-interface CustomerModel extends Model<ICustomer, {}, ICustomerMethods> {}
+import { Schema } from 'mongoose'
+import { discriminatorKey } from '../user.model'
+import { CustomerModel, ICustomer, ICustomerMethods } from './customer.model'
 
 const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
   {
@@ -83,11 +65,4 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
   { discriminatorKey }
 )
 
-CustomerSchema.pre('validate', function (next) {
-  if (this.isNew) this.balance = 0
-  next()
-})
-
-const Customer = User.discriminator(userRoles.Customer, CustomerSchema)
-
-export default Customer
+export default CustomerSchema

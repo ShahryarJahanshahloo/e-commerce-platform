@@ -1,5 +1,5 @@
 import express from 'express'
-import User from '../../models/user/user'
+import User from '../../models/user/user.model'
 import auth from '../../middlewares/auth'
 import customerRouter from './customer'
 import adminRouter from './admin'

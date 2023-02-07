@@ -1,7 +1,9 @@
 import express from 'express'
-import FeatureValue, { IFeatureValue } from '../../models/feature/featureValue'
+import FeatureValue, {
+  IFeatureValue,
+} from '../../models/featureValue/featureValue.model'
 import auth from '../../middlewares/auth'
-import { userRoles } from '../../models/user/user'
+import { userRoles } from '../../models/user/user.model'
 import { updateByValidKeys } from '../../utils/common'
 
 const router = express.Router()

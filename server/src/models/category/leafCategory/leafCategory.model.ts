@@ -1,46 +1,19 @@
-import { Schema, model, Model } from 'mongoose'
+import { Schema, Model } from 'mongoose'
 import Category, {
-  discriminatorKey,
   ICategory,
   ICategoryMethods,
   categoryTypes,
-} from './category'
+} from '../category.model'
+import LeafCategorySchema from './leafCategory.schema'
 
 export interface ILeafCategory extends ICategory {
   products: Schema.Types.ObjectId[]
   features: Schema.Types.ObjectId[]
   parent: Schema.Types.ObjectId
 }
-interface ILeafCategoryMethods extends ICategoryMethods {}
-interface LeafCategoryModel
+export interface ILeafCategoryMethods extends ICategoryMethods {}
+export interface LeafCategoryModel
   extends Model<ILeafCategory, {}, ILeafCategoryMethods> {}
-
-const LeafCategorySchema = new Schema<
-  ILeafCategory,
-  LeafCategoryModel,
-  ILeafCategoryMethods
->(
-  {
-    parent: {
-      type: Schema.Types.ObjectId,
-      ref: 'Category',
-      required: true,
-    },
-  },
-  { discriminatorKey }
-)
-
-LeafCategorySchema.virtual('products', {
-  ref: 'Product',
-  localField: '_id',
-  foreignField: 'category',
-})
-
-LeafCategorySchema.virtual('features', {
-  ref: 'Feature',
-  localField: '_id',
-  foreignField: 'category',
-})
 
 LeafCategorySchema.pre('validate', async function (next) {
   const parent = await Category.findById(this.parent)
