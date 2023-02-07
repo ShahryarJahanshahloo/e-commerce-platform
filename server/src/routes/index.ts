@@ -1,5 +1,4 @@
 import express from 'express'
-
 import userRouter from './user/user'
 import categoryRouter from './category/category'
 import featureRouter from './feature/feature'
@@ -11,10 +10,8 @@ import shipmentRouter from './shipment/shipment'
 
 const router = express.Router()
 
-router.get('/ping', (req, res, next) => {
-  try {
-  } catch (error) {}
-  res.send('pong')
+router.get('/ping/:id', (req, res, next) => {
+  throw new Error('mamad')
 })
 
 router.use('/user', userRouter)

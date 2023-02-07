@@ -1,8 +1,4 @@
 import express, { Router } from 'express'
-import {
-  TypedRequestBody,
-  TypedRequestBodyWithParams,
-} from '../../TypedRequestBody'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user'
 import LeafCategory, { ILeafCategory } from '../../models/category/leafCategory'
@@ -10,19 +6,15 @@ import { updateByValidKeys } from '../../utils/common'
 
 const router = express.Router()
 
-router.post(
-  '/',
-  auth([userRoles.Admin]),
-  async (req: TypedRequestBody<ILeafCategory>, res) => {
-    try {
-      const category = new LeafCategory(req.body)
-      await category.save()
-      res.status(201).send(category)
-    } catch (error) {
-      res.status(400).send(error)
-    }
+router.post('/', auth([userRoles.Admin]), async (req, res) => {
+  try {
+    const category = new LeafCategory(req.body)
+    await category.save()
+    res.status(201).send(category)
+  } catch (error) {
+    res.status(400).send(error)
   }
-)
+})
 
 router.get('/:categoryId/features', async (req, res) => {
   try {
@@ -34,22 +26,15 @@ router.get('/:categoryId/features', async (req, res) => {
   }
 })
 
-router.patch(
-  '/:categoryId',
-  auth([userRoles.Admin]),
-  async (
-    req: TypedRequestBodyWithParams<ILeafCategory, { categoryId: string }>,
-    res
-  ) => {
-    try {
-      const category = await LeafCategory.findById(req.params.categoryId)
-      if (category === null) return res.status(400).send()
-      await updateByValidKeys(category, req.body, ['name', 'parent'])
-      res.send(category)
-    } catch (error) {
-      res.status(500).send(error)
-    }
+router.patch('/:categoryId', auth([userRoles.Admin]), async (req, res) => {
+  try {
+    const category = await LeafCategory.findById(req.params.categoryId)
+    if (category === null) return res.status(400).send()
+    await updateByValidKeys(category, req.body, ['name', 'parent'])
+    res.send(category)
+  } catch (error) {
+    res.status(500).send(error)
   }
-)
+})
 
 export default router

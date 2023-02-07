@@ -21,7 +21,7 @@ interface IProductMethods {}
 interface ProductModel extends Model<IProduct, {}, IProductMethods> {
   getCategoryProducts(
     categoryId: string,
-    options: getCategoryProductsOptions
+    options?: getCategoryProductsOptions
   ): []
 }
 
@@ -106,10 +106,10 @@ export type getCategoryProductsOptions = {
 
 ProductSchema.static(
   'getCategoryProducts',
-  async function (categoryId: string, options: getCategoryProductsOptions) {
+  async function (categoryId: string, options?: getCategoryProductsOptions) {
     return this.find({ isActive: true, isApproved: true }, null, {
-      limit: options.limit,
-      skip: options.offset,
+      limit: options?.limit,
+      skip: options?.offset,
     }).populate(['featureValues', 'storageItems'])
   }
 )

@@ -1,10 +1,6 @@
 import express from 'express'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user'
-import {
-  TypedRequestBody,
-  TypedRequestBodyWithParams,
-} from '../../TypedRequestBody'
 import Order, { IOrder, orderStates } from '../../models/order/order'
 import axios from 'axios'
 import Seller from '../../models/user/seller'
@@ -15,7 +11,7 @@ const router = express.Router()
 router.post(
   '/',
   auth([userRoles.Seller, userRoles.Admin]),
-  async (req: TypedRequestBody<IOrder>, res) => {
+  async (req, res) => {
     try {
       const order = new Order(req.body)
       await order.save()
@@ -97,7 +93,7 @@ router.get('/customer/me', auth([userRoles.Customer]), async (req, res) => {
 router.patch(
   '/:orderId/cancel',
   auth([userRoles.Customer]),
-  async (req: TypedRequestBodyWithParams<IOrder, { orderId: string }>, res) => {
+  async (req, res) => {
     try {
       const order = await Order.findOne({
         _id: req.params.orderId,

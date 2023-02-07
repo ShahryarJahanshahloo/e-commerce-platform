@@ -5,7 +5,7 @@ import * as environmentTypes from './environment'
 dotenv.config({ path: './config/dev.env' })
 
 import app from './app'
-import startDBConnection from './db/connection'
+import startDBConnection from './config/connection'
 
 const server = http.createServer(app)
 
