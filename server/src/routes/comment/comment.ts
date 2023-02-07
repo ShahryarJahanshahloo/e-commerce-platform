@@ -1,7 +1,6 @@
 import express from 'express'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user.model'
-import Comment from '../../models/comment/comment.model'
 import * as CommentService from '../../services/comment/comment.service'
 
 const router = express.Router()
@@ -39,21 +38,12 @@ router.patch('/:commentId', auth([userRoles.Customer]), async (req, res) => {
 
 router.put('/:commentId/vote', auth(), async (req, res) => {
   try {
-    const comment = await Comment.findById(req.params.commentId)
-    if (comment === null) return res.status(400).send()
-    for (const vote of comment.votes) {
-      if (vote.user == req.user.id) {
-        vote.value = req.body.value
-        await comment.save()
-        return res.send()
-      }
-    }
-    comment.votes.push({
-      user: req.user.id,
-      value: req.body.value,
-    })
-    await comment.save()
-    res.status(201).send()
+    const vote = await CommentService.voteById(
+      req.params.commentId,
+      req.user.id,
+      req.body.value
+    )
+    res.status(201).send(vote)
   } catch (error) {
     res.status(500).send(error)
   }

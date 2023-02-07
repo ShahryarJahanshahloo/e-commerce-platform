@@ -1,19 +1,14 @@
 import express from 'express'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user.model'
-import Feature, { IFeature } from '../../models/feature/feature.model'
-import { updateByValidKeys } from '../../utils/common'
-import featureValueRouter from './featureValue'
+import * as FeatureService from '../../services/feature/feature.service'
 
 const router = express.Router()
 
-router.use('/value', featureValueRouter)
-
 router.post('/', auth([userRoles.Admin]), async (req, res) => {
   try {
-    const feature = new Feature(req.body)
-    await feature.save()
-    res.status(201).send()
+    const feature = await FeatureService.create(req.body)
+    res.status(201).send(feature)
   } catch (error) {
     res.status(400).send(error)
   }
@@ -21,8 +16,7 @@ router.post('/', auth([userRoles.Admin]), async (req, res) => {
 
 router.get('/:featureId', async (req, res) => {
   try {
-    const feature = await Feature.findById(req.params.featureId)
-    if (feature === null) return res.status(400).send()
+    const feature = await FeatureService.findById(req.params.featureId)
     res.send(feature)
   } catch (error) {
     res.status(500).send(error)
@@ -31,9 +25,10 @@ router.get('/:featureId', async (req, res) => {
 
 router.patch('/:featureId', auth([userRoles.Admin]), async (req, res) => {
   try {
-    const feature = await Feature.findById(req.params.featureId)
-    if (feature === null) return res.status(400).send()
-    await updateByValidKeys(feature, req.body, ['label'])
+    const feature = await FeatureService.findAndUpdate(
+      req.params.featureId,
+      req.body
+    )
     res.send(feature)
   } catch (error) {
     res.status(500).send(error)
