@@ -2,17 +2,10 @@ import express, { Router } from 'express'
 import auth from '../../middlewares/auth'
 import Category from '../../models/category/category.model'
 import { userRoles } from '../../models/user/user.model'
-import leafCategoryRouter from './leafCategory'
-import mainCategoryRouter from './mainCategory'
-import middleCategoryRouter from './middleCategory'
 import mongoose from 'mongoose'
 import { toggleActivity } from '../../utils/category'
 
 const router: Router = express.Router()
-
-router.use('/leaf', leafCategoryRouter)
-router.use('/main', mainCategoryRouter)
-router.use('/middle', middleCategoryRouter)
 
 router.get('/:categoryId', async (req, res) => {
   try {

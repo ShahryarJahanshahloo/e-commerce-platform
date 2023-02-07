@@ -1,6 +1,12 @@
 import express from 'express'
 import userRouter from './user/user'
+import customerRouter from './user/customer'
+import adminRouter from './user/admin'
+import sellerRouter from './user/seller'
 import categoryRouter from './category/category'
+import leafCategoryRouter from './category/leafCategory'
+import mainCategoryRouter from './category/mainCategory'
+import middleCategoryRouter from './category/middleCategory'
 import featureRouter from './feature/feature'
 import featureValueRouter from './featureValue/featureValue'
 import productRouter from './product/product'
@@ -16,7 +22,13 @@ router.get('/ping/:id', (req, res, next) => {
 })
 
 router.use('/user', userRouter)
+router.use('/user/customer', customerRouter)
+router.use('/user/admin', adminRouter)
+router.use('/user/seller', sellerRouter)
 router.use('/category', categoryRouter)
+router.use('/category/leaf', leafCategoryRouter)
+router.use('/category/main', mainCategoryRouter)
+router.use('/category/middle', middleCategoryRouter)
 router.use('/feature', featureRouter)
 router.use('/feature/value', featureValueRouter)
 router.use('/product', productRouter)
