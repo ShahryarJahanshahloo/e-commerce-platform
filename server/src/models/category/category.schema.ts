@@ -1,10 +1,6 @@
 import { Schema } from 'mongoose'
-import {
-  CategoryModel,
-  ICategory,
-  ICategoryMethods,
-  discriminatorKey,
-} from './category.model'
+import { CategoryModel, ICategory, ICategoryMethods } from './category.model'
+export const discriminatorKey = 'type'
 
 const CategorySchema = new Schema<ICategory, CategoryModel, ICategoryMethods>(
   {

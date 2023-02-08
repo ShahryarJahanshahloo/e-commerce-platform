@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { discriminatorKey } from '../user.model'
+import { discriminatorKey } from '../user.schema'
 import { ISeller, ISellerMethods, SellerModel } from './seller.model'
 
 const SellerSchema = new Schema<ISeller, SellerModel, ISellerMethods>(

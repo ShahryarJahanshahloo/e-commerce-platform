@@ -1,8 +1,6 @@
 import { model, Model } from 'mongoose'
 import CategorySchema from './category.schema'
 
-export const discriminatorKey = 'type'
-
 export enum categoryTypes {
   Main = 'Main',
   Middle = 'Middle',

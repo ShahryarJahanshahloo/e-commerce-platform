@@ -4,7 +4,7 @@ import {
   ILeafCategoryMethods,
   LeafCategoryModel,
 } from './leafCategory.model'
-import { discriminatorKey } from '../category.model'
+import { discriminatorKey } from '../category.schema'
 
 const LeafCategorySchema = new Schema<
   ILeafCategory,

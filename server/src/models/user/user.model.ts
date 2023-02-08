@@ -3,8 +3,6 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import UserSchema from './user.schema'
 
-export const discriminatorKey = 'role'
-
 export enum userRoles {
   Admin = 'Admin',
   Customer = 'Customer',

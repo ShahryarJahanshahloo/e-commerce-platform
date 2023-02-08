@@ -4,7 +4,7 @@ import {
   IMainCategoryMethods,
   MainCategoryModel,
 } from './mainCategory.model'
-import { discriminatorKey } from '../category.model'
+import { discriminatorKey } from '../category.schema'
 
 const MainCategorySchema = new Schema<
   IMainCategory,

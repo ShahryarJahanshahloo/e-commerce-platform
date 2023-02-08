@@ -4,7 +4,7 @@ import {
   IMiddleCategoryMethods,
   MiddleCategoryModel,
 } from './middleCategory.model'
-import { discriminatorKey } from '../category.model'
+import { discriminatorKey } from '../category.schema'
 
 const MiddleCategorySchema = new Schema<
   IMiddleCategory,

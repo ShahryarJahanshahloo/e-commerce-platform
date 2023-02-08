@@ -1,6 +1,8 @@
 import validator from 'validator'
-import { IUser, IUserMethods, UserModel, discriminatorKey } from './user.model'
+import { IUser, IUserMethods, UserModel } from './user.model'
 import { Schema } from 'mongoose'
+
+export const discriminatorKey = 'role'
 
 const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
