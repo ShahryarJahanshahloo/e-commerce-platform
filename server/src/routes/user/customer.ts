@@ -1,28 +1,22 @@
 import express from 'express'
-import Customer, { ICustomer } from '../../models/user/customer/customer.model'
-import { userRoles } from '../../models/user/user.model'
 import auth from '../../middlewares/auth'
-import { Schema } from 'mongoose'
-import { updateByValidKeys } from '../../utils/common'
+import { userRoles } from '../../models/user/user.model'
+import * as CustomerService from '../../services/user/customer.service'
 
 const router = express.Router()
 
 router.post('/', async (req, res) => {
   try {
-    const customer = new Customer(req.body)
-    await customer.save()
-    await customer.generateAccessToken()
+    const customer = await CustomerService.create(req.body)
     res.status(201).send(customer)
   } catch (error) {
-    console.log(error)
-    res.status(400).send({ message: 'invalid request' })
+    res.status(400).send()
   }
 })
 
 router.get('/me', auth([userRoles.Customer]), async (req, res) => {
   try {
-    const customer = await Customer.findById(req.user.id)
-    if (customer == null) return res.status(400).send()
+    const customer = await CustomerService.findById(req.user.id)
     res.send(customer)
   } catch (error) {
     res.status(500).send()
@@ -31,20 +25,11 @@ router.get('/me', auth([userRoles.Customer]), async (req, res) => {
 
 router.put('/cart', auth([userRoles.Customer]), async (req, res) => {
   try {
-    const customer = await Customer.findById(req.user.id)
-    if (customer === null) return res.status(400).send()
-    for (const cartItem of customer.cart) {
-      if (cartItem.storageItem === req.body.storageItem) {
-        cartItem.quantity = req.body.quantity
-        await customer.save()
-        return res.send()
-      }
-    }
-    customer.cart.push({
-      storageItem: req.body.storageItem,
-      quantity: req.body.quantity,
-    })
-    await customer.save()
+    const customer = await CustomerService.addToCart(
+      req.user.id,
+      req.body.storageItem,
+      req.body.quantity
+    )
     res.status(201).send(customer.cart)
   } catch (error) {
     res.status(500).send(error)
@@ -56,12 +41,10 @@ router.delete(
   auth([userRoles.Customer]),
   async (req, res) => {
     try {
-      const customer = await Customer.findById(req.user.id)
-      if (customer === null) return res.status(400).send()
-      customer.cart.filter(cartItem => {
-        return cartItem.storageItem.toString() !== req.params.storageItemId
-      })
-      await customer.save()
+      const customer = await CustomerService.removeFromCart(
+        req.user.id,
+        req.params.storageItemId
+      )
       res.send(customer.cart)
     } catch (error) {
       res.status(500).send(error)
@@ -71,14 +54,10 @@ router.delete(
 
 router.patch('/me', auth([userRoles.Customer]), async (req, res) => {
   try {
-    const customer = await Customer.findById(req.params.customerId)
-    if (customer === null) return res.status(400).send()
-    await updateByValidKeys(customer, req.body, [
-      'name',
-      'lastName',
-      'phoneNumber',
-      'address',
-    ])
+    const customer = await CustomerService.findAndUpdate(
+      req.params.customerId,
+      req.body
+    )
     res.send(customer)
   } catch (error) {
     res.status(500).send(error)

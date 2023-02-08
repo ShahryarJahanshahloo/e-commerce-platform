@@ -1,43 +1,31 @@
 import express from 'express'
-import Admin, { IAdmin } from '../../models/user/admin/admin.model'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user.model'
-import { updateByValidKeys } from '../../utils/common'
+import * as AdminService from '../../services/user/admin.service'
 
 const router = express.Router()
 
 router.post('/', auth([userRoles.Admin]), async (req, res) => {
   try {
-    const admin = new Admin(req.body)
-    await admin.save()
-    await admin.generateAccessToken()
+    const admin = await AdminService.create(req.body)
     res.status(201).send(admin)
   } catch (error) {
-    console.log(error)
-    res.status(400).send({ message: 'invalid request' })
+    res.status(400).send()
   }
 })
 
 router.get('/me', auth([userRoles.Admin]), async (req, res) => {
   try {
-    const admin = await Admin.findById(req.user.id)
-    if (admin == null) return res.status(400).send()
+    const admin = await AdminService.findById(req.user.id)
     res.send(admin)
   } catch (error) {
-    console.log(error)
-    res.status(400).send({ message: 'invalid request' })
+    res.status(400).send()
   }
 })
 
 router.patch('/me', auth([userRoles.Admin]), async (req, res) => {
   try {
-    const admin = await Admin.findById(req.user.id)
-    if (admin === null) return res.status(404).send()
-    await updateByValidKeys(admin, req.body, [
-      'name',
-      'lastName',
-      'phoneNumber',
-    ])
+    const admin = await AdminService.findAndUpdate(req.user.id, req.body)
     res.send(admin)
   } catch (error) {
     res.status(500).send(error)

@@ -10,6 +10,7 @@ export const create = async (body: any) => {
 export const findById = async (productId: any) => {
   const product = await Product.findById(productId)
   if (product === null) throw new Error()
+  return product
 }
 
 export const findAndUpdate = async (productId: any, updates: any) => {
@@ -39,6 +40,7 @@ export const ChangeProductActivity = async (productId: any, value: boolean) => {
   if (product === null) throw new Error()
   product.isActive = value
   await product.save()
+  return product
 }
 
 export const getProductByCategoryId = async (categoryId: any) => {

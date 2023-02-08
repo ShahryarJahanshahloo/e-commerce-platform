@@ -1,41 +1,29 @@
 import express from 'express'
-import Seller, { ISeller } from '../../models/user/seller/seller.model'
-import { userRoles } from '../../models/user/user.model'
 import auth from '../../middlewares/auth'
-import { updateByValidKeys } from '../../utils/common'
+import { userRoles } from '../../models/user/user.model'
+import * as SellerService from '../../services/user/seller.service'
 
 const router = express.Router()
 
 router.post('/', async (req, res) => {
   try {
-    const seller = new Seller(req.body)
-    await seller.save()
-    await seller.generateAccessToken()
+    const seller = await SellerService.create(req.body)
     res.status(201).send(seller)
   } catch (error) {
-    res.status(400).send(error)
+    res.status(400).send()
   }
 })
 
 router.put('/:sellerId/rate', auth([userRoles.Customer]), async (req, res) => {
   try {
-    const seller = await Seller.findById(req.params.sellerId)
-    if (seller === null) return res.status(400).send()
-    for (const rating of seller.ratings) {
-      if (rating.customer == req.user.id) {
-        rating.value = req.body.value
-        await seller.save()
-        return res.send()
-      }
-    }
-    seller.ratings.push({
-      customer: req.user.id,
-      value: req.body.value,
-    })
-    await seller.save()
-    res.status(201).send()
+    const seller = await SellerService.rate(
+      req.params.sellerId,
+      req.body.value,
+      req.user.id
+    )
+    res.status(201).send(seller)
   } catch (error) {
-    res.status(400).send(error)
+    res.status(400).send()
   }
 })
 
@@ -44,45 +32,32 @@ router.delete(
   auth([userRoles.Customer]),
   async (req, res) => {
     try {
-      const seller = await Seller.findById(req.params.sellerId)
-      if (seller === null) return res.status(400).send()
-      seller.ratings.filter(rating => {
-        return rating.customer != req.user.id
-      })
-      await seller.save()
-      res.send()
+      const seller = await SellerService.removeRate(
+        req.params.sellerId,
+        req.user.id
+      )
+      res.send(seller)
     } catch (error) {
-      res.status(400).send(error)
+      res.status(400).send()
     }
   }
 )
 
 router.get('/me', auth([userRoles.Seller]), async (req, res) => {
   try {
-    const seller = await Seller.findById(req.user.id)
-    if (seller == null) return res.status(400).send()
+    const seller = await SellerService.findById(req.user.id)
     res.send(seller)
   } catch (error) {
-    console.log(error)
-    res.status(400).send({ message: 'invalid request' })
+    res.status(400).send()
   }
 })
 
 router.patch('/me', auth([userRoles.Seller]), async (req, res) => {
   try {
-    const seller = await Seller.findById(req.user.id)
-    if (seller === null) return res.status(400).send()
-    await updateByValidKeys(seller, req.body, [
-      'name',
-      'lastName',
-      'phoneNumber',
-      'shopSlug',
-      'description',
-      'address',
-    ])
+    const seller = await SellerService.findAndUpdate(req.user.id, req.body)
     res.send(seller)
   } catch (error) {
-    res.status(500).send(error)
+    res.status(500).send()
   }
 })
 

@@ -82,5 +82,6 @@ export const checkout = async (orderId: any) => {
     callbackUrl: 'http://localhost:3001/order/callback',
     orderId: order.id,
   })
-  return 'https://gateway.zibal.ir/start/' + result.data.trackId
+  const gatewayLink = 'https://gateway.zibal.ir/start/' + result.data.trackId
+  return gatewayLink
 }

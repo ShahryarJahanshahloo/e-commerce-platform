@@ -8,7 +8,8 @@ export const create = async (body: any) => {
 }
 
 export const findByProductId = async (productId: any) => {
-  return await Comment.find({ product: productId })
+  const comment = await Comment.find({ product: productId })
+  return comment
 }
 
 export const findAndUpdate = async (
