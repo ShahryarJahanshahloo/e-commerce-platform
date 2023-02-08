@@ -1,17 +1,13 @@
 import express from 'express'
 import auth from '../../middlewares/auth'
 import { userRoles } from '../../models/user/user.model'
-import MainCategory, {
-  IMainCategory,
-} from '../../models/category/mainCategory/mainCategory.model'
-import { updateByValidKeys } from '../../utils/common'
+import * as MainCategoryService from '../../services/category/mainCategory.service'
 
 const router = express.Router()
 
 router.post('/', auth([userRoles.Admin]), async (req, res) => {
   try {
-    const category = new MainCategory(req.body)
-    await category.save()
+    const category = await MainCategoryService.create(req.body)
     res.status(201).send(category)
   } catch (error) {
     res.status(400).send(error)
@@ -20,26 +16,30 @@ router.post('/', auth([userRoles.Admin]), async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const mainCategories = await MainCategory.find({ isActive: true })
+    const mainCategories = await MainCategoryService.getAll()
     res.send(mainCategories)
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send(error)
+  }
 })
 
 router.get('/:categoryId/children', async (req, res) => {
   try {
-    const category = await MainCategory.find({
-      isActive: true,
-      _id: req.params.categoryId,
-    }).populate('children')
-    res.send(category)
-  } catch (error) {}
+    const children = await MainCategoryService.getChildrenById(
+      req.params.categoryId
+    )
+    res.send(children)
+  } catch (error) {
+    res.status(500).send(error)
+  }
 })
 
 router.patch('/:categoryId', auth([userRoles.Admin]), async (req, res) => {
   try {
-    const category = await MainCategory.findById(req.params.categoryId)
-    if (category === null) return res.status(400).send()
-    await updateByValidKeys(category, req.body, ['name'])
+    const category = await MainCategoryService.findAndUpdate(
+      req.params.categoryId,
+      req.body
+    )
     res.send(category)
   } catch (error) {
     res.status(500).send(error)
