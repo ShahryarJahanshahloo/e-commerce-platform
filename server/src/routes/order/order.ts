@@ -24,10 +24,11 @@ router.get(
 )
 
 router.get(
-  '/:orderId',
+  '/customer/me',
+  auth([userRoles.Customer]),
   asyncHandler(async (req, res) => {
-    const order = await OrderService.findById(req.params.orderId)
-    res.send(order)
+    const orders = await OrderService.getMyOrders(req.user.id)
+    res.send(orders)
   })
 )
 
@@ -41,11 +42,10 @@ router.get(
 )
 
 router.get(
-  '/customer/me',
-  auth([userRoles.Customer]),
+  '/:orderId',
   asyncHandler(async (req, res) => {
-    const orders = await OrderService.getMyOrders(req.user.id)
-    res.send(orders)
+    const order = await OrderService.findById(req.params.orderId)
+    res.send(order)
   })
 )
 

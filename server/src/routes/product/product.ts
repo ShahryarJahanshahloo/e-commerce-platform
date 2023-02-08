@@ -16,6 +16,24 @@ router.post(
 )
 
 router.get(
+  '/search',
+  asyncHandler(async (req, res) => {
+    const products = await ProductService.searchByName(req.query.query)
+    res.send(products)
+  })
+)
+
+router.get(
+  '/category/:categoryId',
+  asyncHandler(async (req, res) => {
+    const products = await ProductService.getProductByCategoryId(
+      req.params.categoryId
+    )
+    res.send(products)
+  })
+)
+
+router.get(
   '/:productId',
   asyncHandler(async (req, res) => {
     const product = await ProductService.findById(req.params.productId)
@@ -81,21 +99,6 @@ router.patch(
     )
     res.send(product)
   })
-)
-
-router.get(
-  '/category/:categoryId',
-  asyncHandler(async (req, res) => {
-    const products = await ProductService.getProductByCategoryId(
-      req.params.categoryId
-    )
-    res.send(products)
-  })
-)
-
-router.get(
-  '/search',
-  asyncHandler(async (req, res) => {})
 )
 
 router.put(

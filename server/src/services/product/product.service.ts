@@ -48,7 +48,10 @@ export const getProductByCategoryId = async (categoryId: any) => {
   return products
 }
 
-export const searchByName = async (body: any) => {}
+export const searchByName = async (query: any) => {
+  const products = await Product.find({ name: new RegExp(query) })
+  return products
+}
 
 export const rateProduct = async (productId: any, value: any, userId: any) => {
   const product = await Product.findById(productId)

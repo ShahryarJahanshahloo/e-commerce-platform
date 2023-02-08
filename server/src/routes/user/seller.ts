@@ -14,6 +14,24 @@ router.post(
   })
 )
 
+router.get(
+  '/me',
+  auth([userRoles.Seller]),
+  asyncHandler(async (req, res) => {
+    const seller = await SellerService.findById(req.user.id)
+    res.send(seller)
+  })
+)
+
+router.patch(
+  '/me',
+  auth([userRoles.Seller]),
+  asyncHandler(async (req, res) => {
+    const seller = await SellerService.findAndUpdate(req.user.id, req.body)
+    res.send(seller)
+  })
+)
+
 router.put(
   '/:sellerId/rate',
   auth([userRoles.Customer]),
@@ -35,24 +53,6 @@ router.delete(
       req.params.sellerId,
       req.user.id
     )
-    res.send(seller)
-  })
-)
-
-router.get(
-  '/me',
-  auth([userRoles.Seller]),
-  asyncHandler(async (req, res) => {
-    const seller = await SellerService.findById(req.user.id)
-    res.send(seller)
-  })
-)
-
-router.patch(
-  '/me',
-  auth([userRoles.Seller]),
-  asyncHandler(async (req, res) => {
-    const seller = await SellerService.findAndUpdate(req.user.id, req.body)
     res.send(seller)
   })
 )

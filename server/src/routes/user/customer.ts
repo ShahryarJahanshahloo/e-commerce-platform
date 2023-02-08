@@ -23,6 +23,18 @@ router.get(
   })
 )
 
+router.patch(
+  '/me',
+  auth([userRoles.Customer]),
+  asyncHandler(async (req, res) => {
+    const customer = await CustomerService.findAndUpdate(
+      req.params.customerId,
+      req.body
+    )
+    res.send(customer)
+  })
+)
+
 router.put(
   '/cart',
   auth([userRoles.Customer]),
@@ -45,18 +57,6 @@ router.delete(
       req.params.storageItemId
     )
     res.send(customer.cart)
-  })
-)
-
-router.patch(
-  '/me',
-  auth([userRoles.Customer]),
-  asyncHandler(async (req, res) => {
-    const customer = await CustomerService.findAndUpdate(
-      req.params.customerId,
-      req.body
-    )
-    res.send(customer)
   })
 )
 

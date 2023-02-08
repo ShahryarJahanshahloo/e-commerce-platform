@@ -15,6 +15,17 @@ router.post(
   })
 )
 
+router.get(
+  '/seller/:sellerId/report',
+  auth([userRoles.Seller]),
+  asyncHandler(async (req, res) => {
+    const products = await StorageItemService.findBySellerId(
+      req.params.sellerId
+    )
+    res.send(products)
+  })
+)
+
 router.patch(
   '/:storageItemID',
   auth([userRoles.Seller]),
@@ -24,17 +35,6 @@ router.patch(
       req.body
     )
     res.send(storageItem)
-  })
-)
-
-router.get(
-  '/seller/:sellerId/report',
-  auth([userRoles.Seller]),
-  asyncHandler(async (req, res) => {
-    const products = await StorageItemService.findBySellerId(
-      req.params.sellerId
-    )
-    res.send(products)
   })
 )
 
