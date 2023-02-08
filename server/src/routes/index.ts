@@ -1,4 +1,5 @@
 import express from 'express'
+import asyncHandler from 'express-async-handler'
 import userRouter from './user/user'
 import customerRouter from './user/customer'
 import adminRouter from './user/admin'
@@ -17,9 +18,12 @@ import shipmentRouter from './shipment/shipment'
 
 const router = express.Router()
 
-router.get('/ping/:id', (req, res, next) => {
-  throw new Error('mamad')
-})
+router.get(
+  '/ping',
+  asyncHandler(async (req, res) => {
+    await Promise.reject('pong error')
+  })
+)
 
 router.use('/user', userRouter)
 router.use('/user/customer', customerRouter)
