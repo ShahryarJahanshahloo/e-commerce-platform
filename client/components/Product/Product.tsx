@@ -19,7 +19,7 @@ const Product: React.FC<Props> = ({ id, name, price, rate }) => {
 
   return (
     <div className={s.product} onClick={redirectToProduct}>
-      <div className={s.right}>
+      <div className={s['image-wrapper']}>
         <Image src='/images/coffee.jpg' alt='coffee' width={120} height={120} />
       </div>
       <div className={s.left}>
