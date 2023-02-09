@@ -1,8 +1,8 @@
-import { AsyncThunk, unwrapResult } from '@reduxjs/toolkit'
+// import { AsyncThunk, unwrapResult } from '@reduxjs/toolkit'
 import { useCallback, useState } from 'react'
 import { AppThunk, useAppDispatch } from '../utils/store'
 
-export const useThunk = <ThunkInput = void>(
+const useThunk = <ThunkInput = void>(
   thunk: (args: ThunkInput) => AppThunk //AsyncThunk<any, ThunkInput, any>
 ) => {
   const dispatch = useAppDispatch()
@@ -18,3 +18,5 @@ export const useThunk = <ThunkInput = void>(
 
   return { isLoading, sendRequest }
 }
+
+export default useThunk

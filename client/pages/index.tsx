@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useAppSelector } from '../utils/store'
 import { fetchCart } from '../services/cart/cart.thunks'
-import { useThunk } from '../hooks/useThunk'
+import useThunk from '../hooks/useThunk'
 import Loading from '../components/Loading/Loading'
 
 const HomePage = () => {

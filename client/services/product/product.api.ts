@@ -56,11 +56,11 @@ export const GetProductsByCategory = (
   return request.get(`/product/category/${categoryId}`)
 }
 
-// export const SearchProducts = (
-//   id: string
-// ): RequestReturnType<ApiCategory[]> => {
-//   return request.get(`/category/${id}/children`)
-// }
+export const SearchProducts = (
+  query: string
+): RequestReturnType<ApiProduct[]> => {
+  return request.get(`/product/search?query=` + query)
+}
 
 export const RateProduct = (
   productId: string,

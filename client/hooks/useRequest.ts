@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { RequestReturnType } from '../services/axios'
 
 type UseRequestType<T> = {
@@ -10,7 +10,7 @@ type UseRequestType<T> = {
   sendRequest: (...args: any) => void
 }
 
-export const useRequest = <T = unknown>(
+const useRequest = <T = unknown>(
   request: (...args: any) => RequestReturnType<T>,
   onSuccess?: (response: T) => void,
   onError?: (error: AxiosError) => void
@@ -44,3 +44,5 @@ export const useRequest = <T = unknown>(
     sendRequest,
   }
 }
+
+export default useRequest
