@@ -1,11 +1,13 @@
+@import 'variables';
+
 .header {
   width: 100%;
   height: 56px;
   position: sticky;
   top: 0;
   z-index: 5;
-  background-color: #fff;
-  border-bottom: 1px solid #e4e4e4;
+  background-color: $color-ui-background;
+  border-bottom: 1px solid $color-border;
 }
 
 .inner {

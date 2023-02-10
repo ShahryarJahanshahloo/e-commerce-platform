@@ -1,3 +1,5 @@
+@import 'variables';
+
 .footer {
   display: flex;
   flex-direction: column;
@@ -7,16 +9,16 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #f9f9f9;
-  border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
+  background-color: $color-ui-background;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
   padding: 20px 0;
 }
 
 .menu-item {
   text-align: center;
   margin: 6px 0;
-  color: #45424e;
+  color: $color-text-secondary;
 }
 
 .inner {

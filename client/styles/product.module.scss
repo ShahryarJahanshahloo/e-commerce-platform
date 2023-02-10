@@ -1,3 +1,5 @@
+@import 'variables';
+
 .flex {
   display: flex;
   flex-direction: column;
@@ -23,8 +25,8 @@
 }
 
 .button {
-  background-color: #3ecf8e;
-  color: #fff;
+  background-color: $color-button-background;
+  color: $color-button-text;
   border-radius: 5px;
   font-weight: 600;
   height: 56px;
