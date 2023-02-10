@@ -5,7 +5,7 @@
   height: 56px;
   position: sticky;
   top: 0;
-  z-index: 5;
+  z-index: $zindex-header;
   background-color: $color-ui-background;
   border-bottom: 1px solid $color-border;
 }

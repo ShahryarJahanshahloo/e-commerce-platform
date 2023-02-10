@@ -12,7 +12,7 @@
   width: 100%;
   padding-top: 20px;
   max-width: 1200px;
-  z-index: 10;
+  z-index: $zindex-modal;
   overflow-y: auto;
   transition: right 0.3s;
   background-color: $color-ui-background;

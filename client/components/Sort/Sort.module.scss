@@ -2,7 +2,7 @@
 
 %modal-shared {
   position: fixed;
-  z-index: 20;
+  z-index: $zindex-modal;
   left: 0;
   top: 0;
   transition: background-color 0.5s ease;

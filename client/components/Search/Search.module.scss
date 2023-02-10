@@ -14,7 +14,7 @@
   @extend %wrapper-shared;
   visibility: visible;
   opacity: 1;
-  z-index: 10;
+  z-index: $zindex-modal;
 }
 
 .wrapper-closed {
@@ -22,7 +22,7 @@
   position: fixed;
   visibility: hidden;
   opacity: 0;
-  z-index: -1;
+  z-index: $zindex-invisible;
 }
 
 .inner {
@@ -57,20 +57,20 @@
   width: 100%;
   max-height: 300px;
   flex-shrink: 0;
-  z-index: -1;
+  z-index: $zindex-invisible;
   padding: 5px 15px;
 
   &-inner {
     &-visible {
       @extend %dropdown-inner-shared;
       opacity: 1;
-      z-index: -1;
+      z-index: $zindex-invisible;
     }
 
     &-hidden {
       @extend %dropdown-inner-shared;
       opacity: 0;
-      z-index: 10;
+      z-index: $zindex-modal;
     }
   }
 }
