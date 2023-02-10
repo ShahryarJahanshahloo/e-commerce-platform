@@ -1,6 +1,7 @@
+$wrapper-height: 50px;
 .wrapper {
   width: 100%;
-  height: 50px;
+  height: $wrapper-height;
   margin-bottom: 10px;
 }
 
@@ -19,7 +20,7 @@
 
 .name {
   width: 100%;
-  line-height: 50px;
+  line-height: $wrapper-height;
   overflow-x: hidden;
-  font-size: 14px;
+  font-size: 1.4rem;
 }

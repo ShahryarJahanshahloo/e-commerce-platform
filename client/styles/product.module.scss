@@ -11,7 +11,7 @@
 .title {
   direction: rtl;
   width: 100%;
-  font-size: 24px;
+  font-size: 2.4rem;
   padding: 10px 0;
 }
 
@@ -24,13 +24,14 @@
   padding: 0 10px;
 }
 
+$button-height: 56px;
 .button {
   background-color: $color-button-background;
   color: $color-button-text;
   border-radius: 5px;
   font-weight: 600;
-  height: 56px;
-  line-height: 56px;
+  height: $button-height;
+  line-height: $button-height;
   width: 100%;
   text-align: center;
 }

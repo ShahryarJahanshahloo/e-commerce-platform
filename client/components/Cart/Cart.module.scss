@@ -70,6 +70,7 @@
   }
 }
 
+$order-button-height: 45px;
 .order {
   display: flex;
   flex-direction: row;
@@ -80,9 +81,9 @@
 
   &-button {
     width: 100%;
-    height: 45px;
+    height: $order-button-height;
     text-align: center;
-    line-height: 45px;
+    line-height: $order-button-height;
     background-color: $color-button-background;
     color: $color-button-text;
     border-radius: 5px;
