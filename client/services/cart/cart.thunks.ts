@@ -1,5 +1,6 @@
 import { AppThunk } from '../../utils/store'
-import { setCart, setError } from './cart.slice'
+import { FormCartItem } from './cart.entities'
+import { setCart, setError, changeQuantity } from './cart.slice'
 
 const delay = () => {
   return new Promise<void>((resolve, reject) => {
@@ -26,3 +27,14 @@ export const fetchCart = (): AppThunk => async (dispatch, getState, extra) => {
 //     dispatch(setCart(res))
 //   }
 // )
+
+export const changeItemQuantity =
+  (cartItem: FormCartItem): AppThunk =>
+  async (dispatch, getState, extra) => {
+    try {
+      await extra.serviceApi.cart.AddToCart(cartItem)
+      dispatch(changeQuantity(cartItem))
+    } catch (error) {
+      dispatch(setError(error))
+    }
+  }

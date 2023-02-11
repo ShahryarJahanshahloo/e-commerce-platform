@@ -25,7 +25,7 @@ export const GetCart = (): ApiCartItem[] => {
 }
 
 export const AddToCart = (cartItem: FormCartItem): RequestReturnType<{}> => {
-  return request.put('/user/customer/me/cart', { ...cartItem })
+  return request.put('/user/customer/cart', { ...cartItem })
 }
 
 export const RemoveFromCart = (

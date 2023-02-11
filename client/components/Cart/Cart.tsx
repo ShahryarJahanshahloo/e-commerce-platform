@@ -62,8 +62,11 @@ const Cart: React.FC<Props> = ({ isOpen, closeHandler }) => {
             return (
               <CartItem
                 key={cartItem.storageItem}
-                storageItem={cartItem.storageItem}
+                productId={cartItem.productId}
+                storageItemId={cartItem.storageItem}
                 quantity={cartItem.quantity}
+                productName={cartItem.productName}
+                price={cartItem.price}
               />
             )
           })
