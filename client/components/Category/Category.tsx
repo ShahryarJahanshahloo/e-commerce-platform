@@ -48,6 +48,7 @@ const Category: React.FC<Props> = ({ id, name, isChild }) => {
     return data
   }, [isOpen])
 
+  //TODO: dont remove from dom!
   return (
     <div className={isChild ? s['category-child'] : s['category-nonchild']}>
       <div className={s.upper}>

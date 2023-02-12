@@ -50,4 +50,8 @@ const ProductPage = () => {
   )
 }
 
+export async function getStaticProps() {}
+
+export async function getStaticPaths() {}
+
 export default ProductPage

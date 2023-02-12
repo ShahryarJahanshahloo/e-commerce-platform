@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import serviceApi from '../services/serviceApi'
+import { toast } from 'react-toastify'
 
 import CartSlice from '../services/cart/cart.slice'
 import UserSlice from '../services/user/user.slice'
@@ -18,7 +19,7 @@ const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       thunk: {
-        extraArgument: { serviceApi },
+        extraArgument: { serviceApi, toast },
       },
     }),
 })
@@ -26,7 +27,10 @@ const store = configureStore({
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
-  { serviceApi: typeof serviceApi },
+  {
+    serviceApi: typeof serviceApi
+    toast: typeof toast
+  },
   AnyAction
 >
 

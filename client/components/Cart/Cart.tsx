@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-
 import CartItem from '../CartItem/CartItem'
-import { ApiCartItem } from '../../services/cart/cart.entities'
-
 import s from './Cart.module.scss'
 import { IoClose as CloseButton } from 'react-icons/io5'
+import { useAppDispatch, useAppSelector } from '../../utils/store'
+import { fetchCart } from '../../services/cart/cart.thunks'
 
 type Props = {
   isOpen: boolean
@@ -13,38 +12,12 @@ type Props = {
 
 //TODO: separate list (new component or custom hook)
 const Cart: React.FC<Props> = ({ isOpen, closeHandler }) => {
-  const [items, setItems] = useState<ApiCartItem[]>()
+  const dispatch = useAppDispatch()
+  const items = useAppSelector(state => state.cart.data)
 
   useEffect(() => {
-    //this line might cause issues!
-    if (!isOpen) return
-
-    // const { data } = await GetCart()
-    const data = [
-      {
-        storageItem: '1asduih1u23',
-        quantity: 1,
-        price: 123,
-        productId: 'asdqwe123',
-        productName: 'product2',
-      },
-      {
-        storageItem: 'as2duih1u23123',
-        quantity: 3,
-        price: 123,
-        productId: 'asdqwe123',
-        productName: 'product2',
-      },
-      {
-        storageItem: 'asdu3ih1u665723',
-        quantity: 4,
-        price: 123,
-        productId: 'asdqwe123',
-        productName: 'product2',
-      },
-    ]
-    setItems(data)
-  }, [isOpen])
+    dispatch(fetchCart())
+  }, [])
 
   const finalizeOrderHandler = () => {}
 

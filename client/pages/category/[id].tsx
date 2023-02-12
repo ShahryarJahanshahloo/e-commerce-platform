@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
 // import { useRouter } from 'next/router'
-
 import { ApiProductCart } from '../../services/product/product.entities'
 import { GetProductsByCategory } from '../../services/product/product.api'
 import Product from '../../components/Product/Product'
 import Sort from '../../components/Sort/Sort'
 import Filter from '../../components/Filter/Filter'
 import useMenu from '../../hooks/useMenu'
-
 import s from '../../styles/category.module.scss'
 import { BiSortDown as SortIcon } from 'react-icons/bi'
 import { GoSettings as FilterIcon } from 'react-icons/go'
@@ -25,31 +23,25 @@ const CategoryPage = () => {
       const data = [
         {
           _id: 'ciga1731aosfh123',
-          name: 'قهوه مشتی قهوه ای رنگ',
+          name: 'دسته بندی ۱',
           price: 200,
           rate: 4.2,
         },
         {
           _id: 'ciga1731aosfh1213',
-          name: 'قهوه سوپر مشتی خیلی قهوه ای رنگ تلخ آشغال بی مزه',
+          name: 'دسته بندی ۲',
           price: 200,
           rate: 4.2,
         },
         {
           _id: 'ciga1731aosfh1123',
-          name: 'mamad',
+          name: 'دسته بندی ۳',
           price: 200,
           rate: 4.2,
         },
         {
           _id: 'ciga17321aosfh123',
-          name: 'mamad',
-          price: 200,
-          rate: 4.2,
-        },
-        {
-          _id: 'ciga1731a3osfh123',
-          name: 'mamad',
+          name: 'دسته بندی ۴',
           price: 200,
           rate: 4.2,
         },
