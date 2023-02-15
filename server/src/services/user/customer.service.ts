@@ -1,3 +1,4 @@
+import { IStorageItem } from '../../models/storageItem/storageItem.model'
 import Customer from '../../models/user/customer/customer.model'
 import { updateByValidKeys } from '../../utils/common'
 
@@ -14,6 +15,17 @@ export const findById = async (userId: any) => {
   return customer
 }
 
+export const getCart = async (userId: any) => {
+  const customer = await Customer.findById(userId)
+    .populate({
+      path: 'cart.storageItem',
+      populate: { path: 'product' },
+    })
+    .exec()
+  if (customer == null) throw new Error()
+  return customer.cart
+}
+
 export const addToCart = async (
   userId: any,
   storageItemId: any,
@@ -22,7 +34,7 @@ export const addToCart = async (
   const customer = await Customer.findById(userId)
   if (customer === null) throw new Error()
   for (const cartItem of customer.cart) {
-    if (cartItem.storageItem === storageItemId) {
+    if (cartItem.storageItem == storageItemId) {
       cartItem.quantity = quantity
       await customer.save()
       return customer
@@ -39,8 +51,8 @@ export const addToCart = async (
 export const removeFromCart = async (userId: any, storageItemId: any) => {
   const customer = await Customer.findById(userId)
   if (customer === null) throw new Error()
-  customer.cart.filter(cartItem => {
-    return cartItem.storageItem.toString() !== storageItemId
+  customer.cart = customer.cart.filter(cartItem => {
+    return cartItem.storageItem.toString() != storageItemId
   })
   await customer.save()
   return customer

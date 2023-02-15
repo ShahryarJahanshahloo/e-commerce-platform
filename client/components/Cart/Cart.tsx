@@ -30,29 +30,38 @@ const Cart: React.FC<Props> = ({ isOpen, closeHandler }) => {
         <span className={s['label']}>سبد خرید</span>
       </div>
       <div className={s['list']}>
-        {items ? (
-          items.map(cartItem => {
-            return (
-              <CartItem
-                key={cartItem.storageItem}
-                productId={cartItem.productId}
-                storageItemId={cartItem.storageItem}
-                quantity={cartItem.quantity}
-                productName={cartItem.productName}
-                price={cartItem.price}
-              />
-            )
-          })
-        ) : (
-          <div className={s['alter']}>
-            <span className={s['alter-text']}>
-              هنوز محصولی به سبد خرید اضافه نکردید
-            </span>
-          </div>
-        )}
+        {items &&
+          (items.length > 0 ? (
+            items.map(cartItem => {
+              return (
+                <CartItem
+                  key={cartItem.storageItem._id}
+                  productId={cartItem.storageItem.product._id}
+                  storageItemId={cartItem.storageItem._id}
+                  quantity={cartItem.quantity}
+                  productName={cartItem.storageItem.product.name}
+                  price={cartItem.storageItem.price}
+                />
+              )
+            })
+          ) : (
+            <div className={s['alter']}>
+              <span className={s['alter-text']}>
+                هنوز محصولی به سبد خرید اضافه نکردید
+              </span>
+            </div>
+          ))}
       </div>
       <div className={s.order}>
-        <div className={s['order-button']} onClick={finalizeOrderHandler}>
+        <div
+          className={
+            items &&
+            (items.length > 0
+              ? s['order-button-enabled']
+              : s['order-button-disabled'])
+          }
+          onClick={finalizeOrderHandler}
+        >
           نهایی کردن خرید
         </div>
       </div>

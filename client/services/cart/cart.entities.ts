@@ -1,9 +1,13 @@
 export type ApiCartItem = {
-  storageItem: string
+  storageItem: {
+    _id: string
+    price: number
+    product: {
+      _id: string
+      name: string
+    }
+  }
   quantity: number
-  price: number
-  productId: string
-  productName: string
 }
 
 export type FormCartItem = {

@@ -1,6 +1,6 @@
 import { AppThunk } from '../../utils/store'
 import { FormCartItem } from './cart.entities'
-import { setCart, setError, changeQuantity } from './cart.slice'
+import { setCart, setError, changeQuantity, removeFromCart } from './cart.slice'
 
 export const fetchCart = (): AppThunk => async (dispatch, getState, extra) => {
   try {
@@ -17,6 +17,17 @@ export const changeItemQuantity =
     try {
       await extra.serviceApi.cart.AddToCart(cartItem)
       dispatch(changeQuantity(cartItem))
+    } catch (error) {
+      dispatch(setError(error))
+    }
+  }
+
+export const removeItem =
+  (storageItemId: string): AppThunk =>
+  async (dispatch, getState, extra) => {
+    try {
+      await extra.serviceApi.cart.RemoveFromCart(storageItemId)
+      dispatch(removeFromCart(storageItemId))
     } catch (error) {
       dispatch(setError(error))
     }

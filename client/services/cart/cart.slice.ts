@@ -24,13 +24,13 @@ const CartSlice = createSlice({
       state.data?.push(action.payload)
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
-      state.data?.filter(item => {
-        return item.storageItem !== action.payload
+      state.data = state.data?.filter(item => {
+        return item.storageItem._id !== action.payload
       })
     },
     changeQuantity: (state, action: PayloadAction<FormCartItem>) => {
       const item = state.data?.find(cartItem => {
-        return cartItem.storageItem === action.payload.storageItem
+        return cartItem.storageItem._id === action.payload.storageItem
       })
       if (item !== undefined) item.quantity = action.payload.quantity
     },

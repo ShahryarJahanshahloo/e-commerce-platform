@@ -6,7 +6,7 @@ import s from './CartItem.module.scss'
 import { TbTrash as TrashIcon } from 'react-icons/tb'
 import { BsPlus as PlusIcon } from 'react-icons/bs'
 import { BiMinus as MinusIcon } from 'react-icons/bi'
-import { changeItemQuantity } from '../../services/cart/cart.thunks'
+import { changeItemQuantity, removeItem } from '../../services/cart/cart.thunks'
 
 type Props = {
   productId: string
@@ -31,6 +31,8 @@ const CartItem: React.FC<Props> = props => {
   }
 
   const decrementHandler = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    if (props.quantity == 1) return
     dispatch(
       changeItemQuantity({
         storageItem: props.storageItemId,
@@ -43,6 +45,11 @@ const CartItem: React.FC<Props> = props => {
     router.push(`/product/${props.productId}`)
   }
 
+  const removeHandler = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    dispatch(removeItem(props.storageItemId))
+  }
+
   return (
     <div className={s['cart-item']} onClick={redirectHandler}>
       <div className={s.right}>
@@ -53,7 +60,7 @@ const CartItem: React.FC<Props> = props => {
       <div className={s.left}>
         <div className={s.top}>
           <div className={s.name}>{props.productName}</div>
-          <div className={s.remove}>
+          <div className={s.remove} onClick={removeHandler}>
             <TrashIcon style={{ fontSize: '20px' }} />
           </div>
         </div>
@@ -68,7 +75,12 @@ const CartItem: React.FC<Props> = props => {
             </div>
             <div className={s.quantity}>{props.quantity}</div>
             <div className={s['quantity-icon']} onClick={decrementHandler}>
-              <MinusIcon style={{ fontSize: '14px' }} />
+              <MinusIcon
+                style={{
+                  fontSize: '14px',
+                  color: props.quantity == 1 ? 'silver' : undefined,
+                }}
+              />
             </div>
           </div>
         </div>

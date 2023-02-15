@@ -35,6 +35,15 @@ router.patch(
   })
 )
 
+router.get(
+  '/cart',
+  auth([userRoles.Customer]),
+  asyncHandler(async (req, res) => {
+    const cart = await CustomerService.getCart(req.user.id)
+    res.send(cart)
+  })
+)
+
 router.put(
   '/cart',
   auth([userRoles.Customer]),

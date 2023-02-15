@@ -71,6 +71,15 @@
 }
 
 $order-button-height: 45px;
+%order-button-shared {
+  width: 100%;
+  height: $order-button-height;
+  text-align: center;
+  line-height: $order-button-height;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
 .order {
   display: flex;
   flex-direction: row;
@@ -80,13 +89,16 @@ $order-button-height: 45px;
   padding: 20px;
 
   &-button {
-    width: 100%;
-    height: $order-button-height;
-    text-align: center;
-    line-height: $order-button-height;
-    background-color: $color-button-background;
-    color: $color-button-text;
-    border-radius: 5px;
-    font-weight: 600;
+    &-enabled {
+      @extend %order-button-shared;
+      background-color: $color-button-background;
+      color: $color-button-text;
+    }
+
+    &-disabled {
+      @extend %order-button-shared;
+      background-color: $color-button-background-disabled;
+      color: $color-button-text-disabled;
+    }
   }
 }

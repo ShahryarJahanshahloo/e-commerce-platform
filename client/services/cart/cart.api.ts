@@ -12,5 +12,5 @@ export const AddToCart = (cartItem: FormCartItem): RequestReturnType<{}> => {
 export const RemoveFromCart = (
   storageItemId: string
 ): RequestReturnType<{}> => {
-  return request.delete('/user/customer/me/cart/' + storageItemId)
+  return request.delete('/user/customer/cart/' + storageItemId)
 }

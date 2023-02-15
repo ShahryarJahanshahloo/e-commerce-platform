@@ -53,6 +53,7 @@ const CustomerSchema = new Schema<ICustomer, CustomerModel, ICustomerMethods>(
           quantity: {
             type: Number,
             required: true,
+            min: 1,
             set: function (value: number) {
               return Math.trunc(value)
             },
