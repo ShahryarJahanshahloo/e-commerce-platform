@@ -31,20 +31,24 @@ const ProductPage: NextPage<ApiProductPublic> = props => {
   )
 }
 
-export const getStaticProps: GetStaticProps<
-  ApiProductPublic
-> = async context => {
-  const res = await GetProduct(context.params.id as string)
-
-  return {
-    props: res.data,
+export const getStaticProps: GetStaticProps = async context => {
+  try {
+    const res = await GetProduct(context.params?.id as string)
+    return {
+      props: res.data,
+      revalidate: 3600,
+    }
+  } catch (error) {
+    return {
+      notFound: true,
+    }
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await GetAllIds()
   const paths = res.data.map(product => ({ params: { id: product._id } }))
-  return { paths, fallback: false }
+  return { paths, fallback: 'blocking' }
 }
 
 export default ProductPage
