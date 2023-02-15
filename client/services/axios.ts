@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 
-const baseURL = 'http://localhost:3001/'
+const baseURL = 'http://SE1-Shop-api:3001/'
 
 const request = axios.create({
   baseURL,
@@ -21,6 +21,7 @@ request.interceptors.response.use(
 request.interceptors.request.use(
   config => {
     if (typeof window !== 'undefined') {
+      config.baseURL = 'http://localhost:3001/'
       const token = localStorage.getItem('jwt')
       if (token) {
         if (config.headers) {

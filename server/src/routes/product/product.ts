@@ -16,6 +16,14 @@ router.post(
 )
 
 router.get(
+  '/',
+  asyncHandler(async (req, res) => {
+    const products = await ProductService.getAllIds()
+    res.send(products)
+  })
+)
+
+router.get(
   '/search',
   asyncHandler(async (req, res) => {
     const products = await ProductService.searchByName(req.query.query)

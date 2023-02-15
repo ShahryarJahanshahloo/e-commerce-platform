@@ -16,6 +16,8 @@ services:
   client:
     container_name: SE1-Shop-client
     tty: true
+    depends_on:
+      - api
     restart: unless-stopped
     build:
       context: ./client
@@ -33,6 +35,8 @@ services:
     volumes:
       - mongodb:/data/db
       - mongodb_config:/data/configdb
+    tty: false
+
 volumes:
   mongodb:
   mongodb_config:

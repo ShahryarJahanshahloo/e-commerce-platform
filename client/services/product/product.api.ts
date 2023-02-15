@@ -1,6 +1,6 @@
 import { RequestReturnType } from '../axios'
 import request from '../axios'
-import { ApiProduct, FormProduct } from './product.entities'
+import { ApiProduct, ApiProductPublic, FormProduct } from './product.entities'
 
 export const CreateProduct = (
   product: FormProduct
@@ -10,7 +10,7 @@ export const CreateProduct = (
 
 export const GetProduct = (
   productId: string
-): RequestReturnType<ApiProduct> => {
+): RequestReturnType<ApiProductPublic> => {
   return request.get(`/product/${productId}`)
 }
 
@@ -71,4 +71,8 @@ export const RateProduct = (
 
 export const UnrateProduct = (productId: string): RequestReturnType<{}> => {
   return request.delete('/product/' + productId + '/rate')
+}
+
+export const GetAllIds = (): RequestReturnType<{ _id: string }[]> => {
+  return request.get('/product')
 }

@@ -53,6 +53,11 @@ export const searchByName = async (query: any) => {
   return products
 }
 
+export const getAllIds = async () => {
+  const products = await Product.find({}, '_id')
+  return products
+}
+
 export const rateProduct = async (productId: any, value: any, userId: any) => {
   const product = await Product.findById(productId)
   if (product === null) throw new Error()
