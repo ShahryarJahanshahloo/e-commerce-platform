@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import s from './Auth.module.scss'
+import { FiUser as UserIcon } from 'react-icons/fi'
 
 const Auth: React.FC = () => {
   const router = useRouter()

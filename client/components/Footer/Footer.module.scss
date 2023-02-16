@@ -42,6 +42,7 @@
 
   @include desktop {
     flex-direction: row-reverse;
+    padding: 20px 40px;
   }
 }
 
@@ -51,7 +52,7 @@
   @include desktop {
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: flex-end;
   }
 }
 
@@ -63,18 +64,26 @@
   padding: 20px 0;
 
   @include desktop {
-    width: 300px;
+    width: 200px;
+    justify-content: space-between;
   }
 }
 
 .phone-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
   @include desktop {
     width: 300px;
+    justify-content: flex-end;
   }
 }
 
 .enamad-wrapper {
   @include desktop {
-    padding-left: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 }
