@@ -55,10 +55,9 @@ const Cart: React.FC<Props> = ({ isOpen, closeHandler }) => {
       <div className={s.order}>
         <div
           className={
-            items &&
-            (items.length > 0
-              ? s['order-button-enabled']
-              : s['order-button-disabled'])
+            !items || items.length == 0
+              ? s['order-button-disabled']
+              : s['order-button-enabled']
           }
           onClick={finalizeOrderHandler}
         >

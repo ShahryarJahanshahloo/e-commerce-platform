@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { useRouter } from 'next/router'
-
 import Category from '../Category/Category'
 import { ApiCategory } from '../../services/category/category.entities'
-
 import s from './Menu.module.scss'
 import { IoClose as CloseButton } from 'react-icons/io5'
+import Auth from '../Auth/Auth'
 
 type Props = {
   isOpen: boolean
@@ -15,16 +13,7 @@ type Props = {
 
 //TODO: separate list (new component or customer hook)
 const Menu: React.FC<Props> = ({ isOpen, closeHandler }) => {
-  const router = useRouter()
   const [mainCategories, setMainCategories] = useState<ApiCategory[]>()
-
-  const redirectToLogin = () => {
-    router.push('/login')
-  }
-
-  const redirectToSignup = () => {
-    router.push('/signup')
-  }
 
   useEffect(() => {
     const fetch = async () => {
@@ -66,15 +55,7 @@ const Menu: React.FC<Props> = ({ isOpen, closeHandler }) => {
         <span className={s.close} onClick={closeHandler}>
           <CloseButton style={{ fontSize: '32px' }} />
         </span>
-        <div className={s.auth}>
-          <span className={s.login} onClick={redirectToLogin}>
-            وارد شوید
-          </span>
-          <span className={s.separator}>|</span>
-          <span className={s.signup} onClick={redirectToSignup}>
-            عضویت
-          </span>
-        </div>
+        <Auth />
         <div className={s.categories}>
           {mainCategories
             ? mainCategories.map(mainCategory => {
