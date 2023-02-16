@@ -1,8 +1,15 @@
 @import 'variables';
+@import 'mixins';
 
 .menu-wrapper {
   background-color: $color-ui-background;
   height: 0;
+
+  @include desktop {
+    height: 64px;
+    border-top: 1px solid $color-border;
+    background: $color-ui-background-secondary;
+  }
 }
 
 %menu-shared {

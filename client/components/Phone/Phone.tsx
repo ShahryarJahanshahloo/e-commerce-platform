@@ -6,13 +6,17 @@ const iconStyle = {
   fontSize: '20px',
 }
 
-const Phone: React.FC = () => {
+type Props = {
+  dark?: boolean
+}
+
+const Phone: React.FC<Props> = ({ dark = false }) => {
   return (
     <div className={s.phone}>
-      <div className={s['phone-number']}>09131234567</div>
-      <div className={s['icon-wrapper']}>
+      <span className={s['phone-number']}>09131234567</span>
+      <span className={s['icon-wrapper']}>
         <PhoneIcon style={iconStyle} />
-      </div>
+      </span>
     </div>
   )
 }
