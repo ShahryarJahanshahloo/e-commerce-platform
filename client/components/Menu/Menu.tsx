@@ -52,9 +52,9 @@ const Menu: React.FC<Props> = ({ isOpen, closeHandler }) => {
   return (
     <div className={s['menu-wrapper']}>
       <div className={isOpen ? s['menu-open'] : s['menu-closed']}>
-        <span className={s.close} onClick={closeHandler}>
+        <div className={s.close} onClick={closeHandler}>
           <CloseButton style={{ fontSize: '32px' }} />
-        </span>
+        </div>
         <Auth />
         <div className={s.categories}>
           {mainCategories
