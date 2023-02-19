@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import '../styles/globals.scss'
 import 'react-toastify/dist/ReactToastify.css'
 import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
