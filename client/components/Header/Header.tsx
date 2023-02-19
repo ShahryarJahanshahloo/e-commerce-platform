@@ -48,9 +48,7 @@ const Header: React.FC = props => {
             <Search isOpen={isSearchOpen} closeHandler={closeSearchHandler} />
           </div>
           <div className={s.middle}>
-            <div className={s.logo} onClick={redirectToHome}>
-              <Image src={logoPic} alt='logo' className={s['logo-img']} />
-            </div>
+            <div className={s.logo} onClick={redirectToHome}></div>
           </div>
           <div className={s['right-side']}>
             <a className={s['menu-icon-wrapper']} onClick={openMenuHandler}>
